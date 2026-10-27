@@ -234,6 +234,8 @@ export function initParticulas() {
   document.fonts.ready
     .then(() => document.fonts.load(`${cs0.fontWeight} 100px ${cs0.fontFamily}`, 'JORGESANCHEZ'))
     .catch(() => undefined)
+    // Si está la firma de entrada, el nombre se arma cuando ella termina
+    .then(() => (document.documentElement.classList.contains('splash') ? new Promise((r) => addEventListener('splash:done', r, { once: true })) : undefined))
     .then(start);
   let rt = 0;
   addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(() => { if (build()) draw(); }, 150); });

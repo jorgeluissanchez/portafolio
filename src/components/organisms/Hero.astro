@@ -10,14 +10,15 @@ import foto from '@/assets/img/jorge-sanchez.png';
 import { hero } from '@/data/content';
 import { whatsappUrl } from '@/data/site';
 ---
-<section class="relative overflow-hidden lg:h-dvh lg:min-h-[560px]" aria-labelledby="titulo" data-hero-parallax>
+<!-- Móvil: todo el inicio cabe en una pantalla (100dvh); la foto toma el alto que sobra -->
+<section class="relative h-dvh min-h-[560px] overflow-hidden" aria-labelledby="titulo" data-hero-parallax>
   <!-- Luz cálida detrás de la foto -->
   <div class="pointer-events-none absolute left-1/2 top-[150px] h-[520px] w-[440px] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(255_158_107/0.55),rgb(255_191_153/0.2)_50%,transparent)] lg:top-[calc(200*var(--u))] lg:h-[calc(900*var(--u))] lg:w-[calc(1100*var(--u))] lg:translate-x-[calc(-50%+var(--mx,0)*-40px)] lg:translate-y-[calc(var(--my,0)*-20px+var(--sy,0)*0.15px)]" aria-hidden="true"></div>
 
-  <div class="relative mx-auto max-w-[1366px] lg:h-full lg:max-w-[calc(1366*var(--u))]">
+  <div class="relative mx-auto flex h-full max-w-[1366px] flex-col lg:block lg:max-w-[calc(1366*var(--u))]">
     <!-- Portada: nombre gigante + foto -->
-    <div class="relative h-[430px] pt-[72px] lg:static lg:h-auto lg:pt-0">
-      <p class="nombre-gigante relative font-display uppercase leading-[0.92] px-5 text-center lg:text-left text-[calc((100vw-40px)*0.311)] lg:absolute lg:left-[calc(64*var(--u))] lg:top-[calc(69*var(--u))] lg:whitespace-nowrap lg:p-0 lg:text-[calc(218*var(--u))] lg:leading-none lg:tracking-[-0.01em] lg:translate-x-[calc(var(--mx,0)*14px)] lg:translate-y-[calc(var(--my,0)*8px-var(--sy,0)*0.25px)] lg:will-change-transform" aria-hidden="true" data-nombre>
+    <div class="relative min-h-0 flex-1 pt-[64px] lg:static lg:h-auto lg:pt-0">
+      <p class="nombre-gigante relative font-display uppercase leading-[0.92] px-5 text-center lg:text-left text-[min(calc((100vw-40px)*0.311),12dvh)] lg:absolute lg:left-[calc(64*var(--u))] lg:top-[calc(69*var(--u))] lg:whitespace-nowrap lg:p-0 lg:text-[calc(218*var(--u))] lg:leading-none lg:tracking-[-0.01em] lg:translate-x-[calc(var(--mx,0)*14px)] lg:translate-y-[calc(var(--my,0)*8px-var(--sy,0)*0.25px)] lg:will-change-transform" aria-hidden="true" data-nombre>
         <span class="block lg:inline">{hero.name[0]}</span>{' '}<span class="block lg:inline">{hero.name[1]}</span>
         <!-- Partículas (WebGL): src/scripts/particulas.ts convierte el nombre en partículas que el cursor empuja -->
       </p>
@@ -30,27 +31,27 @@ import { whatsappUrl } from '@/data/site';
         sizes="(min-width: 1024px) 50vw, 300px"
         loading="eager"
         fetchpriority="high"
-        class="absolute bottom-[-20px] left-1/2 w-[300px] max-w-none -translate-x-1/2 [mask-image:linear-gradient(to_bottom,#000_68%,transparent)] lg:bottom-[-40px] lg:h-[calc(100%-56*var(--u)+40px)] lg:w-auto lg:object-contain lg:object-bottom lg:[mask-image:none] lg:translate-x-[calc(-50%+var(--mx,0)*-26px)] lg:translate-y-[calc(var(--my,0)*-14px+var(--sy,0)*0.3px)] lg:will-change-transform"
+        class="absolute bottom-0 left-1/2 h-[calc(100%-56px)] w-auto max-w-none -translate-x-1/2 object-contain object-bottom [mask-image:linear-gradient(to_bottom,#000_70%,transparent)] lg:bottom-[-40px] lg:h-[calc(100%-56*var(--u)+40px)] lg:w-auto lg:object-contain lg:object-bottom lg:[mask-image:none] lg:translate-x-[calc(-50%+var(--mx,0)*-26px)] lg:translate-y-[calc(var(--my,0)*-14px+var(--sy,0)*0.3px)] lg:will-change-transform"
       />
     </div>
 
     <!-- Texto -->
-    <div class="relative flex flex-col gap-[18px] lg:gap-[calc(18*var(--u))] px-5 pb-14 pt-2 lg:absolute lg:bottom-[calc(65*var(--u))] lg:left-[calc(64*var(--u))] lg:w-[calc(492*var(--u))] lg:p-0">
-      <h1 id="titulo" class="h1 text-red">
+    <div class="relative flex shrink-0 flex-col gap-3 px-5 pb-4 lg:absolute lg:gap-[calc(18*var(--u))] lg:bottom-[calc(65*var(--u))] lg:left-[calc(64*var(--u))] lg:w-[calc(492*var(--u))] lg:p-0">
+      <h1 id="titulo" class="h1 text-red max-lg:text-[clamp(28px,4.8dvh,42px)]">
         <span class="sr-only">Jorge Sánchez, </span>{hero.h1.before}<em class="accent">{hero.h1.accent}</em>
         <span class="text-ink">{hero.h1.after}</span>
       </h1>
-      <p class="body-text max-w-[418px] lg:max-w-[calc(418*var(--u))]">{hero.description}</p>
+      <p class="body-text max-w-[418px] max-lg:text-[clamp(13.5px,1.95dvh,16px)] lg:max-w-[calc(418*var(--u))]">{hero.description}</p>
       <div class="grid grid-cols-2 gap-2 lg:flex lg:gap-[calc(12*var(--u))]">
-        <Button href={whatsappUrl()} external class="justify-center px-3.5 lg:justify-between lg:px-[calc(22*var(--u))]">Cotiza conmigo</Button>
-        <Button href="#proyectos" variant="secondary" class="justify-center px-3.5 lg:justify-between lg:px-[calc(22*var(--u))]">Ver proyectos</Button>
+        <Button href={whatsappUrl()} external class="justify-center whitespace-nowrap px-3 max-lg:text-[14px] lg:justify-between lg:px-[calc(22*var(--u))]">Cotiza conmigo</Button>
+        <Button href="#proyectos" variant="secondary" class="justify-center whitespace-nowrap px-3 max-lg:text-[14px] lg:justify-between lg:px-[calc(22*var(--u))]">Ver proyectos</Button>
       </div>
     </div>
 
     <!-- Cita y firma -->
-    <figure class="relative flex flex-col gap-[calc(8*var(--u))] px-5 pb-16 lg:absolute lg:right-[calc(64*var(--u))] lg:bottom-[calc(112*var(--u))] lg:w-[calc(379*var(--u))] lg:items-end lg:p-0 lg:text-right">
-      <blockquote class="font-serif text-[22px] leading-[1.1] text-ink lg:text-[calc(22*var(--u))]">{hero.quote}</blockquote>
-      <figcaption class="firma text-[44px] text-red lg:text-[calc(54*var(--u))]">Jorge Sánchez</figcaption>
+    <figure class="relative flex shrink-0 flex-col gap-1 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pr-20 lg:absolute lg:gap-[calc(8*var(--u))] lg:right-[calc(64*var(--u))] lg:bottom-[calc(112*var(--u))] lg:w-[calc(379*var(--u))] lg:items-end lg:p-0 lg:text-right">
+      <blockquote class="font-serif text-[clamp(14px,2.1dvh,18px)] leading-[1.15] text-ink lg:text-[calc(22*var(--u))]">{hero.quote}</blockquote>
+      <figcaption class="firma text-[clamp(28px,4.4dvh,40px)] leading-none text-red lg:text-[calc(54*var(--u))] lg:leading-[1.2]">Jorge Sánchez</figcaption>
     </figure>
   </div>
 </section>

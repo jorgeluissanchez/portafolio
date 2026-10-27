@@ -4,6 +4,7 @@
  * buscadores, fuentes auto-alojadas y medición (GTM con GA4 dentro + Clarity) cargada sin frenar la página.
  */
 import { Font } from 'astro:assets';
+import Splash from '@/components/organisms/Splash.astro';
 import '@/styles/global.css';
 import { site } from '@/data/site';
 import foto from '@/assets/img/jorge-sanchez.png';
@@ -96,12 +97,22 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     {searchConsole && <meta name="google-site-verification" content={searchConsole} />}
     {bing && <meta name="msvalidate.01" content={bing} />}
 
-    <!-- Entrada del nombre: se oculta antes de pintar y las partículas lo construyen (solo escritorio con mouse) -->
+    <!--
+      Antes de pintar: la firma (splash) una vez por sesión y la entrada del nombre con partículas (solo escritorio
+      con mouse). Sin JS o con «reducir movimiento» no aparece ninguna.
+    -->
     <script is:inline>
-      if (matchMedia('(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
-        document.documentElement.classList.add('intro-nombre');
-        setTimeout(function () { document.documentElement.classList.remove('intro-nombre'); }, 4000);
-      }
+      (function () {
+        var r = document.documentElement, calm = matchMedia('(prefers-reduced-motion: reduce)').matches, splash = false;
+        if (!calm && !r.hasAttribute('data-no-splash')) {
+          try { if (!sessionStorage.getItem('firma-splash')) { splash = true; sessionStorage.setItem('firma-splash', '1'); } } catch (e) {}
+        }
+        if (splash) r.classList.add('splash');
+        if (!calm && matchMedia('(min-width: 1024px) and (pointer: fine)').matches) {
+          r.classList.add('intro-nombre');
+          setTimeout(function () { r.classList.remove('intro-nombre'); }, splash ? 9000 : 4000);
+        }
+      })();
     </script>
     <Font cssVariable="--font-anton" preload />
     <Font cssVariable="--font-instrument" preload />
@@ -139,6 +150,7 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     {gtmId && (
       <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
     )}
+    <Splash />
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3">Saltar al contenido</a>
     <slot />
     <script>
