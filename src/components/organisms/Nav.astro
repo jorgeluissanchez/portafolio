@@ -1,0 +1,51 @@
+---
+/** Organismo · Menú. Escritorio: enlaces + botón. Móvil: firma + ícono de menú que abre el panel. */
+import Button from '@/components/atoms/Button.astro';
+import Icon from '@/components/atoms/Icon.astro';
+import { nav } from '@/data/content';
+import { site, whatsappUrl } from '@/data/site';
+---
+<header class="fixed inset-x-0 top-0 z-30 transition-[background-color,box-shadow,backdrop-filter] duration-300 data-[scrolled]:bg-paper/85 data-[scrolled]:shadow-[0_1px_0_rgb(17_17_17/0.08)] data-[scrolled]:backdrop-blur-md" data-header>
+  <nav class="mx-auto flex max-w-[1366px] items-center justify-between px-5 py-4 lg:max-w-[calc(1366*var(--u))] lg:px-[calc(64*var(--u))] lg:py-[calc(18*var(--u))]" aria-label="Principal">
+    <a href="/" class="firma text-[28px] text-ink lg:text-[calc(32*var(--u))]" aria-label={`${site.name}, inicio`}>{site.name}</a>
+    <div class="hidden items-center gap-[calc(32*var(--u))] lg:flex">
+      <ul class="flex gap-[calc(32*var(--u))] text-[length:max(13px,calc(15*var(--u)))]">
+        {nav.map((n) => <li><a href={n.href} class="transition-colors hover:text-red">{n.label}</a></li>)}
+      </ul>
+      <Button href={whatsappUrl()} external>Cotiza conmigo</Button>
+    </div>
+    <button type="button" class="p-2 lg:hidden" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil" data-menu-open>
+      <Icon name="menu" size={24} />
+    </button>
+  </nav>
+  <div id="menu-movil" class="fixed inset-0 z-40 hidden flex-col bg-paper px-5 py-4 lg:hidden" data-menu>
+    <div class="flex items-center justify-between">
+      <span class="firma text-[28px]">{site.name}</span>
+      <button type="button" class="p-2" aria-label="Cerrar menú" data-menu-close><Icon name="close" size={24} /></button>
+    </div>
+    <ul class="mt-12 flex flex-col gap-6">
+      {nav.map((n) => <li><a href={n.href} class="h2" data-menu-link>{n.label}</a></li>)}
+    </ul>
+    <Button href={whatsappUrl()} external class="mt-auto">Cotiza conmigo</Button>
+  </div>
+</header>
+
+<script>
+  // Menú fijo: al bajar toma fondo para que se lea sobre cualquier sección
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const onScroll = () => header?.toggleAttribute('data-scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const open = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const toggle = (show: boolean) => {
+    if (!menu || !open) return;
+    menu.classList.toggle('hidden', !show);
+    menu.classList.toggle('flex', show);
+    open.setAttribute('aria-expanded', String(show));
+    document.body.style.overflow = show ? 'hidden' : '';
+  };
+  open?.addEventListener('click', () => toggle(true));
+  document.querySelector('[data-menu-close]')?.addEventListener('click', () => toggle(false));
+  document.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => toggle(false)));
+</script>

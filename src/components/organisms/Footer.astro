@@ -1,0 +1,64 @@
+---
+/** Organismo · Contacto + pie de página (Figma: «Footer · Jorge Sánchez · Editorial»). */
+import Button from '@/components/atoms/Button.astro';
+import Icon from '@/components/atoms/Icon.astro';
+import { contact, footerColumns } from '@/data/content';
+import { site, whatsappUrl } from '@/data/site';
+const socials = (['instagram', 'github', 'linkedin'] as const).filter((k) => site.social[k]);
+const labels = { instagram: 'Instagram', github: 'GitHub', linkedin: 'LinkedIn' };
+// Columnas de luz roja (escalera, más altas al centro)
+const luces = [170, 230, 294, 354, 294, 230, 170];
+---
+<footer id="contacto" class="relative overflow-hidden bg-paper-2 lg:flex lg:h-dvh lg:min-h-[560px] lg:flex-col lg:justify-center" aria-labelledby="titulo-contacto">
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 flex h-[101px] items-end opacity-20 lg:h-[calc(354*var(--u))]" aria-hidden="true">
+    {luces.map((h) => (
+      <span class="flex-1 bg-[linear-gradient(180deg,rgb(255_31_6/0)_0%,rgb(171_6_2/0.22)_24%,rgb(255_33_6/0.88)_60%,rgb(255_102_48)_85%,rgb(255_222_196)_100%)]" style={`height:${(h / 354) * 100}%`}></span>
+    ))}
+  </div>
+
+  <div class="relative mx-auto flex w-full max-w-[1366px] flex-col gap-6 px-5 pb-8 pt-16 lg:max-w-[calc(1366*var(--u))] lg:gap-0 lg:px-[calc(64*var(--u))] lg:pb-0">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:pb-[calc(40*var(--u))]">
+      <div class="flex flex-col gap-3.5 lg:max-w-[calc(560*var(--u))]">
+        <p class="eyebrow text-gray">{contact.eyebrow}</p>
+        <h2 id="titulo-contacto" class="h2">{contact.h2.before}<em class="accent">{contact.h2.accent}</em>{contact.h2.after}</h2>
+        <p class="body-text">{contact.description}</p>
+      </div>
+      <div class="flex flex-col gap-3 lg:flex-row lg:gap-4">
+        <Button href={whatsappUrl()} external>Escríbeme por WhatsApp</Button>
+        <Button href={`mailto:${site.email}`} variant="secondary"><span class="lg:hidden">Envíame un correo</span><span class="hidden lg:inline">{site.email}</span></Button>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6 border-t border-line pt-8 lg:flex-row lg:justify-between lg:pt-[30px] lg:pb-14">
+      <div class="flex flex-col gap-1.5">
+        <p class="firma text-[40px] text-red">{site.name}</p>
+        <p class="text-[13px] leading-[1.5] text-gray">{site.role}</p>
+        {socials.length > 0 && (
+          <ul class="flex pt-3 lg:hidden">
+            {socials.map((k) => (
+              <li><a href={site.social[k]} target="_blank" rel="noopener" class="grid size-12 place-items-center border border-line bg-paper" aria-label={labels[k]}><Icon name={k} size={22} /></a></li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div class="grid grid-cols-2 gap-6 lg:contents">
+        {footerColumns.map((col) => (
+          <div class="flex flex-col gap-2.5">
+            <p class="eyebrow text-gray">{col.title}</p>
+            <ul class="flex flex-col gap-2.5 text-[13px] leading-[1.5]">{col.items.map((it) => <li>{it}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <a href="#" class="hidden flex-col items-center gap-3 self-start lg:flex">
+        <Icon name="arrow-up" size={28} />
+        <span class="eyebrow">Volver al inicio</span>
+      </a>
+    </div>
+
+    <div class="flex items-center justify-between pt-4 text-[13px] text-gray lg:pb-12 lg:pt-0">
+      <p>© {new Date().getFullYear()} {site.name}</p>
+      <a href="#" class="eyebrow flex items-center gap-2 text-ink lg:hidden">Volver al inicio <Icon name="arrow-up" size={14} /></a>
+      <p class="eyebrow hidden lg:block">Diseño, código y una buena idea.</p>
+    </div>
+  </div>
+</footer>

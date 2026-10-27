@@ -1,0 +1,9 @@
+---
+/** Átomo · Sello «Realizado en: Grixxo» (Figma: Sello/Hecho con Grixxo). */
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<a href="https://grixxo.com" target="_blank" rel="noopener" class:list={['flex flex-col gap-1.5 bg-white px-3 py-2.5', cls]}>
+  <span class="eyebrow text-[9px] text-gray">Realizado en:</span>
+  <img src="/grixxo.svg" alt="Grixxo" width="84" height="26" loading="lazy" decoding="async" />
+</a>

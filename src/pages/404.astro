@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/atoms/Button.astro';
+---
+<BaseLayout title="Página no encontrada · Jorge Sánchez" description="Esta página no existe." noindex>
+  <main id="contenido" class="mx-auto flex min-h-svh max-w-[1366px] flex-col items-start justify-center gap-6 px-5 lg:px-16">
+    <p class="eyebrow text-gray">Error 404</p>
+    <h1 class="h1">Esta página <em class="accent">no existe</em></h1>
+    <Button href="/">Volver al inicio</Button>
+  </main>
+</BaseLayout>

@@ -1,0 +1,118 @@
+---
+/**
+ * Organismo · Mis proyectos (Figma: «Slider · Proyectos», 1366 × 650; móvil «Slider · Proyectos · Móvil»).
+ * Una sola pista que se desliza (0,72 s, cubic-bezier 0.76 0 0.24 1). El proyecto que sale se desvanece.
+ * Semántica: <section> + <h2>, lista de pestañas, cada proyecto es un <article role="tabpanel"> con su <h3>.
+ */
+import { Image } from 'astro:assets';
+import Icon from '@/components/atoms/Icon.astro';
+import GrixxoBadge from '@/components/atoms/GrixxoBadge.astro';
+import Button from '@/components/atoms/Button.astro';
+import { projects, projectsIntro as intro } from '@/data/content';
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<section id="proyectos" class="relative overflow-hidden lg:h-dvh lg:min-h-[560px] lg:[--oy:max(0px,calc((100%-650*var(--u))/2))]" aria-labelledby="titulo-proyectos" data-slider data-scroll-parallax style={`--i:0;--c:${projects[0].color}`}>
+  <!-- Luz que sale de la franja de color -->
+  <div class="pointer-events-none absolute left-1/2 top-[300px] h-[700px] w-[700px] -translate-x-1/2 bg-[radial-gradient(closest-side,color-mix(in_srgb,color-mix(in_srgb,var(--c)_75%,white)_34%,transparent),color-mix(in_srgb,color-mix(in_srgb,var(--c)_75%,white)_12%,transparent)_55%,transparent)] transition-[--c] duration-700 lg:left-[calc(15*var(--u))] lg:top-[calc(-80*var(--u))] lg:h-[calc(900*var(--u))] lg:w-[calc(1240*var(--u))] lg:translate-x-0" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-[1366px] lg:h-full lg:w-full lg:max-w-[calc(1366*var(--u))]">
+    <!-- Barra lateral -->
+    <div class="flex flex-col gap-5 px-5 pb-8 pt-16 lg:absolute lg:left-[calc(64*var(--u))] lg:top-[calc(var(--oy)+72*var(--u))] lg:w-[calc(236*var(--u))] lg:gap-[calc(20*var(--u))] lg:p-0">
+      <p class="eyebrow text-gray">{intro.eyebrow}</p>
+      <h2 id="titulo-proyectos" class="h2">{intro.h2.before}<br class="hidden lg:block" /><em class="accent">{intro.h2.accent}</em></h2>
+      <p class="body-text">{intro.description}</p>
+      <div class="hidden flex-col items-start gap-4 pt-3 lg:flex" role="tablist" aria-label="Proyectos" data-tabs>
+        {projects.map((p, i) => (
+          <button type="button" role="tab" id={`tab-${p.slug}`} aria-controls={`proyecto-${p.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="eyebrow text-left text-gray transition-colors hover:text-ink aria-selected:text-red" data-tab={i}>{p.name}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Visor + pista -->
+    <div class="relative mx-5 overflow-hidden lg:absolute lg:inset-y-0 lg:left-[calc(324*var(--u))] lg:right-0 lg:mx-0 lg:touch-pan-y" data-viewport>
+      <div class="flex lg:h-full transition-transform duration-[720ms] ease-[var(--ease)] [transform:translateX(calc(var(--i)*-100%))] lg:[transform:translateX(calc(-144*var(--u)-var(--i)*1186*var(--u)))]" data-track>
+        {projects.map((p, i) => (
+          <article id={`proyecto-${p.slug}`} role="tabpanel" aria-labelledby={`tab-${p.slug}`} aria-roledescription="proyecto" aria-label={`${i + 1} de ${projects.length}`} class="relative flex w-full shrink-0 flex-col gap-6 opacity-0 transition-opacity duration-500 data-[active]:opacity-100 lg:block lg:h-full lg:w-[calc(1186*var(--u))]" style={`--pc:${p.color}`} data-active={i === 0 ? '' : undefined} data-slide data-color={p.color}>
+            <div class="relative h-[300px] overflow-hidden lg:static lg:h-auto lg:overflow-visible">
+              <div class="absolute inset-0 bg-[var(--pc)] lg:inset-y-0 lg:left-[calc(190*var(--u))] lg:right-auto lg:w-[calc(530*var(--u))]" aria-hidden="true"></div>
+              <p class="pointer-events-none absolute left-4 top-[-6px] lg:translate-y-[calc(var(--pp,0)*-60px)] font-display text-[88px] leading-[104px] text-black/[0.09] lg:left-[calc(209*var(--u))] lg:top-[calc(var(--oy)-30*var(--u))] lg:text-[calc(133*var(--u))] lg:leading-[calc(172*var(--u))]" aria-hidden="true">
+                {[0, 1, 2, 3].map(() => <span class="block">{p.bg}</span>)}
+              </p>
+              <div class="absolute left-5 top-[62px] w-[310px] max-w-[calc(100%-40px)] shadow-[0_14px_22px_-10px_rgb(0_0_0/0.24)] lg:left-[calc(172*var(--u))] lg:top-[calc(var(--oy)+144*var(--u))] lg:w-[calc(580*var(--u))] lg:max-w-none lg:shadow-[0_20px_28px_-12px_rgb(0_0_0/0.26)]">
+                <Image src={p.image} alt={`Captura del proyecto ${p.name}`} widths={[320, 640, 960, 1280]} sizes="(min-width: 1024px) 43vw, 310px" class="aspect-[580/362] w-full object-cover" loading={i === 0 ? 'eager' : 'lazy'} />
+                {p.grixxo && <GrixxoBadge class="absolute bottom-0 right-0 origin-bottom-right scale-[0.8] lg:scale-100" />}
+              </div>
+            </div>
+
+            <!-- Ficha de proyecto -->
+            <div class="flex flex-col items-start gap-5 lg:absolute lg:left-[calc(802*var(--u))] lg:top-[calc(var(--oy)+128*var(--u))] lg:w-[calc(320*var(--u))] lg:gap-[calc(20*var(--u))]">
+              <p class="eyebrow text-gray">{p.category}</p>
+              <h3 class="font-display text-[32px] uppercase leading-[1.05] lg:text-[calc(40*var(--u))]">{p.title[0]}<br />{p.title[1]}</h3>
+              <span class="h-0.5 w-[42px] bg-red" aria-hidden="true"></span>
+              <p class="body-text">{p.description}</p>
+              <p class="eyebrow text-gray">Año&nbsp;&nbsp;/&nbsp;&nbsp;<time>{p.year}</time></p>
+              <Button href={p.url ?? '#contacto'} variant="secondary" external={!!p.url} data-project={p.slug} aria-label={`Ver proyecto ${p.name}`}>Ver proyecto</Button>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <div class="mx-5 mt-6 flex items-center justify-between pb-16 lg:absolute lg:left-[calc(982*var(--u))] lg:top-[calc(var(--oy)+530*var(--u))] lg:mx-0 lg:mt-0 lg:w-[calc(320*var(--u))] lg:p-0">
+      <p class="eyebrow text-ink" aria-live="polite" data-counter>01 — {pad(projects.length)}</p>
+      <div class="flex gap-3 lg:gap-4">
+        <button type="button" class="grid size-12 lg:size-[calc(48*var(--u))] place-items-center border border-ink/25 text-ink transition-colors hover:border-ink" aria-label="Proyecto anterior" data-prev><Icon name="arrow-left" /></button>
+        <button type="button" class="grid size-12 lg:size-[calc(48*var(--u))] place-items-center bg-red text-paper transition-colors hover:bg-[#c92b16]" aria-label="Proyecto siguiente" data-next><Icon name="arrow-right" /></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-slider]');
+  if (root) {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const counter = root.querySelector('[data-counter]');
+    const total = String(slides.length).padStart(2, '0');
+    let current = 0;
+    const go = (i: number) => {
+      current = (i + slides.length) % slides.length;
+      root.style.setProperty('--i', String(current));
+      root.style.setProperty('--c', slides[current].dataset.color ?? '');
+      slides.forEach((s, k) => {
+        const on = k === current;
+        s.toggleAttribute('data-active', on);
+        s.toggleAttribute('inert', !on);
+      });
+      tabs.forEach((t, k) => {
+        t.setAttribute('aria-selected', String(k === current));
+        t.tabIndex = k === current ? 0 : -1;
+      });
+      if (counter) counter.textContent = `${String(current + 1).padStart(2, '0')} — ${total}`;
+    };
+    slides.forEach((s, k) => k && s.setAttribute('inert', ''));
+    root.querySelector('[data-prev]')?.addEventListener('click', () => go(current - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => go(current + 1));
+    tabs.forEach((t, k) => {
+      t.addEventListener('click', () => go(k));
+      t.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        go(current + (e.key === 'ArrowDown' ? 1 : -1));
+        tabs[current].focus();
+      });
+    });
+    // Deslizar con el dedo o arrastrar con el mouse
+    const vp = root.querySelector<HTMLElement>('[data-viewport]');
+    let x0: number | null = null;
+    vp?.addEventListener('pointerdown', (e) => (x0 = e.clientX));
+    vp?.addEventListener('pointerup', (e) => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>

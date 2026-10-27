@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.vercel/
+.env
+.env.*
+!.env.example
+.DS_Store
+test-results/
+screenshots/
+
+# Archivos temporales de sincronización
+_sync-*.tgz
+_to_delete/

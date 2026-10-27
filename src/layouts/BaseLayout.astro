@@ -1,0 +1,149 @@
+---
+/**
+ * Layout base: SEO completo (canonical, Open Graph, X, datos estructurados Person + WebSite), verificación de
+ * buscadores, fuentes auto-alojadas y medición (GTM con GA4 dentro + Clarity) cargada sin frenar la página.
+ */
+import { Font } from 'astro:assets';
+import '@/styles/global.css';
+import { site } from '@/data/site';
+import foto from '@/assets/img/jorge-sanchez.png';
+import ogInicio from '@/assets/og-inicio.jpg';
+import ogInicioCuadrada from '@/assets/og-inicio-cuadrada.jpg';
+
+/** Imagen para redes: horizontal 1,91:1 (LinkedIn, Facebook, X) + cuadrada (WhatsApp, iMessage). */
+type OgImage = { src: ImageMetadata; alt: string };
+const ogAlt = 'Jorge Sánchez, ingeniero de sistemas y desarrollador web en Barranquilla.';
+const ogDefault: OgImage[] = [
+  { src: ogInicio, alt: ogAlt },
+  { src: ogInicioCuadrada, alt: ogAlt },
+];
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  ogImages?: OgImage[];
+}
+const { title = site.title, description = site.description, noindex = false, ogImages = ogDefault } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogs = ogImages.map((o) => ({ ...o, url: new URL(o.src.src, Astro.site).toString() }));
+const home = Astro.site!.toString();
+const sameAs = Object.values(site.social).filter(Boolean);
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${home}#jorge`,
+  name: site.name,
+  url: home,
+  image: new URL(foto.src, Astro.site).toString(),
+  jobTitle: 'Ingeniero de Sistemas y desarrollador web',
+  description: site.description,
+  email: `mailto:${site.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.region, addressCountry: site.country },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Universidad del Norte' },
+  knowsAbout: ['Desarrollo web', 'Tiendas en línea', 'Aplicaciones a la medida', 'Inteligencia artificial', 'SEO', 'Astro', 'Oracle APEX'],
+  ...(sameAs.length && { sameAs }),
+};
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${home}#sitio`,
+  name: site.name,
+  url: home,
+  inLanguage: 'es-CO',
+  publisher: { '@id': `${home}#jorge` },
+};
+const { gtmId, searchConsole, bing, clarity } = site.analytics;
+---
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#FDFDFD" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="profile:first_name" content="Jorge" />
+    <meta property="profile:last_name" content="Sánchez" />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogs.map((o) => (
+      <>
+        <meta property="og:image" content={o.url} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content={String(o.src.width)} />
+        <meta property="og:image:height" content={String(o.src.height)} />
+        <meta property="og:image:alt" content={o.alt} />
+      </>
+    ))}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogs[0].url} />
+    <meta name="twitter:image:alt" content={ogs[0].alt} />
+    <meta name="geo.region" content="CO-ATL" />
+    <meta name="geo.placename" content={site.city} />
+    {searchConsole && <meta name="google-site-verification" content={searchConsole} />}
+    {bing && <meta name="msvalidate.01" content={bing} />}
+
+    <!-- Entrada del nombre: se oculta antes de pintar y las partículas lo construyen (solo escritorio con mouse) -->
+    <script is:inline>
+      if (matchMedia('(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+        document.documentElement.classList.add('intro-nombre');
+        setTimeout(function () { document.documentElement.classList.remove('intro-nombre'); }, 4000);
+      }
+    </script>
+    <Font cssVariable="--font-anton" preload />
+    <Font cssVariable="--font-instrument" preload />
+    <Font cssVariable="--font-grotesk" preload />
+    <Font cssVariable="--font-mrs" />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    <script type="application/ld+json" set:html={JSON.stringify(website)} />
+
+    <!--
+      Medición (igual que Pulxxe): Google Tag Manager (GA4 configurado DENTRO de GTM) y Microsoft Clarity.
+      Se inyectan cuando la página ya cargó y el navegador está libre, para no afectar LCP/INP.
+      Los eventos que se empujan antes (dataLayer, clarity()) quedan en cola y se envían al cargar.
+    -->
+    {(gtmId || clarity) && (
+      <script is:inline define:vars={{ gtmId, clarity }}>
+        window.dataLayer = window.dataLayer || [];
+        window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+        var add = function (src) { var t = document.createElement('script'); t.async = true; t.src = src; document.head.appendChild(t); };
+        var loadTags = function () {
+          if (gtmId) {
+            window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+            add('https://www.googletagmanager.com/gtm.js?id=' + gtmId);
+          }
+          if (clarity) add('https://www.clarity.ms/tag/' + clarity);
+        };
+        var whenIdle = function () {
+          if ('requestIdleCallback' in window) requestIdleCallback(loadTags, { timeout: 2000 });
+          else setTimeout(loadTags, 1);
+        };
+        if (document.readyState === 'complete') whenIdle(); else window.addEventListener('load', whenIdle, { once: true });
+      </script>
+    )}
+  </head>
+  <body>
+    {gtmId && (
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    )}
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3">Saltar al contenido</a>
+    <slot />
+    <script>
+      import { initLeadTracking } from '@/scripts/leads';
+      initLeadTracking();
+    </script>
+  </body>
+</html>

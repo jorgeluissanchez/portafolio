@@ -1,0 +1,80 @@
+@import 'tailwindcss/index.css';
+
+/*
+ * Tokens del Figma «Portafolio · Jorge Sánchez» (estilos Color/* y texto).
+ * Escritorio se diseñó a 1366 × 681/650: --u escala esas medidas en pantallas más angostas.
+ */
+@theme {
+  --color-ink: #111111;
+  --color-body: #40403d;
+  --color-gray: #6e6b66;
+  --color-red: #e5341d;
+  --color-paper: #fdfdfd;
+  --color-paper-2: #f9f7f2;
+  --color-line: rgb(17 17 17 / 0.12);
+
+  --font-display: var(--font-anton), Impact, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+  --font-sans: var(--font-grotesk), system-ui, sans-serif;
+  --font-firma: var(--font-mrs), cursive;
+
+  --breakpoint-lg: 1024px;
+}
+
+:root {
+  /* 1 px del Figma: se ajusta al ancho (1366) y al alto de la pantalla (681), así cada sección cabe en 100dvh */
+  --u: min(calc(100vw / 1366), calc(100dvh / 681));
+  --ease: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-paper font-sans text-ink antialiased; }
+  ::selection { background: var(--color-red); color: var(--color-paper); }
+}
+
+@layer components {
+  /* Etiqueta pequeña en mayúsculas (Etiqueta/Eyebrow) */
+  .eyebrow { @apply font-sans text-[11px] font-medium uppercase leading-[1.3] tracking-[0.1em]; }
+  /* Encabezados en Instrument Serif con palabra en rojo cursiva */
+  .h1 { @apply font-serif text-[44px] leading-none lg:text-[calc(64*var(--u))]; }
+  .h2 { @apply font-serif text-[40px] leading-none lg:text-[calc(52*var(--u))]; }
+  .accent { @apply italic text-red; }
+  .body-text { @apply text-base leading-[1.5] text-body; }
+  /* Botones del componente «Botón» (Primario / Secundario) */
+  .btn { @apply inline-flex items-center justify-between gap-2.5 px-[22px] py-3.5 text-[15px] font-medium leading-[1.3] transition-colors duration-200; }
+  .btn-primary { @apply bg-red text-paper hover:bg-[#c92b16]; }
+  .btn-secondary { @apply border border-ink/25 text-ink hover:border-ink; }
+  .firma { font-family: var(--font-mrs), cursive; line-height: 1.2; }
+  /* En escritorio los textos pequeños y los botones escalan con la pantalla (va al final para ganarle a los tamaños base) */
+  @media (min-width: 1024px) {
+    .eyebrow { font-size: max(10px, calc(11 * var(--u))); }
+    .body-text { font-size: max(14px, calc(16 * var(--u))); }
+    .btn { font-size: max(13px, calc(15 * var(--u))); padding: calc(14 * var(--u)) calc(22 * var(--u)); gap: calc(10 * var(--u)); }
+    .btn svg { width: max(14px, calc(16 * var(--u))); height: auto; }
+  }
+}
+
+/* Nombre gigante con degradado (como el relleno del Figma) */
+.nombre-gigante {
+  background: linear-gradient(180deg, #1b1a19 0%, #4a4541 55%, #7d7269 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Nombre de partículas (WebGL): cuando el canvas está listo, el texto queda invisible y el canvas lo pinta igual */
+.nombre-gigante.metal-on { background: none; }
+.intro-nombre .nombre-gigante { background: none; }
+
+/* Color animable del slider (la luz y el panel cambian de color suavemente) */
+@property --c {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #f5c518;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

@@ -1,0 +1,50 @@
+---
+/**
+ * Organismo · Contacto flotante (igual al de Pulxxe, en el rojo del portafolio).
+ * Escritorio: Instagram, GitHub y LinkedIn pegados encima del WhatsApp. Móvil: solo WhatsApp (las redes van en el footer).
+ */
+import Icon from '@/components/atoms/Icon.astro';
+import { site, whatsappUrl } from '@/data/site';
+const socials = (['instagram', 'github', 'linkedin'] as const).filter((k) => site.social[k]);
+const labels = { instagram: 'Instagram', github: 'GitHub', linkedin: 'LinkedIn' };
+---
+<!-- Escritorio: pegado al borde derecho y centrado en vertical; móvil: abajo a la derecha -->
+<div class="fixed bottom-4 right-4 z-20 flex flex-col lg:bottom-auto lg:right-0 lg:top-1/2 lg:-translate-y-1/2 [&_svg]:lg:w-[max(20px,calc(22*var(--u)))] [&_svg]:lg:h-auto">
+  {socials.map((k) => (
+    <a href={site.social[k]} target="_blank" rel="noopener" class="hidden h-[52px] w-16 place-items-center border border-r-0 border-line bg-paper lg:h-[max(48px,calc(48*var(--u)))] lg:w-[max(56px,calc(56*var(--u)))] text-ink transition-colors hover:text-red lg:grid" aria-label={labels[k]}>
+      <Icon name={k} size={24} />
+    </a>
+  ))}
+  <a href={whatsappUrl()} target="_blank" rel="noopener" class="wa-cta group relative isolate grid size-14 origin-right place-items-center bg-red text-paper lg:size-auto lg:h-[max(56px,calc(56*var(--u)))] lg:w-[max(56px,calc(56*var(--u)))]" aria-label="Escríbeme por WhatsApp">
+    <span class="wa-ring pointer-events-none absolute inset-0 -z-10 origin-center" aria-hidden="true"></span>
+    <span class="wa-ring wa-ring-2 pointer-events-none absolute inset-0 -z-10 origin-center" aria-hidden="true"></span>
+    <span class="transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-105"><Icon name="whatsapp" size={26} /></span>
+  </a>
+</div>
+
+<style>
+  /* Igual que el CTA de Pulxxe, en el rojo del portafolio: halo suave + pulso de dos anillos desde el borde.
+     Hover sobrio: crece un 6 % y el pulso late más rápido. Respeta «reducir movimiento». */
+  .wa-cta {
+    transition: transform 0.4s cubic-bezier(.22, 1, .36, 1), box-shadow 0.4s ease;
+    box-shadow: 0 0 24px rgb(229 52 29 / 0.28);
+  }
+  .wa-cta:hover { transform: scale(1.06); box-shadow: 0 0 28px rgb(229 52 29 / 0.34); }
+  .wa-ring {
+    background: rgb(229 52 29 / 0.4);
+    box-shadow: inset 0 0 0 2px rgb(178 34 16 / 0.6);
+    animation: wa-ring 2.8s cubic-bezier(.22, 1, .36, 1) infinite;
+  }
+  .wa-ring-2 { animation-delay: 1.4s; }
+  .wa-cta:hover .wa-ring, .wa-cta:focus-visible .wa-ring { animation-duration: 1.1s; }
+  .wa-cta:hover .wa-ring-2, .wa-cta:focus-visible .wa-ring-2 { animation-delay: .55s; }
+  @keyframes wa-ring {
+    0% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(1.22); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wa-cta { transition: none; }
+    .wa-ring { animation: none; opacity: 0.6; transform: none; }
+    .wa-ring-2 { display: none; }
+  }
+</style>
