@@ -33,7 +33,8 @@ const [, , vw, vh] = firma.viewBox.split(' ').map(Number);
     const canvas = el.querySelector('canvas')!;
     const end = parseFloat(el.dataset.end || '3.6');
     const [vx, vy, vw, vh] = (el.dataset.viewbox || '').split(' ').map(Number);
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    // En celular basta 1,5×: el trazo se ve igual de nítido y el shader trabaja la mitad
+    const dpr = Math.min(devicePixelRatio || 1, innerWidth < 768 ? 1.5 : 2);
     const W = Math.round(canvas.clientWidth * dpr), H = Math.round(canvas.clientHeight * dpr);
     canvas.width = W; canvas.height = H;
     // Tinta: el trazado de la firma a la resolución de la pantalla

@@ -34,8 +34,8 @@ export const site = {
   analytics: {
     gtmId: 'GTM-NWNBH9KC',
     searchConsole: '',
-    bing: '',
-    clarity: '',
+    bing: '8A16D4A25EF52BC6D4E95EB59B2CDA67',
+    clarity: 'z6hiw4tznl',
   },
 } as const;
 

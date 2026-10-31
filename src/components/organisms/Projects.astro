@@ -33,7 +33,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="relative mx-5 min-h-0 flex-1 overflow-hidden lg:absolute lg:inset-y-0 lg:left-[calc(324*var(--u))] lg:right-0 lg:mx-0 lg:touch-pan-y" data-viewport>
       <div class="flex h-full transition-transform duration-[720ms] ease-[var(--ease)] [transform:translateX(calc(var(--i)*-100%))] lg:[transform:translateX(calc(-144*var(--u)-var(--i)*1186*var(--u)))]" data-track>
         {projects.map((p, i) => (
-          <article id={`proyecto-${p.slug}`} role="tabpanel" aria-labelledby={`tab-${p.slug}`} aria-roledescription="proyecto" aria-label={`${i + 1} de ${projects.length}`} class="relative flex h-full w-full shrink-0 flex-col gap-3 opacity-0 [container-type:size] lg:[container-type:normal] transition-opacity duration-500 data-[active]:opacity-100 lg:block lg:h-full lg:w-[calc(1186*var(--u))]" style={`--pc:${p.color}`} data-active={i === 0 ? '' : undefined} data-slide data-color={p.color}>
+          <div id={`proyecto-${p.slug}`} role="tabpanel" aria-labelledby={`tab-${p.slug}`} aria-roledescription="proyecto" aria-label={`${i + 1} de ${projects.length}`} class="relative flex h-full w-full shrink-0 flex-col gap-3 opacity-0 [container-type:size] lg:[container-type:normal] transition-opacity duration-500 data-[active]:opacity-100 lg:block lg:h-full lg:w-[calc(1186*var(--u))]" style={`--pc:${p.color}`} data-active={i === 0 ? '' : undefined} data-slide data-color={p.color}>
             <!-- Móvil: la franja de color es un cuadrado (lo que permita el alto) y la tarjeta y las flechas flotan encima -->
             <div class="relative aspect-square w-[min(100cqw,calc(100cqh-178px))] shrink-0 self-center overflow-hidden [container-type:size] lg:static lg:aspect-auto lg:w-auto lg:self-auto lg:[container-type:normal] lg:h-auto lg:overflow-visible">
               <div class="absolute inset-0 bg-[var(--pc)] lg:inset-y-0 lg:left-[calc(190*var(--u))] lg:right-auto lg:w-[calc(530*var(--u))]" aria-hidden="true"></div>
@@ -63,7 +63,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
               <p class="eyebrow hidden text-gray lg:block">Año&nbsp;&nbsp;/&nbsp;&nbsp;<time>{p.year}</time></p>
               <Button href={p.url ?? '#contacto'} variant="secondary" external={!!p.url} data-project={p.slug} aria-label={`Ver proyecto ${p.name}`}>Ver proyecto</Button>
             </div>
-          </article>
+          </div>
         ))}
       </div>
     </div>
