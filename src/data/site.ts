@@ -6,10 +6,10 @@ const whatsappNumber = '573225822789';
 
 export const site = {
   name: 'Jorge Sánchez',
-  title: 'Jorge Sánchez · Ingeniero de Sistemas en Barranquilla',
+  title: 'Jorge Sánchez · Full Stack e Ingeniero de Sistemas, Barranquilla',
   description:
-    'Ingeniero de sistemas en Barranquilla. Desarrollo sitios web, tiendas en línea y aplicaciones a la medida con IA para empresas de toda Colombia. Cotiza hoy.',
-  role: 'Ingeniero de Sistemas · Desarrollo web con IA',
+    'Ingeniero de sistemas y desarrollador full stack en Barranquilla. Creo sitios web, tiendas en línea y aplicaciones a la medida con IA para empresas de Colombia.',
+  role: 'Ingeniero de Sistemas · Desarrollador Full Stack con IA',
   lang: 'es',
   locale: 'es_CO',
   city: 'Barranquilla',
