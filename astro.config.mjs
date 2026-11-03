@@ -6,7 +6,9 @@ import { execSync } from 'node:child_process';
 // Fecha real del último cambio (Google solo usa <lastmod> si es confiable): último commit que tocó src/ o public/.
 const lastmod = (() => {
   try {
-    return execSync('git log -1 --format=%cI -- src public', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || undefined;
+    const git = (args) => execSync(`git log -1 --format=%cI ${args}`, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    // Dokploy clona con --depth 1: si el filtro por carpetas no encuentra nada, usa la fecha del último commit.
+    return process.env.LASTMOD || git('-- src public') || git('') || undefined;
   } catch {
     return undefined;
   }

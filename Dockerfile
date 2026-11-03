@@ -1,7 +1,8 @@
 # Portafolio · Jorge Sánchez — sitio estático (Astro) servido con Nginx. Pensado para Dokploy (tipo «Dockerfile»).
 FROM node:22-alpine AS build
 WORKDIR /app
-RUN corepack enable
+# git: astro.config.mjs lee la fecha del último commit para el <lastmod> del sitemap
+RUN apk add --no-cache git && corepack enable
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
