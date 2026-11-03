@@ -1,0 +1,27 @@
+---
+import PaginaServicio from '@/components/templates/PaginaServicio.astro';
+---
+<PaginaServicio
+  ruta="/ingeniero-de-sistemas-colombia"
+  titulo="Ingeniero de sistemas en Colombia · Jorge Sánchez"
+  descripcion="Jorge Sánchez, ingeniero de sistemas de Uninorte: software a la medida, automatización, IA y páginas web para empresas de toda Colombia, en remoto."
+  eyebrow="Ingeniero de sistemas · Colombia"
+  h1={{ antes: 'Ingeniero de ', acento: 'sistemas', despues: ' en Colombia' }}
+  intro="Soy <strong>Jorge Sánchez</strong>, ingeniero de sistemas y computación de la Universidad del Norte y Lead Fullstack Engineer en Solinces. Vivo en Barranquilla y trabajo en remoto con empresas de Bogotá, Medellín, Cali y el resto de Colombia: ordeno su operación con software, desde la página web que trae clientes hasta el sistema interno con inteligencia artificial."
+  servicio="Ingeniería de sistemas en Colombia"
+  mensaje="Hola Jorge, busco un ingeniero de sistemas en Colombia para mi empresa."
+  queHago={[
+    { titulo: 'Software a la medida', texto: 'Sistemas de gestión, inventarios, cotizaciones o aprobaciones hechos para cómo trabaja tu empresa, con arquitectura que se pueda mantener y crecer.' },
+    { titulo: 'Inteligencia artificial aplicada', texto: 'Asistentes con LLM y RAG conectados a los datos de tu empresa, que responden, llenan formularios y automatizan tareas respetando permisos.' },
+    { titulo: 'Automatización e integraciones', texto: 'Reportes, notificaciones, cargas de datos y flujos de aprobación que corren solos, conectados por API con el software que ya usas.' },
+    { titulo: 'Páginas web y presencia digital', texto: 'Sitios rápidos, medidos con Analytics y listos para aparecer en Google y en las respuestas de las IA.' },
+  ]}
+  casos={['hockey-is-melting-down', 'linkintec', 'innovinc']}
+  preguntas={[
+    { p: '¿Trabajas con empresas fuera de Barranquilla?', r: 'Sí. Estoy en Barranquilla y trabajo en remoto con empresas de cualquier ciudad de Colombia: videollamadas, avances semanales que puedes abrir en el celular y comunicación diaria por WhatsApp.' },
+    { p: '¿Qué hace un ingeniero de sistemas por una empresa?', r: 'Analiza cómo trabaja la empresa y diseña, construye y mantiene el software que la apoya: aplicaciones, bases de datos, integraciones y automatizaciones, cuidando la seguridad y que todo se pueda mantener en el tiempo.' },
+    { p: '¿Cuál es tu experiencia?', r: 'Ingeniero de sistemas y computación de la Universidad del Norte. Hoy soy Lead Fullstack Engineer en Solinces, donde lidero un equipo de 6 personas; antes fui desarrollador full stack en Grixxo y en Outlier. Segundo puesto nacional en IEEEXtreme 2024.' },
+    { p: '¿Con qué tecnologías trabajas?', r: 'TypeScript, React, Next.js, Node.js, NestJS y Java; PostgreSQL, Oracle, MySQL y Redis; Oracle APEX y WordPress; Docker, GitHub Actions, Cloudflare y AWS; LLM y RAG.' },
+    { p: '¿Cómo empezamos?', r: 'Escríbeme por WhatsApp contándome el problema. Te respondo el mismo día y, si tiene sentido trabajar juntos, te envío una propuesta por escrito con alcance, tiempos y precio.' },
+  ]}
+/>
