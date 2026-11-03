@@ -11,11 +11,11 @@ export const perfil = {
   nombreCompleto: 'Jorge Luis Sánchez Barreneche',
   nombre: 'Jorge Sánchez',
   profesion: 'Ingeniero de Sistemas y desarrollador full stack',
-  cargoActual: 'Líder Técnico Fullstack en Solinces',
+  cargoActual: 'Lead Fullstack Engineer en Solinces',
   resumen:
     'Soy Jorge Sánchez, ingeniero de sistemas y computación de la Universidad del Norte y desarrollador full stack en Barranquilla. Hoy lidero el equipo técnico de Colombia Evaluadora en Solinces. Desde 2023 construyo sitios web, tiendas en línea y aplicaciones a la medida: landing pages que traen clientes, e-commerce para redes de servicio y sistemas de gestión en Oracle APEX para empresas medianas y grandes.',
   experiencia: <Experiencia[]>[
-    { cargo: 'Líder Técnico Fullstack', empresa: 'Solinces', desde: '2026-06', hasta: null, modalidad: 'Remoto',
+    { cargo: 'Lead Fullstack Engineer', empresa: 'Solinces', desde: '2026-06', hasta: null, modalidad: 'Remoto',
       proyecto: 'Colombia Evaluadora',
       texto: 'Lidero a un equipo de 6 personas en Colombia Evaluadora, una plataforma educativa que reúne en un solo sistema la gestión académica, la comunicación institucional y un asistente de inteligencia artificial para colegios en Colombia. Combino la dirección técnica y del equipo con el desarrollo fullstack: defino la arquitectura, priorizo con QA y producto, reviso la calidad de las entregas y llevo funcionalidades de punta a punta.',
       logros: [
