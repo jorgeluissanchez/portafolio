@@ -1,0 +1,142 @@
+---
+/**
+ * Plantilla de página de servicio («Desarrollador full stack en Barranquilla», «Ingeniero de sistemas en Barranquilla»).
+ * Una intención de búsqueda por página: título, H1 y primer párrafo la nombran; casos reales como prueba; preguntas
+ * frecuentes con FAQPage; y una sola acción, escribir por WhatsApp.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/organisms/Nav.astro';
+import Footer from '@/components/organisms/Footer.astro';
+import FloatingContact from '@/components/organisms/FloatingContact.astro';
+import Button from '@/components/atoms/Button.astro';
+import Icon from '@/components/atoms/Icon.astro';
+import { whatsappUrl } from '@/data/site';
+import '@/styles/lectura.css';
+
+interface Props {
+  ruta: string;
+  titulo: string;
+  descripcion: string;
+  eyebrow: string;
+  h1: { antes: string; acento: string; despues?: string };
+  intro: string;
+  servicio: string;
+  queHago: { titulo: string; texto: string }[];
+  casos: string[];
+  preguntas: { p: string; r: string }[];
+  mensaje: string;
+}
+const p = Astro.props;
+const todos = await getCollection('proyectos');
+const casos = p.casos.map((id) => todos.find((c) => c.id === id)).filter(Boolean) as typeof todos;
+const home = Astro.site!.toString();
+const url = new URL(p.ruta, Astro.site).toString();
+const pasos = [
+  { t: 'Conversamos', d: 'Me cuentas qué necesitas por WhatsApp. Te respondo el mismo día con preguntas concretas, no con un formulario.' },
+  { t: 'Propuesta', d: 'Te envío alcance, tiempos y precio por escrito. Sabes qué recibes antes de empezar.' },
+  { t: 'Construcción', d: 'Avances que puedes abrir en tu celular cada semana. Si algo no te convence, se ajusta sobre la marcha.' },
+  { t: 'Entrega y soporte', d: 'Publicado, medido con Analytics y con acompañamiento después de la entrega.' },
+];
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${url}#servicio`,
+    name: `${p.servicio} · Jorge Sánchez`,
+    url,
+    description: p.descripcion,
+    areaServed: [{ '@type': 'City', name: 'Barranquilla' }, { '@type': 'Country', name: 'Colombia' }],
+    address: { '@type': 'PostalAddress', addressLocality: 'Barranquilla', addressRegion: 'Atlántico', addressCountry: 'CO' },
+    provider: { '@id': `${home}#jorge` },
+    serviceType: p.servicio,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: p.preguntas.map((q) => ({ '@type': 'Question', name: q.p, acceptedAnswer: { '@type': 'Answer', text: q.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: home },
+      { '@type': 'ListItem', position: 2, name: p.servicio, item: url },
+    ],
+  },
+];
+---
+<BaseLayout title={p.titulo} description={p.descripcion} sinSplash schema={schema}>
+  <Nav />
+  <main id="contenido">
+    <section class="mx-auto max-w-[1180px] px-5 pt-28 lg:pt-40">
+      <p class="eyebrow text-gray" data-revelar>{p.eyebrow}</p>
+      <h1 class="mt-3 max-w-[980px] font-serif text-[44px] leading-[1] sm:text-[64px] lg:text-[84px]" data-revelar style="--retraso:.05s">{p.h1.antes}<em class="accent">{p.h1.acento}</em>{p.h1.despues}</h1>
+      <p class="mt-6 max-w-[680px] text-[18px] leading-[1.6] text-body" data-revelar style="--retraso:.1s"><Fragment set:html={p.intro} /></p>
+      <div class="mt-8 flex flex-wrap gap-3" data-revelar style="--retraso:.15s">
+        <Button href={whatsappUrl(p.mensaje)} external>Cotiza por WhatsApp</Button>
+        <Button href="/jorge-sanchez" variant="secondary">Quién es Jorge Sánchez</Button>
+      </div>
+    </section>
+
+    <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="que">
+      <h2 id="que" class="h2" data-revelar>Qué <em class="accent">construyo</em></h2>
+      <ul class="mt-8 grid gap-x-10 gap-y-2 md:grid-cols-2">
+        {p.queHago.map((x, i) => (
+          <li class="border-t border-line py-6" data-revelar style={`--retraso:${(i % 2) * 0.06}s`}>
+            <h3 class="font-serif text-[28px] leading-[1.1]">{x.titulo}</h3>
+            <p class="mt-2 text-[16px] leading-[1.6] text-body">{x.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-24 bg-paper-2 py-20" aria-labelledby="como">
+      <div class="mx-auto max-w-[1180px] px-5">
+        <h2 id="como" class="h2" data-revelar>Cómo <em class="accent">trabajamos</em></h2>
+        <ol class="mt-10 grid gap-8 md:grid-cols-4">
+          {pasos.map((s, i) => (
+            <li data-revelar style={`--retraso:${i * 0.07}s`}>
+              <span class="font-display text-[40px] leading-none text-red">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-3 text-[18px] font-medium">{s.t}</h3>
+              <p class="mt-2 text-[15px] leading-[1.55] text-body">{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="casos">
+      <h2 id="casos" class="h2" data-revelar>Casos <em class="accent">reales</em></h2>
+      <ul class="mt-8 grid gap-x-10 md:grid-cols-3">
+        {casos.map((c, i) => (
+          <li><a href={`/proyectos/${c.id}`} class="tarjeta-blog" data-revelar style={`--retraso:${i * 0.06}s`}>
+            <span class="eyebrow text-gray">{c.data.cliente ?? 'Proyecto propio'} · {c.data.anio}</span>
+            <h3 class="font-serif text-[28px] leading-[1.05]">{c.data.titulo}</h3>
+            <p class="body-text line-clamp-3">{c.data.resumen}</p>
+            <span class="flecha text-red"><Icon name="arrow-right" /></span>
+          </a></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mx-auto mt-24 max-w-[860px] px-5" aria-labelledby="faq">
+      <h2 id="faq" class="h2" data-revelar>Preguntas <em class="accent">frecuentes</em></h2>
+      <div class="mt-8">
+        {p.preguntas.map((q, i) => (
+          <details class="group border-t border-line py-5" data-revelar style={`--retraso:${i * 0.04}s`}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[18px] font-medium">{q.p}<span class="text-red transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary>
+            <p class="mt-3 text-[16px] leading-[1.6] text-body">{q.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <FloatingContact />
+</BaseLayout>
+
+<script>
+  import { revelar } from '@/scripts/blog/revelar';
+  revelar();
+</script>

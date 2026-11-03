@@ -12,7 +12,7 @@ export const nav = [
   { label: 'Proyectos', href: '/#proyectos' },
   { label: 'Blog', href: '/blog' },
   { label: 'Servicios', href: '#contacto' },
-  { label: 'Sobre mí', href: '#contacto' },
+  { label: 'Sobre mí', href: '/jorge-sanchez' },
 ];
 
 /** Caso de estudio publicado (/proyectos/…) para cada proyecto de la portada que lo tiene. */

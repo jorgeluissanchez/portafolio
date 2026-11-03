@@ -1,0 +1,26 @@
+---
+import PaginaServicio from '@/components/templates/PaginaServicio.astro';
+---
+<PaginaServicio
+  ruta="/desarrollador-full-stack-barranquilla"
+  titulo="Desarrollador full stack en Barranquilla · Jorge Sánchez"
+  descripcion="Jorge Sánchez, desarrollador full stack en Barranquilla: sitios web, tiendas en línea y aplicaciones con React, Next.js, NestJS y Oracle APEX. Cotiza hoy."
+  eyebrow="Desarrollador full stack · Barranquilla"
+  h1={{ antes: 'Desarrollador ', acento: 'full stack', despues: ' en Barranquilla' }}
+  intro="Soy <strong>Jorge Sánchez</strong>, desarrollador full stack en Barranquilla. Hago la parte que ve tu cliente y la que no ve: diseño de la página, servidor, base de datos, integraciones y despliegue. Una sola persona responsable de que todo funcione junto."
+  servicio="Desarrollo full stack"
+  mensaje="Hola Jorge, busco un desarrollador full stack para un proyecto."
+  queHago={[
+    { titulo: 'Sitios web que traen clientes', texto: 'Rápidos en el celular, con SEO desde el primer día y un botón directo a WhatsApp. Hechos con Astro o Next.js.' },
+    { titulo: 'Tiendas en línea', texto: 'Catálogo, pagos y pedidos. En WordPress con WooCommerce o a la medida, según lo que venda tu negocio.' },
+    { titulo: 'Aplicaciones y paneles a la medida', texto: 'Back-end con NestJS o Node.js, bases de datos PostgreSQL u Oracle, y paneles para que tu equipo gestione todo.' },
+    { titulo: 'Sistemas en Oracle APEX', texto: 'Gestión para empresas medianas y grandes: formularios, reportes, flujos de aprobación y automatizaciones.' },
+  ]}
+  casos={['la-rueda', 'caribbean-green', 'grixxo']}
+  preguntas={[
+    { p: '¿Qué hace un desarrollador full stack?', r: 'Construye el front-end (lo que ve el usuario), el back-end (servidor, lógica y base de datos) y lo pone en producción. Para un negocio significa un solo responsable de punta a punta en vez de coordinar a varias personas.' },
+    { p: '¿Con qué tecnologías trabajas?', r: 'TypeScript, React, Next.js, Astro, Node.js y NestJS; bases de datos PostgreSQL, MySQL y Oracle; Oracle APEX y WordPress; despliegue con Docker.' },
+    { p: '¿Trabajas solo con empresas de Barranquilla?', r: 'Estoy en Barranquilla y atiendo en persona en el área metropolitana, pero trabajo con empresas de toda Colombia de forma remota.' },
+    { p: '¿Cuánto cuesta una página web?', r: 'Depende de lo que necesites. Escríbeme por WhatsApp con lo que tienes en mente y te envío una propuesta por escrito con alcance, tiempos y precio.' },
+  ]}
+/>

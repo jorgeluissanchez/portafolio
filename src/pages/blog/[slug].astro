@@ -67,7 +67,7 @@ const cierre = d.cierre ?? { titulo: '¿Te sirvió? Hablemos de tu proyecto', te
       <h1 class="font-serif text-[40px] leading-[1.02] text-ink sm:text-[56px] lg:text-[68px]" data-revelar>{d.titulo}</h1>
       <p class="mt-6 max-w-[680px] text-[19px] leading-[1.55] text-body" data-revelar style="--retraso:.08s">{d.extracto}</p>
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4 text-[13px] text-gray" data-revelar style="--retraso:.16s">
-        <span class="firma text-[26px] leading-none text-ink">{site.name}</span>
+        <a href="/jorge-sanchez" rel="author" class="firma text-[26px] leading-none text-ink hover:text-red">{site.name}</a>
         <time datetime={d.fecha.toISOString()}>{fecha}</time>
         <span>{d.minutos} min de lectura</span>
         {d.demo && <span class="inline-flex items-center gap-2 text-ink"><span class="size-2 animate-pulse rounded-full bg-red" aria-hidden="true"></span>Incluye demo interactiva</span>}
