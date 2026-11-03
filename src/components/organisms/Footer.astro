@@ -16,7 +16,12 @@ const luces = [170, 230, 294, 354, 294, 230, 170];
     ))}
   </div>
 
-  <div class="relative mx-auto flex w-full max-w-[1366px] flex-col gap-6 px-5 pb-8 pt-16 lg:max-w-[calc(1366*var(--u))] lg:gap-0 lg:px-[calc(64*var(--u))] lg:pb-0">
+  <!-- Marca de agua «Jorge Sánchez», como la de Pulxxe: abajo, a todo el ancho y recortada -->
+  <svg class="pointer-events-none absolute inset-x-0 bottom-0 w-full translate-y-[18%] select-none text-ink/[0.06] lg:translate-y-[22%]" viewBox="0 0 1600 300" aria-hidden="true">
+    <text x="800" y="292" text-anchor="middle" textLength="1560" lengthAdjust="spacingAndGlyphs" font-size="300" fill="currentColor" style="font-family: var(--font-display); text-transform: uppercase;">Jorge Sánchez</text>
+  </svg>
+
+  <div class="relative mx-auto flex w-full max-w-[1366px] flex-col gap-6 px-5 pb-[19vw] pt-16 lg:max-w-[calc(1366*var(--u))] lg:gap-0 lg:px-[calc(64*var(--u))] lg:pb-[11vw]">
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:pb-[calc(40*var(--u))]">
       <div class="flex flex-col gap-3.5 lg:max-w-[calc(560*var(--u))]">
         <p class="eyebrow text-gray">{contact.eyebrow}</p>
