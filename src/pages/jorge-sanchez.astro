@@ -70,7 +70,19 @@ const schema = [
             <p class="text-[14px] text-gray">{mesAnio(e.desde)} – {e.hasta ? mesAnio(e.hasta) : 'hoy'}<br />{e.modalidad}</p>
             <div>
               <h3 class="font-serif text-[28px] leading-[1.1]">{e.cargo} <span class="text-gray">· {e.empresa}</span></h3>
+              {e.proyecto && <p class="eyebrow mt-2 text-red">Proyecto: {e.proyecto}</p>}
               <p class="mt-2 max-w-[680px] text-[16px] leading-[1.6] text-body">{e.texto}</p>
+              {e.logros && (
+                <ul class="mt-5 grid max-w-[880px] gap-3 sm:grid-cols-2">
+                  {e.logros.map((l) => (
+                    <li class="border border-line bg-paper-2 p-4">
+                      <p class="text-[15px] font-medium text-ink">{l.t}</p>
+                      <p class="mt-1 text-[14px] leading-[1.5] text-body">{l.d}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {e.tecnologias && <p class="mt-4 flex flex-wrap gap-1.5">{e.tecnologias.map((t) => <span class="border border-line px-2 py-0.5 text-[12px]">{t}</span>)}</p>}
             </div>
           </li>
         ))}
