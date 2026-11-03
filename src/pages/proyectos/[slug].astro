@@ -1,0 +1,173 @@
+---
+/**
+ * Caso de proyecto contado como historia con scroll: portada, cifras, el reto, cómo se resolvió (con reacciones por
+ * párrafo), resultados y equipo. Solo se publican las métricas verificadas; las estimaciones del archivo se quedan fuera.
+ */
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/organisms/Nav.astro';
+import Footer from '@/components/organisms/Footer.astro';
+import FloatingContact from '@/components/organisms/FloatingContact.astro';
+import Button from '@/components/atoms/Button.astro';
+import Icon from '@/components/atoms/Icon.astro';
+import { projects, casos } from '@/data/content';
+import { whatsappUrl } from '@/data/site';
+import { descripcion } from '@/lib/seo';
+import '@/styles/lectura.css';
+
+export async function getStaticPaths() {
+  const lista = (await getCollection('proyectos')).sort((a, b) => b.data.anio - a.data.anio);
+  return lista.map((p, i) => ({ params: { slug: p.id }, props: { p: p.data, siguiente: lista[(i + 1) % lista.length].data } }));
+}
+const { p, siguiente } = Astro.props;
+const imagenes = import.meta.glob<{ default: ImageMetadata }>('/src/assets/proyectos/*.webp', { eager: true });
+const img = (archivo: string) => imagenes[`/src/assets/proyectos/${archivo}`].default;
+const portada = p.imagenes[0];
+const color = projects.find((x) => casos[x.slug] === p.slug)?.color ?? '#e5341d';
+const metricas = p.metricas.filter((m) => m.verificada);
+const parrafos = p.contenido;
+const url = new URL(`/proyectos/${p.slug}`, Astro.site).toString();
+const desc = descripcion(p.resumen, `Caso de estudio: el reto, cómo se resolvió y los resultados, por Jorge Sánchez, ingeniero de sistemas.`);
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: p.titulo,
+    description: p.resumen,
+    url,
+    dateCreated: String(p.anio),
+    inLanguage: 'es-CO',
+    keywords: p.tecnologias.join(', '),
+    creator: { '@id': `${Astro.site}#jorge` },
+    ...(p.cliente && { sourceOrganization: { '@type': 'Organization', name: p.cliente } }),
+    image: new URL(img(portada.archivo).src, Astro.site).toString(),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: Astro.site!.toString() },
+      { '@type': 'ListItem', position: 2, name: 'Proyectos', item: new URL('/#proyectos', Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: p.titulo, item: url },
+    ],
+  },
+];
+---
+<BaseLayout title={`${p.titulo} · Caso de estudio · Jorge Sánchez`} description={desc} sinSplash ogType="article" schema={schema}>
+  <div class="progreso" aria-hidden="true" style={`background:${color}`}></div>
+  <Nav />
+  <main id="contenido" style={`--pc:${color}`}>
+    <!-- Portada -->
+    <section class="mx-auto max-w-[1180px] px-5 pt-28 lg:pt-36">
+      <nav aria-label="Migas" class="eyebrow mb-8 flex gap-2 text-gray" data-revelar>
+        <a href="/" class="hover:text-ink">Inicio</a><span aria-hidden="true">/</span><a href="/#proyectos" class="hover:text-ink">Proyectos</a><span aria-hidden="true">/</span><span style="color:var(--pc)">{p.titulo}</span>
+      </nav>
+      <div class="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+        <h1 class="font-display text-[56px] uppercase leading-[.92] sm:text-[88px] lg:text-[120px]" data-revelar>{p.titulo}</h1>
+        <p class="body-text text-[18px]" data-revelar style="--retraso:.08s">{p.resumen}</p>
+      </div>
+      <dl class="mt-10 grid grid-cols-2 gap-6 border-y border-line py-6 text-[14px] md:grid-cols-4" data-revelar style="--retraso:.14s">
+        <div><dt class="eyebrow text-gray">Cliente</dt><dd class="mt-1 text-ink">{p.cliente ?? 'Proyecto propio'}</dd></div>
+        <div><dt class="eyebrow text-gray">Año</dt><dd class="mt-1 text-ink">{p.anio}</dd></div>
+        <div class="col-span-2"><dt class="eyebrow text-gray">Con qué</dt><dd class="mt-1 flex flex-wrap gap-1.5">{p.tecnologias.map((t) => <span class="border border-line px-2 py-0.5 text-[12px]">{t}</span>)}</dd></div>
+      </dl>
+    </section>
+    <figure class="mx-auto mt-10 max-w-[1366px] px-5 lg:px-10">
+      <div class="imagen-revela overflow-hidden" style="background:color-mix(in srgb, var(--pc) 14%, #f9f7f2)">
+        <Image src={img(portada.archivo)} alt={portada.alt} widths={[640, 1024, 1600, 2048]} sizes="(min-width: 1366px) 1286px, 100vw" class="h-auto w-full" loading="eager" fetchpriority="high" />
+      </div>
+    </figure>
+
+    <!-- Cifras -->
+    {metricas.length > 0 && (
+      <section class="mx-auto mt-20 max-w-[1180px] px-5" aria-label="Cifras del proyecto">
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3">
+          {metricas.map((m, i) => (
+            <li class="border-t-2 pt-4" style="border-color:var(--pc)" data-revelar>
+              <p class="metrica-valor" data-contador data-valor={m.valor}>{m.valor}</p>
+              <p class="mt-2 max-w-[260px] text-[14px] leading-[1.45] text-body">{m.etiqueta}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- El reto -->
+    <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="reto">
+      <div class="grid gap-10 lg:grid-cols-[1fr_1fr]">
+        <div>
+          <p class="eyebrow text-gray" data-revelar>El reto</p>
+          <h2 id="reto" class="mt-3 font-serif text-[38px] leading-[1.02] sm:text-[52px]" data-revelar>{p.reto.titulo}</h2>
+          <div class="prosa mt-6" data-revelar>{p.reto.texto.split('\n\n').map((t) => <p>{t}</p>)}</div>
+        </div>
+        <ol class="grid content-start gap-2 self-start">
+          {p.reto.puntos.map((t, i) => (
+            <li class="flex gap-4 border border-line bg-paper-2 px-4 py-3.5 text-[15px] leading-[1.4]" data-revelar style={`--retraso:${i * 0.06}s`}>
+              <span class="font-display text-[20px] leading-none" style="color:var(--pc)">{String(i + 1).padStart(2, '0')}</span>{t}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- La historia -->
+    <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="como">
+      <p class="eyebrow text-gray" data-revelar>Cómo se resolvió</p>
+      <h2 id="como" class="mt-3 h2" data-revelar>La <em class="accent">historia</em></h2>
+      <p class="mt-3 text-[13px] text-gray" data-revelar>Toca ♡ o 💬 junto a un párrafo para reaccionar o preguntar.</p>
+      <article class="prosa mt-8 max-w-[680px] lg:ml-[264px]" data-articulo={`proyecto-${p.slug}`} data-lectura>
+        {parrafos.map((x) =>
+          typeof x === 'string'
+            ? <p data-revelar>{x}</p>
+            : <figure class="imagen-revela my-10 -mx-5 overflow-hidden sm:mx-0 lg:-mr-[200px]" style="background:color-mix(in srgb, var(--pc) 10%, #f9f7f2)"><Image src={img(p.imagenes[x.imagen].archivo)} alt={p.imagenes[x.imagen].alt} widths={[640, 1024, 1600]} sizes="(min-width: 1180px) 880px, 100vw" class="h-auto w-full" /></figure>,
+        )}
+      </article>
+    </section>
+
+    <!-- Resultados -->
+    <section class="mt-24 bg-ink py-20 text-paper" aria-labelledby="resultados">
+      <div class="mx-auto max-w-[1180px] px-5">
+        <p class="eyebrow text-paper/60" data-revelar>Resultados</p>
+        <h2 id="resultados" class="mt-3 font-serif text-[38px] leading-[1.02] sm:text-[52px]" data-revelar>Lo que <em class="italic" style="color:var(--pc)">quedó funcionando</em></h2>
+        <ul class="mt-10 grid gap-x-10 gap-y-5 md:grid-cols-2">
+          {p.resultados.map((r, i) => (
+            <li class="flex gap-4 border-t border-paper/15 pt-5 text-[16px] leading-[1.5] text-paper/85" data-revelar style={`--retraso:${(i % 2) * 0.08}s`}>
+              <svg viewBox="0 0 20 20" class="mt-0.5 size-5 flex-none" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--pc)" aria-hidden="true"><path d="m4 10.5 4 4 8-9" /></svg>{r}
+            </li>
+          ))}
+        </ul>
+        {p.cita && <blockquote class="mt-14 max-w-[760px] font-serif text-[28px] leading-[1.25]" data-revelar>“{p.cita.texto}”<footer class="mt-4 font-sans text-[14px] text-paper/60">{p.cita.autor} · {p.cita.cargo}</footer></blockquote>}
+        {p.equipo && (
+          <div class="mt-14" data-revelar>
+            <p class="eyebrow text-paper/60">Equipo</p>
+            <ul class="mt-4 flex flex-wrap gap-2">{p.equipo.map((m) => <li class="border border-paper/20 px-3 py-2 text-[14px]">{m.nombre} <span class="text-paper/50">· {m.rol}</span></li>)}</ul>
+          </div>
+        )}
+        <div class="mt-14 flex flex-wrap gap-3" data-revelar>
+          <Button href={whatsappUrl(`Hola Jorge, vi el caso ${p.titulo} y quiero algo así para mi negocio.`)} external>Quiero algo así</Button>
+          {p.enlace && <a href={p.enlace} target="_blank" rel="noopener" class="btn border border-paper/30 text-paper hover:border-paper">Ver el proyecto publicado <Icon name="arrow-right" /></a>}
+        </div>
+      </div>
+    </section>
+
+    <!-- Siguiente caso -->
+    <a href={`/proyectos/${siguiente.slug}`} class="group mx-auto block max-w-[1180px] px-5 py-20" data-revelar>
+      <p class="eyebrow text-gray">Siguiente caso</p>
+      <p class="mt-3 flex items-center gap-4 font-display text-[44px] uppercase leading-none transition-colors group-hover:text-red sm:text-[72px]">{siguiente.titulo}<span class="transition-transform duration-300 group-hover:translate-x-2"><Icon name="arrow-right" size={40} /></span></p>
+    </a>
+  </main>
+  <Footer />
+  <FloatingContact />
+</BaseLayout>
+
+<script>
+  import { revelar, progresoLectura, contadores } from '@/scripts/blog/revelar';
+  revelar();
+  contadores();
+  const articulo = document.querySelector<HTMLElement>('[data-lectura]');
+  if (articulo) {
+    progresoLectura(document.querySelector('main')!);
+    import('@/scripts/blog/lectura').then((m) => m.iniciarLectura(articulo));
+  }
+</script>

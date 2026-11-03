@@ -8,7 +8,7 @@ export const site = {
   name: 'Jorge Sánchez',
   title: 'Jorge Sánchez · Ingeniero de Sistemas en Barranquilla',
   description:
-    'Ingeniero de sistemas en Barranquilla. Desarrollo sitios web, tiendas en línea y aplicaciones a la medida con IA para empresas de toda Colombia.',
+    'Ingeniero de sistemas en Barranquilla. Desarrollo sitios web, tiendas en línea y aplicaciones a la medida con IA para empresas de toda Colombia. Cotiza hoy.',
   role: 'Ingeniero de Sistemas · Desarrollo web con IA',
   lang: 'es',
   locale: 'es_CO',

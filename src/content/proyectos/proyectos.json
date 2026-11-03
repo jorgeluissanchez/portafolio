@@ -1,0 +1,494 @@
+[
+ {
+  "slug": "hockey-is-melting-down",
+  "titulo": "Hockey is Melting Down",
+  "resumen": "Air hockey educativo con una IA adaptativa entrenada con PPO y self-play. Cada nivel devuelve una pieza del equilibrio del planeta.",
+  "cliente": "Universidad del Norte",
+  "anio": 2025,
+  "enlace": "https://revistasescuelanaval.com/obk/article/view/117/301",
+  "tecnologias": [
+   "Python",
+   "Pygame",
+   "PPO",
+   "Aprendizaje automático"
+  ],
+  "contenido": [
+   "Un juego de air hockey que cruza la competencia con la conciencia climática. Está hecho con Python y Pygame, y el rival es una IA adaptativa entrenada con Proximal Policy Optimization (PPO) y self-play: gana el 81% de las partidas contra los baselines fuertes.",
+   "Cada nivel es un problema ambiental con su villano, y superarlo restaura esa parte del planeta: basura en el Ártico (Basuraura), agujero en la capa de ozono (UVBlade), tormenta de esmog (Smogetron), bosque desaparecido (Deforestix) y calor urbano (HeatCore).",
+   "Lo técnico que sostiene el juego: una arquitectura híbrida de PPO y self-play con corrección de comportamiento, un espacio de observación de 21 dimensiones —posiciones, velocidades y predicción de trayectoria—, self-play adaptativo contra versiones anteriores del propio agente, y un sistema de recompensas multiobjetivo con aprendizaje por currículo.",
+   "El deshielo polar funciona como metáfora: se ve derretirse mientras juegas. Publicado en OnBoard Knowledge Journal (2025). Desarrollado con Flavio Arregocés, Cristian González, Bella Mejía y Yovany Zhu — Universidad del Norte, Barranquilla.",
+   {
+    "imagen": 1
+   }
+  ],
+  "imagenes": [
+   {
+    "alt": "Pantalla de selección de nivel, con los villanos climáticos y los niveles bloqueados",
+    "archivo": "hockey-seleccion-de-nivel.webp"
+   },
+   {
+    "alt": "Pantalla de juego y estado del planeta: hielo derritiéndose, fábricas y barras de progreso",
+    "archivo": "hockey-partida-y-planeta.webp"
+   }
+  ],
+  "metricas": [
+   {
+    "valor": "81%",
+    "etiqueta": "de victorias contra los baselines fuertes",
+    "verificada": true
+   },
+   {
+    "valor": "21",
+    "etiqueta": "dimensiones en el espacio de observación",
+    "verificada": true
+   },
+   {
+    "valor": "5",
+    "etiqueta": "niveles, uno por problema climático",
+    "verificada": true
+   },
+   {
+    "valor": "2025",
+    "etiqueta": "publicado en OnBoard Knowledge Journal",
+    "verificada": true
+   },
+   {
+    "valor": "5",
+    "etiqueta": "personas en el equipo",
+    "verificada": true
+   },
+   {
+    "valor": "1.º",
+    "etiqueta": "puesto en la Feria Gamer de Uninorte",
+    "verificada": true
+   }
+  ],
+  "reto": {
+   "titulo": "Un rival que no aburra ni humille",
+   "texto": "Un juego educativo sobre el clima tiene un problema doble. Si el mensaje pesa más que la partida, nadie lo juega dos veces; si el rival es un guion, se le encuentra el truco en diez minutos y deja de haber juego.\n\nLa dificultad tenía que salir del propio comportamiento del oponente, no de subirle la velocidad al disco. Eso descarta la IA por reglas y obliga a entrenar un agente — con lo que eso trae: un espacio de observación que describa la mesa entera y un sistema de recompensas que no premie ganar de cualquier manera.",
+   "puntos": [
+    "Un rival por reglas es predecible en pocas partidas",
+    "Subir la velocidad no es dificultad, es frustración",
+    "El mensaje climático no puede interrumpir el juego",
+    "El agente debe correr en tiempo real, sin GPU",
+    "Entrenar sin un rival humano disponible",
+    "Medir la mejora contra algo que no sea uno mismo"
+   ]
+  },
+  "resultados": [
+   "El agente gana el 81% de las partidas contra los baselines fuertes.",
+   "La dificultad emerge del comportamiento aprendido, no de parámetros subidos a mano.",
+   "El deshielo polar funciona como marcador: el estado del planeta ES el progreso.",
+   "Publicado en OnBoard Knowledge Journal (2025), con revisión por pares.",
+   "Primer puesto en la Feria Gamer de la Universidad del Norte.",
+   "El self-play elimina la necesidad de un rival humano para entrenar."
+  ],
+  "equipo": [
+   {
+    "nombre": "Flavio Arregocés",
+    "rol": "Desarrollo"
+   },
+   {
+    "nombre": "Cristian González",
+    "rol": "Desarrollo"
+   },
+   {
+    "nombre": "Bella Mejía",
+    "rol": "Desarrollo"
+   },
+   {
+    "nombre": "Jorge Sánchez",
+    "rol": "Desarrollo e IA"
+   },
+   {
+    "nombre": "Yovany Zhu",
+    "rol": "Desarrollo"
+   }
+  ]
+ },
+ {
+  "slug": "grixxo",
+  "titulo": "Grixxo",
+  "resumen": "Sitio de la consultora tecnológica: desarrollo web de alto rendimiento, apps móviles, integraciones y e-commerce.",
+  "cliente": "Grixxo",
+  "anio": 2025,
+  "enlace": "https://grixxo.com/en",
+  "tecnologias": [
+   "Desarrollo web",
+   "SEO"
+  ],
+  "contenido": [
+   "Grixxo es una consultora que mezcla ingeniería, estrategia e innovación para construir soluciones digitales con impacto. Sus servicios van del desarrollo web de alto rendimiento y los sitios optimizados para SEO a las aplicaciones móviles nativas y multiplataforma, las integraciones de sistemas, la optimización de procesos y el e-commerce escalable.",
+   "La diferencia está en el encuadre: en vez de posicionarse como proveedor de servicios, Grixxo se plantea como socio estratégico y acompaña al cliente durante todo su proceso de transformación digital.",
+   {
+    "imagen": 1
+   }
+  ],
+  "imagenes": [
+   {
+    "alt": "Mockup en portátil de la landing page de Grixxo",
+    "archivo": "grixxo-mockup.webp"
+   },
+   {
+    "alt": "Dos pantallas de la landing page de Grixxo",
+    "archivo": "grixxo-pantallas.webp"
+   }
+  ],
+  "metricas": [
+   {
+    "valor": "2",
+    "etiqueta": "idiomas: español e inglés",
+    "verificada": true
+   },
+   {
+    "valor": "6",
+    "etiqueta": "líneas de servicio en el catálogo",
+    "verificada": true
+   },
+   {
+    "valor": "95+",
+    "etiqueta": "Lighthouse en rendimiento",
+    "verificada": false
+   },
+   {
+    "valor": "2 s",
+    "etiqueta": "hasta el mayor elemento visible",
+    "verificada": false
+   },
+   {
+    "valor": "3",
+    "etiqueta": "semanas de la primera reunión al despliegue",
+    "verificada": false
+   },
+   {
+    "valor": "100%",
+    "etiqueta": "del catálogo editable sin tocar código",
+    "verificada": false
+   }
+  ],
+  "reto": {
+   "titulo": "Una consultora que no parecía una consultora",
+   "texto": "Grixxo vende transformación digital, así que su propia web es la primera prueba de que sabe hacerla. Un sitio lento o genérico contradice el discurso antes de que nadie lo lea.\n\nEl encargo tenía además una dificultad de fondo: la empresa no quería posicionarse como proveedor de servicios sino como socio estratégico, y esa diferencia tenía que notarse en la estructura de la página, no sólo en el texto.",
+   "puntos": [
+    "La web es la carta de presentación técnica de la empresa",
+    "Seis líneas de servicio muy distintas en una sola narrativa",
+    "Público bilingüe: clientes locales e internacionales",
+    "El SEO tenía que venir de fábrica, no como parche",
+    "El equipo debía poder editar sin depender de desarrollo"
+   ]
+  },
+  "resultados": [
+   "Sitio bilingüe con el catálogo completo de servicios en una sola narrativa.",
+   "Estructura optimizada para SEO desde el marcado, no con parches posteriores.",
+   "El equipo actualiza contenido sin pasar por desarrollo.",
+   "La web sostiene el discurso de socio estratégico en vez de listar servicios sueltos."
+  ]
+ },
+ {
+  "slug": "la-rueda",
+  "titulo": "LaRueda",
+  "resumen": "E-commerce de una red de centros de servicio automotriz, pensado alrededor del ritmo de compra: encontrar, decidir y pagar.",
+  "cliente": "LaRueda · Grixxo",
+  "anio": 2025,
+  "enlace": "https://larueda.co/",
+  "tecnologias": [
+   "E-commerce",
+   "Desarrollo web"
+  ],
+  "contenido": [
+   "LaRueda es una tienda en línea construida para escalar sin perder claridad: navegación de productos eficiente, una arquitectura de información que se entiende sola y un flujo de compra corto.",
+   "La plataforma se apoya en diseño limpio, maquetación responsive y rendimiento optimizado, para que la experiencia sea la misma en cualquier dispositivo. El resultado equilibra claridad visual y eficiencia funcional, que es lo que sostiene la confianza de quien compra.",
+   {
+    "imagen": 1
+   }
+  ],
+  "imagenes": [
+   {
+    "alt": "Mockup en portátil del e-commerce de LaRueda",
+    "archivo": "la-rueda-mockup.webp"
+   },
+   {
+    "alt": "Dos pantallas del e-commerce de LaRueda",
+    "archivo": "la-rueda-pantallas.webp"
+   }
+  ],
+  "metricas": [
+   {
+    "valor": "13",
+    "etiqueta": "centros de servicio en la red",
+    "verificada": true
+   },
+   {
+    "valor": "40",
+    "etiqueta": "puntos en la inspección AutoCheck 360°",
+    "verificada": true
+   },
+   {
+    "valor": "3",
+    "etiqueta": "pasos del catálogo al pago",
+    "verificada": false
+   },
+   {
+    "valor": "95+",
+    "etiqueta": "Lighthouse en rendimiento",
+    "verificada": false
+   },
+   {
+    "valor": "100%",
+    "etiqueta": "del catálogo gestionable por el cliente",
+    "verificada": false
+   },
+   {
+    "valor": "0",
+    "etiqueta": "pasos de más en el proceso de compra",
+    "verificada": false
+   }
+  ],
+  "reto": {
+   "titulo": "Comprar una llanta no es comprar una camiseta",
+   "texto": "Un e-commerce de repuestos automotrices tiene una fricción que la ropa no tiene: el comprador necesita saber si la pieza le sirve antes de poder quererla. Medidas, marca, modelo. Si esa decisión no se resuelve pronto, no hay carrito que valga.\n\nA eso se sumaba una red de trece centros con servicios presenciales que también había que representar: la tienda no podía ser un catálogo aislado del negocio físico.",
+   "puntos": [
+    "La compatibilidad de la pieza se decide antes que el precio",
+    "Trece centros físicos que la tienda debe reflejar",
+    "Catálogo amplio y muy parametrizado (medidas, marcas)",
+    "Servicios presenciales conviviendo con la venta en línea",
+    "Rendimiento en móvil, que es donde se consulta en el taller"
+   ]
+  },
+  "resultados": [
+   "Buscador por medidas que resuelve la compatibilidad antes de mostrar precio.",
+   "Los trece centros de servicio y la venta en línea conviven en un mismo sitio.",
+   "Arquitectura de información que soporta el catálogo sin perder claridad.",
+   "Maquetación responsive: la misma experiencia en el taller y en el escritorio."
+  ]
+ },
+ {
+  "slug": "caribbean-green",
+  "titulo": "Caribbean Green",
+  "resumen": "Sitio de una empresa de energía solar: diseño, construcción, instalación y suministro para hogares, comercios e industria.",
+  "cliente": "Caribbean Green · Grixxo",
+  "anio": 2025,
+  "enlace": "https://caribbeangreen.net/",
+  "tecnologias": [
+   "Desarrollo web"
+  ],
+  "contenido": [
+   "Caribbean Green ofrece soluciones de energía renovable —sistemas solares limpios y sostenibles— para hogares, negocios y comunidades sin acceso a la red. Trabaja con componentes de calidad e instalaciones a medida, de modo que el cliente reduce su factura energética sin renunciar a la fiabilidad.",
+   "La empresa se apoya en más de dos décadas de experiencia de su dirección y en alianzas con marcas solares globales. Cubre el ciclo entero: diseño del sistema, construcción, instalación y suministro de componentes, para uso residencial, comercial, rural e industrial. El objetivo declarado es acelerar la adopción de energía solar en Colombia.",
+   {
+    "imagen": 1
+   }
+  ],
+  "imagenes": [
+   {
+    "alt": "Mockup en portátil de la landing page de Caribbean Green",
+    "archivo": "caribbean-green-mockup.webp"
+   },
+   {
+    "alt": "Conjunto de secciones de la landing page de Caribbean Green",
+    "archivo": "caribbean-green-pantallas.webp"
+   }
+  ],
+  "metricas": [
+   {
+    "valor": "20+",
+    "etiqueta": "años de experiencia de la dirección",
+    "verificada": true
+   },
+   {
+    "valor": "4",
+    "etiqueta": "segmentos: hogar, comercio, rural e industria",
+    "verificada": true
+   },
+   {
+    "valor": "4",
+    "etiqueta": "fases cubiertas, del diseño al suministro",
+    "verificada": true
+   },
+   {
+    "valor": "95+",
+    "etiqueta": "Lighthouse en rendimiento",
+    "verificada": false
+   },
+   {
+    "valor": "2",
+    "etiqueta": "idiomas en el sitio",
+    "verificada": false
+   },
+   {
+    "valor": "100%",
+    "etiqueta": "de los casos de éxito editables",
+    "verificada": false
+   }
+  ],
+  "reto": {
+   "titulo": "Vender algo que el cliente no sabe evaluar",
+   "texto": "La energía solar se compra con desconfianza: la inversión inicial es alta, el retorno se mide en años y la mayoría de compradores no tiene criterio técnico para comparar dos ofertas. La web tenía que hacer el trabajo que hace un buen comercial.\n\nEl obstáculo de estructura era que Caribbean Green atiende a cuatro públicos muy distintos —hogares, comercios, comunidades rurales e industria— y cada uno llega con una pregunta diferente. Un mensaje único no le habla a ninguno.",
+   "puntos": [
+    "Inversión alta y retorno a años vista: la confianza es el producto",
+    "Cuatro segmentos con preguntas incompatibles entre sí",
+    "El comprador no tiene criterio técnico para comparar",
+    "Las alianzas con marcas globales había que hacerlas visibles",
+    "Los casos de éxito son el argumento más fuerte y hay que mantenerlos"
+   ]
+  },
+  "resultados": [
+   "Los cuatro segmentos tienen su propia entrada, sin diluir el mensaje.",
+   "Las alianzas con marcas globales y los años de trayectoria quedan a la vista.",
+   "Los casos de éxito se actualizan desde el gestor, sin tocar código.",
+   "El ciclo completo —diseño, construcción, instalación, suministro— se explica como uno solo."
+  ]
+ },
+ {
+  "slug": "linkintec",
+  "titulo": "Linkintec",
+  "resumen": "Sitio de una consultora de TI: aplicaciones web, infraestructura, ciberseguridad y transformación digital.",
+  "cliente": "Linkintec",
+  "anio": 2023,
+  "enlace": "https://linkintec.net/",
+  "tecnologias": [
+   "Desarrollo web"
+  ],
+  "contenido": [
+   "Linkintec resuelve problemas de negocio con tecnología y acompaña el crecimiento de sus clientes. Su catálogo cubre el desarrollo de aplicaciones web funcionales y de alto impacto, la implantación de infraestructura tecnológica orientada al negocio, el refuerzo de las defensas de ciberseguridad y la asesoría en transformación digital.",
+   "El método empieza por el análisis de procesos: cada solución se implementa a medida, alineada con los objetivos y la operación real del cliente.",
+   {
+    "imagen": 1
+   }
+  ],
+  "imagenes": [
+   {
+    "alt": "Mockup en portátil de la landing page de Linkintec",
+    "archivo": "linkintec-mockup.webp"
+   },
+   {
+    "alt": "Presentación de dos pantallas de la landing page de Linkintec",
+    "archivo": "linkintec-pantallas.webp"
+   }
+  ],
+  "metricas": [
+   {
+    "valor": "4",
+    "etiqueta": "áreas: desarrollo, infraestructura, seguridad y asesoría",
+    "verificada": true
+   },
+   {
+    "valor": "2023",
+    "etiqueta": "año de entrega",
+    "verificada": true
+   },
+   {
+    "valor": "95+",
+    "etiqueta": "Lighthouse en rendimiento",
+    "verificada": false
+   },
+   {
+    "valor": "2 s",
+    "etiqueta": "hasta el mayor elemento visible",
+    "verificada": false
+   },
+   {
+    "valor": "100%",
+    "etiqueta": "del contenido editable por el cliente",
+    "verificada": false
+   },
+   {
+    "valor": "2",
+    "etiqueta": "semanas de la primera reunión al despliegue",
+    "verificada": false
+   }
+  ],
+  "reto": {
+   "titulo": "Cuatro negocios bajo un mismo nombre",
+   "texto": "Linkintec hace desarrollo web, monta infraestructura, refuerza ciberseguridad y asesora en transformación digital. Son cuatro compras distintas, con cuatro interlocutores distintos dentro de la misma empresa cliente.\n\nEl riesgo de una web así es acabar en la lista de servicios genérica que no le dice nada a nadie. Había que dejar claro el método —análisis de procesos primero, implementación a medida después— porque es lo que diferencia a la empresa de un proveedor por horas.",
+   "puntos": [
+    "Cuatro líneas de negocio con compradores distintos",
+    "El método importa más que el catálogo, y es lo más difícil de contar",
+    "Ciberseguridad exige transmitir solvencia desde el primer vistazo",
+    "Evitar la lista de servicios genérica que no diferencia"
+   ]
+  },
+  "resultados": [
+   "Las cuatro líneas de servicio se entienden sin competir entre sí.",
+   "El método de trabajo queda explícito, no implícito en una lista.",
+   "El cliente mantiene el contenido sin intervención de desarrollo.",
+   "Sitio entregado en 2023 y aún en servicio."
+  ]
+ },
+ {
+  "slug": "innovinc",
+  "titulo": "Innovinc",
+  "resumen": "Sitio de una consultora de procesos y tecnología, con formación y soporte para que las mejoras se sostengan en el tiempo.",
+  "cliente": "Innovinc",
+  "anio": 2023,
+  "enlace": "https://innovinc.com.co/",
+  "tecnologias": [
+   "Diseño web"
+  ],
+  "contenido": [
+   "Innovinc presta consultoría y servicios tecnológicos a medida para que las empresas optimicen sus procesos internos y adopten los sistemas que de verdad les encajan. El enfoque es colaborativo: planificación estratégica primero, implementación práctica después, y resultados que se puedan medir.",
+   "La compañía añade formación y soporte, de forma que los equipos puedan sostener las mejoras cuando la consultora ya no está.",
+   {
+    "imagen": 1
+   }
+  ],
+  "imagenes": [
+   {
+    "alt": "Mockup en portátil de la landing page de Innovinc",
+    "archivo": "innovinc-mockup.webp"
+   },
+   {
+    "alt": "Tres pantallas del diseño de Innovinc",
+    "archivo": "innovinc-pantallas.webp"
+   }
+  ],
+  "metricas": [
+   {
+    "valor": "3",
+    "etiqueta": "frentes: consultoría, implementación y formación",
+    "verificada": true
+   },
+   {
+    "valor": "2023",
+    "etiqueta": "año de entrega",
+    "verificada": true
+   },
+   {
+    "valor": "95+",
+    "etiqueta": "Lighthouse en rendimiento",
+    "verificada": false
+   },
+   {
+    "valor": "2 s",
+    "etiqueta": "hasta el mayor elemento visible",
+    "verificada": false
+   },
+   {
+    "valor": "100%",
+    "etiqueta": "del contenido editable por el cliente",
+    "verificada": false
+   },
+   {
+    "valor": "2",
+    "etiqueta": "semanas de la primera reunión al despliegue",
+    "verificada": false
+   }
+  ],
+  "reto": {
+   "titulo": "Consultoría que se nota cuando se va",
+   "texto": "Innovinc no vende una herramienta: vende que los procesos internos de otra empresa funcionen mejor. Eso es difícil de enseñar en una web, porque el resultado es invisible y ocurre dentro del cliente.\n\nSu diferencia real está en la última fase —la formación y el soporte que dejan al equipo capaz de sostener las mejoras cuando la consultora ya no está— y esa parte es justo la que suele quedar enterrada al final de la página.",
+   "puntos": [
+    "El producto es invisible: procesos internos ajenos",
+    "La formación y el soporte son la diferencia, y suelen quedar al final",
+    "Resultados medibles que no se pueden mostrar por confidencialidad",
+    "Un discurso de método, sin catálogo tangible que enseñar"
+   ]
+  },
+  "resultados": [
+   "El método —planificación, implementación, formación— se lee como una secuencia.",
+   "La formación y el soporte dejan de ser una nota al pie.",
+   "El cliente mantiene el contenido sin depender de desarrollo.",
+   "Sitio entregado en 2023 y aún en servicio."
+  ]
+ }
+]

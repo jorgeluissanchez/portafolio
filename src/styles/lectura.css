@@ -1,0 +1,73 @@
+/*
+ * Blog y casos: tipografía de lectura, reacciones por párrafo y entradas al hacer scroll.
+ * Sigue los tokens del sitio (Instrument Serif para títulos, Space Grotesk para el texto, rojo de marca).
+ */
+
+/* ---------- Barra de progreso de lectura */
+.progreso { position: fixed; inset: 0 0 auto 0; z-index: 40; height: 3px; transform-origin: left; transform: scaleX(var(--p, 0)); background: var(--color-red); }
+
+/* ---------- Texto del artículo */
+.prosa { font-size: 18px; line-height: 1.7; color: var(--color-body); }
+.prosa > * + * { margin-top: 1.1em; }
+.prosa h2 { margin-top: 2.2em; font-family: var(--font-serif); font-size: clamp(30px, 4vw, 40px); line-height: 1.05; color: var(--color-ink); scroll-margin-top: 96px; }
+.prosa h2 + * { margin-top: .7em; }
+.prosa h3 { margin-top: 1.8em; font-size: 20px; font-weight: 500; color: var(--color-ink); scroll-margin-top: 96px; }
+.prosa strong { color: var(--color-ink); font-weight: 600; }
+.prosa em { font-style: italic; }
+.prosa a { color: var(--color-red); text-decoration: underline; text-underline-offset: 3px; }
+.prosa ul, .prosa ol { padding-left: 1.3em; }
+.prosa ul { list-style: none; }
+.prosa ul > li { position: relative; }
+.prosa ul > li::before { content: ''; position: absolute; left: -1.1em; top: .72em; width: 7px; height: 2px; background: var(--color-red); }
+.prosa ol { list-style: decimal; }
+.prosa ol > li::marker { color: var(--color-red); font-weight: 600; }
+.prosa li + li { margin-top: .4em; }
+.prosa code { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-size: .86em; background: rgb(17 17 17 / .06); padding: .1em .35em; }
+.prosa pre { overflow-x: auto; background: var(--color-ink); color: #ece8e1; padding: 18px; font-size: 14px; line-height: 1.6; }
+.prosa pre code { background: none; padding: 0; }
+.prosa blockquote { border-left: 3px solid var(--color-red); padding-left: 1em; font-family: var(--font-serif); font-size: 1.3em; line-height: 1.35; color: var(--color-ink); }
+.prosa .tabla { overflow-x: auto; }
+.prosa table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.prosa th { text-align: left; font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-gray); border-bottom: 1px solid var(--color-ink); padding: 10px 12px 10px 0; }
+.prosa td { vertical-align: top; padding: 12px 12px 12px 0; border-bottom: 1px solid var(--color-line); }
+
+/* ---------- Reacciones por párrafo (estilo Wattpad) */
+.bloque-reaccion { position: relative; }
+.prosa p .reaccion { display: inline-flex; vertical-align: middle; margin-left: 6px; opacity: .55; transition: opacity .2s; }
+.reaccion-fila { margin-top: .2em !important; }
+.reaccion-fila .reaccion { opacity: .55; transition: opacity .2s; }
+.bloque-reaccion:hover .reaccion, .bloque-reaccion:hover + .reaccion-fila .reaccion, .reaccion:focus-within, .reaccion-fila:hover .reaccion { opacity: 1; }
+@media (min-width: 1180px) {
+  /* En escritorio las reacciones viven en el margen derecho, a la altura de su párrafo */
+  .prosa p .reaccion { position: absolute; left: calc(100% + 24px); top: 2px; margin: 0; flex-direction: column; align-items: flex-start; }
+  .reaccion-fila { position: relative; height: 0; margin: 0 !important; }
+  .reaccion-fila .reaccion { position: absolute; left: calc(100% + 24px); bottom: 4px; display: inline-flex; flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Entradas al hacer scroll (solo con JS y sin «reducir movimiento») */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-revelar] { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); transition-delay: var(--retraso, 0s); }
+  html.js [data-revelar].visible { opacity: 1; transform: none; }
+  html.js .imagen-revela { clip-path: inset(12% 6% 12% 6%); transition: clip-path 1.1s cubic-bezier(.22,1,.36,1); }
+  html.js .imagen-revela.visible { clip-path: inset(0); }
+}
+
+/* ---------- Índice lateral */
+.indice a { display: block; padding: 6px 0 6px 14px; border-left: 2px solid var(--color-line); color: var(--color-gray); font-size: 13px; line-height: 1.35; transition: color .2s, border-color .2s; }
+.indice a:hover { color: var(--color-ink); }
+.indice a[aria-current='true'] { color: var(--color-ink); border-left-color: var(--color-red); }
+
+/* ---------- Tarjetas del blog */
+.tarjeta-blog { position: relative; display: grid; gap: 10px; padding: 24px 0; border-top: 1px solid var(--color-line); }
+.tarjeta-blog::after { content: ''; position: absolute; left: 0; top: -1px; height: 2px; width: 100%; background: var(--color-red); transform: scaleX(0); transform-origin: left; transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.tarjeta-blog:hover::after, .tarjeta-blog:focus-within::after { transform: scaleX(1); }
+.tarjeta-blog h2, .tarjeta-blog h3 { transition: color .25s; }
+.tarjeta-blog:hover h2, .tarjeta-blog:hover h3 { color: var(--color-red); }
+.tarjeta-blog .flecha { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+.tarjeta-blog:hover .flecha { transform: translate(4px, -4px); }
+.chip-filtro { padding: 8px 14px; border: 1px solid var(--color-line); font-size: 13px; transition: background-color .2s, color .2s, border-color .2s; }
+.chip-filtro:hover { border-color: var(--color-ink); }
+.chip-filtro[aria-pressed='true'] { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+
+/* ---------- Casos */
+.metrica-valor { font-family: var(--font-display); font-size: clamp(44px, 7vw, 76px); line-height: .95; font-variant-numeric: tabular-nums; }

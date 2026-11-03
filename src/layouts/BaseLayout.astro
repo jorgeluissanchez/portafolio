@@ -24,8 +24,14 @@ interface Props {
   description?: string;
   noindex?: boolean;
   ogImages?: OgImage[];
+  /** Páginas internas (blog, casos): sin la firma de entrada, que es la bienvenida de la portada. */
+  sinSplash?: boolean;
+  /** «article» en el blog y los casos; «profile» en la portada. */
+  ogType?: 'profile' | 'article';
+  /** Datos estructurados extra de la página (BlogPosting, CreativeWork, BreadcrumbList…). */
+  schema?: object[];
 }
-const { title = site.title, description = site.description, noindex = false, ogImages = ogDefault } = Astro.props;
+const { title = site.title, description = site.description, noindex = false, ogImages = ogDefault, sinSplash = false, ogType = 'profile', schema = [] } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogs = ogImages.map((o) => ({ ...o, url: new URL(o.src.src, Astro.site).toString() }));
 const home = Astro.site!.toString();
@@ -58,7 +64,7 @@ const website = {
 const { gtmId, searchConsole, bing, clarity } = site.analytics;
 ---
 <!doctype html>
-<html lang={site.lang}>
+<html lang={site.lang} data-no-splash={sinSplash ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -71,9 +77,9 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <meta property="og:type" content="profile" />
-    <meta property="profile:first_name" content="Jorge" />
-    <meta property="profile:last_name" content="Sánchez" />
+    <meta property="og:type" content={ogType} />
+    {ogType === 'profile' && <meta property="profile:first_name" content="Jorge" />}
+    {ogType === 'profile' && <meta property="profile:last_name" content="Sánchez" />}
     <meta property="og:locale" content={site.locale} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
@@ -121,6 +127,8 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     <Font cssVariable="--font-mrs" />
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
     <script type="application/ld+json" set:html={JSON.stringify(website)} />
+    {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <slot name="head" />
 
     <!--
       Medición (igual que Pulxxe): Google Tag Manager (GA4 configurado DENTRO de GTM) y Microsoft Clarity.
@@ -151,7 +159,7 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     {gtmId && (
       <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
     )}
-    <Splash />
+    {!sinSplash && <Splash />}
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:p-3">Saltar al contenido</a>
     <slot />
     <script>

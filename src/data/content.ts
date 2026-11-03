@@ -9,11 +9,20 @@ import grixxo from '@/assets/img/grixxo.jpg';
 import innovinc from '@/assets/img/innovinc.jpg';
 
 export const nav = [
-  { label: 'Proyectos', href: '#proyectos' },
+  { label: 'Proyectos', href: '/#proyectos' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Servicios', href: '#contacto' },
-  { label: 'Proceso', href: '#contacto' },
   { label: 'Sobre mí', href: '#contacto' },
 ];
+
+/** Caso de estudio publicado (/proyectos/…) para cada proyecto de la portada que lo tiene. */
+export const casos: Record<string, string> = {
+  larueda: 'la-rueda',
+  'caribbean-green': 'caribbean-green',
+  hockey: 'hockey-is-melting-down',
+  grixxo: 'grixxo',
+  innovinc: 'innovinc',
+};
 
 export const hero = {
   // Nombre gigante decorativo sin tilde (la tilde se cortaba arriba); el nombre correcto va en el h1 y el alt

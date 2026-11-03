@@ -1,0 +1,133 @@
+---
+/**
+ * Artículo del blog: lectura interactiva (me gusta y comentarios por párrafo), demo animada del concepto,
+ * índice lateral, barra de progreso y cierre con llamada a WhatsApp. El texto llega completo en el HTML.
+ */
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/organisms/Nav.astro';
+import Footer from '@/components/organisms/Footer.astro';
+import FloatingContact from '@/components/organisms/FloatingContact.astro';
+import Button from '@/components/atoms/Button.astro';
+import Icon from '@/components/atoms/Icon.astro';
+import { site, whatsappUrl } from '@/data/site';
+import { descripcion } from '@/lib/seo';
+import '@/styles/lectura.css';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).sort((a, b) => +b.data.fecha - +a.data.fecha);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }));
+}
+const { post, posts } = Astro.props;
+const { Content, headings } = await render(post);
+const d = post.data;
+const h2s = headings.filter((h) => h.depth === 2);
+const fecha = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }).format(d.fecha);
+const relacionados = [...posts.filter((p) => p.id !== post.id && p.data.categoria === d.categoria), ...posts.filter((p) => p.id !== post.id && p.data.categoria !== d.categoria)].slice(0, 3);
+const url = new URL(`/blog/${post.id}`, Astro.site).toString();
+const desc = descripcion(d.extracto, `Explicado con una demo interactiva por Jorge Sánchez, ingeniero de sistemas en Barranquilla.`);
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: d.titulo,
+    description: d.extracto,
+    datePublished: d.fecha.toISOString(),
+    inLanguage: 'es-CO',
+    articleSection: d.categoria,
+    timeRequired: `PT${d.minutos}M`,
+    mainEntityOfPage: url,
+    url,
+    author: { '@id': `${Astro.site}#jorge` },
+    publisher: { '@id': `${Astro.site}#jorge` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: Astro.site!.toString() },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: new URL('/blog', Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: d.titulo, item: url },
+    ],
+  },
+];
+const cierre = d.cierre ?? { titulo: '¿Te sirvió? Hablemos de tu proyecto', texto: 'Si tienes una aplicación o una web con este problema, cuéntamelo y te digo cómo lo resolvería.', accionEtiqueta: 'Escríbeme por WhatsApp' };
+---
+<BaseLayout title={d.titulo.length > 52 ? d.titulo : `${d.titulo} · Jorge Sánchez`} description={desc} sinSplash ogType="article" schema={schema}>
+  <meta slot="head" property="article:published_time" content={d.fecha.toISOString()} />
+  <meta slot="head" property="article:section" content={d.categoria} />
+  <div class="progreso" aria-hidden="true"></div>
+  <Nav />
+  <main id="contenido" class="mx-auto max-w-[1180px] px-5 pb-24 pt-28 lg:pt-36">
+    <nav aria-label="Migas" class="eyebrow mb-8 flex gap-2 text-gray" data-revelar>
+      <a href="/" class="hover:text-ink">Inicio</a><span aria-hidden="true">/</span><a href="/blog" class="hover:text-ink">Blog</a><span aria-hidden="true">/</span><span class="text-red">{d.categoria}</span>
+    </nav>
+
+    <header class="max-w-[860px]">
+      <h1 class="font-serif text-[40px] leading-[1.02] text-ink sm:text-[56px] lg:text-[68px]" data-revelar>{d.titulo}</h1>
+      <p class="mt-6 max-w-[680px] text-[19px] leading-[1.55] text-body" data-revelar style="--retraso:.08s">{d.extracto}</p>
+      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4 text-[13px] text-gray" data-revelar style="--retraso:.16s">
+        <span class="firma text-[26px] leading-none text-ink">{site.name}</span>
+        <time datetime={d.fecha.toISOString()}>{fecha}</time>
+        <span>{d.minutos} min de lectura</span>
+        {d.demo && <span class="inline-flex items-center gap-2 text-ink"><span class="size-2 animate-pulse rounded-full bg-red" aria-hidden="true"></span>Incluye demo interactiva</span>}
+      </div>
+      <p class="mt-4 text-[13px] text-gray" data-revelar style="--retraso:.2s">Toca ♡ o 💬 junto a cualquier párrafo para reaccionar o comentarlo.</p>
+    </header>
+
+    <div class="mt-12 grid gap-12 lg:grid-cols-[200px_minmax(0,680px)] lg:gap-16 xl:grid-cols-[220px_minmax(0,680px)_1fr]">
+      {h2s.length > 1 && (
+        <aside class="hidden lg:block">
+          <nav class="indice sticky top-28" aria-label="En este artículo">
+            <p class="eyebrow mb-3 text-gray">En este artículo</p>
+            {h2s.map((h) => <a href={`#${h.slug}`}>{h.text.replace(/^\d+\.\s*/, '')}</a>)}
+          </nav>
+        </aside>
+      )}
+      <article class="prosa min-w-0 lg:col-start-2" data-articulo={post.id} data-lectura>
+        <Content />
+      </article>
+    </div>
+
+    <section class="mt-20 max-w-[860px] bg-ink px-6 py-10 text-paper sm:px-10 lg:ml-[264px]" data-revelar aria-labelledby="cierre">
+      <p class="eyebrow text-paper/60">{d.categoria}</p>
+      <h2 id="cierre" class="mt-3 font-serif text-[34px] leading-[1.05] sm:text-[44px]">{cierre.titulo}</h2>
+      <p class="mt-4 max-w-[560px] text-[16px] leading-[1.6] text-paper/80">{cierre.texto}</p>
+      <div class="mt-7"><Button href={whatsappUrl(`Hola Jorge, leí «${d.titulo}» y quiero hablar de mi proyecto.`)} external>{cierre.accionEtiqueta}</Button></div>
+    </section>
+
+    <section class="mt-20" aria-labelledby="mas">
+      <h2 id="mas" class="h2" data-revelar>Sigue <em class="accent">leyendo</em></h2>
+      <div class="mt-8 grid gap-x-10 md:grid-cols-3">
+        {relacionados.map((p, i) => (
+          <a href={`/blog/${p.id}`} class="tarjeta-blog" data-revelar style={`--retraso:${i * 0.08}s`}>
+            <span class="eyebrow text-gray">{p.data.categoria} · {p.data.minutos} min</span>
+            <h3 class="font-serif text-[26px] leading-[1.08] text-ink">{p.data.titulo}</h3>
+            <span class="flecha inline-flex text-red"><Icon name="arrow-right" /></span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <FloatingContact />
+</BaseLayout>
+
+<script>
+  import { revelar, progresoLectura, indiceActivo } from '@/scripts/blog/revelar';
+  revelar();
+  indiceActivo();
+  const articulo = document.querySelector<HTMLElement>('[data-lectura]');
+  if (articulo) {
+    progresoLectura(articulo);
+    // Tablas desplazables en móvil
+    articulo.querySelectorAll(':scope > table').forEach((t) => {
+      const w = document.createElement('div');
+      w.className = 'tabla';
+      t.before(w);
+      w.append(t);
+    });
+    import('@/scripts/blog/demos').then((m) => m.cargarDemos(articulo));
+    import('@/scripts/blog/lectura').then((m) => m.iniciarLectura(articulo));
+  }
+</script>

@@ -8,7 +8,7 @@ import { Image } from 'astro:assets';
 import Icon from '@/components/atoms/Icon.astro';
 import GrixxoBadge from '@/components/atoms/GrixxoBadge.astro';
 import Button from '@/components/atoms/Button.astro';
-import { projects, projectsIntro as intro } from '@/data/content';
+import { projects, projectsIntro as intro, casos } from '@/data/content';
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 <section id="proyectos" class="relative h-dvh min-h-[560px] overflow-hidden lg:[--oy:max(0px,calc((100%-650*var(--u))/2))]" aria-labelledby="titulo-proyectos" data-slider data-scroll-parallax style={`--i:0;--c:${projects[0].color}`}>
@@ -61,7 +61,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
               <span class="hidden h-0.5 w-[42px] bg-red lg:block" aria-hidden="true"></span>
               <p class="body-text max-lg:pr-16 max-lg:line-clamp-2 max-lg:text-[clamp(13.5px,1.9dvh,16px)]">{p.description}</p>
               <p class="eyebrow hidden text-gray lg:block">Año&nbsp;&nbsp;/&nbsp;&nbsp;<time>{p.year}</time></p>
-              <Button href={p.url ?? '#contacto'} variant="secondary" external={!!p.url} data-project={p.slug} aria-label={`Ver proyecto ${p.name}`}>Ver proyecto</Button>
+              {casos[p.slug]
+                ? <Button href={`/proyectos/${casos[p.slug]}`} variant="secondary" data-project={p.slug} aria-label={`Ver el caso ${p.name}`}>Ver el caso</Button>
+                : <Button href={p.url ?? '#contacto'} variant="secondary" external={!!p.url} data-project={p.slug} aria-label={`Ver proyecto ${p.name}`}>Ver proyecto</Button>}
             </div>
           </div>
         ))}
