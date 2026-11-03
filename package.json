@@ -11,9 +11,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^11.1.9",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.0",
-    "lit": "^3.3.3"
+    "lit": "^3.3.3",
+    "vanilla-cookieconsent": "3.2.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

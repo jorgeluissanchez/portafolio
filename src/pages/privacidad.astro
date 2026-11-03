@@ -1,0 +1,65 @@
+---
+/**
+ * Política de privacidad y cookies. Redactada para la Ley 1581 de 2012 y el Decreto 1377 de 2013 (Colombia),
+ * con las secciones que piden el RGPD (Unión Europea) y las leyes de privacidad de EE. UU. (CCPA/CPRA y similares).
+ * Es una base cuidada, no asesoría legal: conviene que un abogado la revise antes de darla por cerrada.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/organisms/Nav.astro';
+import Footer from '@/components/organisms/Footer.astro';
+import { site } from '@/data/site';
+import '@/styles/lectura.css';
+const actualizada = '3 de noviembre de 2026';
+---
+<BaseLayout title="Política de privacidad y cookies · Jorge Sánchez" description="Cómo trato tus datos en jorgesanchez.engineer: analítica con tu permiso, comentarios del blog y contacto por WhatsApp. Tus derechos y cómo ejercerlos en Colombia, EE. UU. y la UE." sinSplash>
+  <Nav />
+  <main id="contenido" class="mx-auto max-w-[760px] px-5 pb-24 pt-28 lg:pt-36">
+    <p class="eyebrow text-gray">Legal</p>
+    <h1 class="mt-3 font-serif text-[44px] leading-[1.02] sm:text-[60px]">Política de privacidad <em class="accent">y cookies</em></h1>
+    <p class="mt-4 text-[14px] text-gray">Última actualización: {actualizada}</p>
+    <div class="prosa mt-10">
+      <h2 id="responsable">1. Quién es el responsable</h2>
+      <p><strong>Jorge Luis Sánchez Barreneche</strong>, ingeniero de sistemas, con domicilio en {site.city}, {site.region}, Colombia. Correo para todo lo relacionado con tus datos: <a href={`mailto:${site.email}`}>{site.email}</a>. WhatsApp: +57 322 582 2789.</p>
+
+      <h2 id="datos">2. Qué datos trato y para qué</h2>
+      <table>
+        <thead><tr><th>Dato</th><th>Para qué</th><th>Base</th><th>Cuánto tiempo</th></tr></thead>
+        <tbody>
+          <tr><td>Estadísticas de navegación (páginas vistas, clics, desplazamiento, dispositivo, ciudad aproximada) con Google Analytics 4 y Microsoft Clarity</td><td>Saber qué funciona en el sitio y mejorarlo</td><td>Tu consentimiento en el aviso de cookies</td><td>Según la retención configurada en Google Analytics (máximo 14 meses) y hasta 13 meses en Clarity</td></tr>
+          <tr><td>Nombre y comentario que publicas en el blog o en un caso, la dirección IP y un identificador anónimo del navegador</td><td>Mostrar tu comentario junto al párrafo, evitar spam y abusos</td><td>Tu autorización al publicar</td><td>Mientras el comentario esté publicado; la IP, máximo 12 meses</td></tr>
+          <tr><td>Me gusta en párrafos (identificador anónimo del navegador)</td><td>Contar los me gusta y que puedas quitarlo</td><td>Interés legítimo en el funcionamiento del sitio</td><td>Mientras exista el contenido</td></tr>
+          <tr><td>Lo que me escribas por WhatsApp o correo</td><td>Responderte y, si lo pides, enviarte una cotización</td><td>Tu solicitud</td><td>Hasta 2 años después del último contacto, salvo obligación legal</td></tr>
+        </tbody>
+      </table>
+      <p>No vendo, no alquilo y no comparto tus datos con terceros para publicidad. No tomo decisiones automatizadas sobre ti ni trato datos sensibles. El sitio no está dirigido a menores de 18 años.</p>
+
+      <h2 id="cookies">3. Cookies</h2>
+      <p><strong>Necesarias</strong> (siempre activas): guardan tu elección sobre cookies (<code>cc_cookie</code>, 6 meses) y, en el almacenamiento local del navegador, tus me gusta del blog. <strong>Analítica</strong> (solo si aceptas): <code>_ga</code> y <code>_ga_*</code> de Google Analytics, y <code>_clck</code>, <code>_clsk</code> de Microsoft Clarity. Mientras no aceptes, Google Analytics funciona en modo sin cookies (Consent Mode) y Clarity no guarda cookies.</p>
+      <p>Puedes cambiar tu decisión cuando quieras con el enlace <button type="button" data-cc="show-preferencesModal" class="text-red underline">Cookies</button> al pie de cada página. Si tu navegador envía la señal <em>Global Privacy Control</em>, la analítica sigue apagada mientras no la actives tú.</p>
+
+      <h2 id="encargados">4. Con quién se comparten</h2>
+      <ul>
+        <li><strong>Google LLC</strong> (Google Analytics y Google Tag Manager), Estados Unidos.</li>
+        <li><strong>Microsoft Corporation</strong> (Microsoft Clarity), Estados Unidos.</li>
+        <li><strong>Hostinger</strong>, proveedor del servidor donde está alojado el sitio y la base de comentarios.</li>
+        <li><strong>Meta</strong> (WhatsApp), solo si eliges escribirme por ahí.</li>
+      </ul>
+      <p>Algunos de estos proveedores están fuera de Colombia, así que tus datos pueden transferirse a otros países. Lo hago con proveedores que se comprometen contractualmente a proteger la información, y con tu autorización al aceptar esta política.</p>
+
+      <h2 id="derechos">5. Tus derechos</h2>
+      <p><strong>En Colombia</strong> (Ley 1581 de 2012 y Decreto 1377 de 2013) puedes conocer, actualizar y rectificar tus datos; pedir prueba de la autorización; saber qué uso les doy; revocar la autorización o pedir que los borre; y presentar quejas ante la Superintendencia de Industria y Comercio después de agotar el trámite conmigo.</p>
+      <p><strong>En Estados Unidos</strong> (por ejemplo, CCPA/CPRA de California y leyes estatales similares) puedes saber qué datos tengo, pedir que los borre o corrija y no recibir trato distinto por ejercer tus derechos. Como no vendo ni comparto datos personales para publicidad, no hace falta un enlace de «No vender», pero puedes oponerte igual desde las preferencias de cookies.</p>
+      <p><strong>En la Unión Europea y el Reino Unido</strong> (RGPD) tienes además los derechos de acceso, rectificación, supresión, limitación, portabilidad y oposición, y puedes reclamar ante tu autoridad de protección de datos.</p>
+
+      <h2 id="como">6. Cómo ejercerlos</h2>
+      <p>Escríbeme a <a href={`mailto:${site.email}`}>{site.email}</a> con tu nombre, qué quieres hacer y, si es sobre un comentario, el enlace o el texto. Respondo las consultas en un máximo de 10 días hábiles y los reclamos en un máximo de 15 días hábiles, como dice la ley colombiana; si necesito más tiempo, te lo aviso antes con el motivo.</p>
+
+      <h2 id="seguridad">7. Seguridad</h2>
+      <p>El sitio funciona solo con HTTPS, la base de comentarios está en un servidor con acceso restringido y guardo lo mínimo necesario. Ningún sistema es infalible: si ocurriera un incidente que afecte tus datos, te avisaría y lo reportaría a la autoridad cuando corresponda.</p>
+
+      <h2 id="cambios">8. Cambios a esta política</h2>
+      <p>Si cambio algo importante, actualizaré la fecha de arriba y volveré a pedirte tu elección de cookies cuando haga falta.</p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

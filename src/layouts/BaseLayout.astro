@@ -139,6 +139,18 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
       <script is:inline define:vars={{ gtmId, clarity }}>
         window.dataLayer = window.dataLayer || [];
         window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+        // Consentimiento (Google Consent Mode v2 + Clarity Consent API v2): todo empieza DENEGADO hasta que la persona
+        // acepte en el aviso de cookies. Va antes de cargar GTM/Clarity para que ninguna etiqueta guarde cookies antes.
+        window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+        var previo = null;
+        try { var c = document.cookie.match(/(?:^|; )cc_cookie=([^;]*)/); if (c) previo = JSON.parse(decodeURIComponent(c[1])); } catch (e) {}
+        var analitica = !!(previo && previo.categories && previo.categories.indexOf('analytics') > -1);
+        window.gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+          analytics_storage: analitica ? 'granted' : 'denied', functionality_storage: 'granted', security_storage: 'granted',
+          wait_for_update: 500,
+        });
+        window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: analitica ? 'granted' : 'denied' });
         var add = function (src) { var t = document.createElement('script'); t.async = true; t.src = src; document.head.appendChild(t); };
         var loadTags = function () {
           if (gtmId) {
@@ -164,7 +176,9 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     <slot />
     <script>
       import { initLeadTracking } from '@/scripts/leads';
+      import { iniciarConsentimiento } from '@/scripts/consentimiento';
       initLeadTracking();
+      iniciarConsentimiento();
     </script>
   </body>
 </html>

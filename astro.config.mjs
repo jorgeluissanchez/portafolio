@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import node from '@astrojs/node';
 import { execSync } from 'node:child_process';
 
 // Fecha real del último cambio (Google solo usa <lastmod> si es confiable): último commit que tocó src/ o public/.
@@ -26,12 +27,15 @@ const font = (name, cssVariable, fallbacks, variants) => ({
 
 export default defineConfig({
   site: SITE,
+  // Las páginas se generan estáticas (las sirve Nginx); solo las rutas /api (me gusta y comentarios) corren en el
+  // servidor de Node con node:sqlite. Ver Dockerfile y src/lib/reacciones-db.ts.
+  adapter: node({ mode: 'standalone' }),
   trailingSlash: 'never',
   compressHTML: true,
   integrations: [
     sitemap({
       // La 404 no va al sitemap; el resto lleva lastmod (sin priority/changefreq: Google los ignora).
-      filter: (page) => !page.includes('/404'),
+      filter: (page) => !page.includes('/404') && !page.includes('/api/'),
       serialize: (item) => ({ ...item, lastmod: lastmod ?? new Date().toISOString() }),
     }),
   ],

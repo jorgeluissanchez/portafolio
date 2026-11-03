@@ -56,7 +56,7 @@ const luces = [170, 230, 294, 354, 294, 230, 170];
     </div>
 
     <div class="flex items-center justify-between pt-4 text-[13px] text-gray lg:pb-12 lg:pt-0">
-      <p>© {new Date().getFullYear()} {site.name}</p>
+      <p class="flex flex-wrap gap-x-4 gap-y-1">© {new Date().getFullYear()} {site.name}<a href="/privacidad" class="underline-offset-2 hover:text-ink hover:underline">Privacidad</a><button type="button" data-cc="show-preferencesModal" class="underline-offset-2 hover:text-ink hover:underline">Cookies</button></p>
       <a href="#" class="eyebrow flex items-center gap-2 text-ink lg:hidden">Volver al inicio <Icon name="arrow-up" size={14} /></a>
       <p class="eyebrow hidden lg:block">Diseño, código y una buena idea.</p>
     </div>

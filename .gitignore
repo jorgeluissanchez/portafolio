@@ -12,3 +12,6 @@ screenshots/
 # Archivos temporales de sincronización
 _sync-*.tgz
 _to_delete/
+
+# Base local de reacciones del blog
+data/

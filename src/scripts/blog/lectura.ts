@@ -190,6 +190,7 @@ class PanelComentarios extends LitElement {
               <label class="trampa" aria-hidden="true">No llenar<input name="sitio" tabindex="-1" autocomplete="off" /></label>
               ${this._error ? html`<p class="error" role="alert">${this._error}</p>` : nothing}
               ${this._ok ? html`<p class="ok" role="status">¡Publicado! Gracias por comentar.</p>` : nothing}
+              <p class="legal">Tu nombre y tu comentario se publican junto a este párrafo. Más detalles en la <a href="/privacidad" target="_blank">política de privacidad</a>.</p>
               <button type="submit" ?disabled=${this._enviando}>${this._enviando ? 'Publicando…' : 'Publicar comentario'}</button>
             </form>`
           : html`<p class="aviso">Los comentarios se están activando. Mientras tanto, ¿me lo cuentas por <a href="https://wa.me/573225822789?text=${encodeURIComponent('Hola Jorge, leí tu artículo y quería comentarte algo.')}" target="_blank" rel="noopener">WhatsApp</a>?</p>`}
@@ -222,6 +223,7 @@ class PanelComentarios extends LitElement {
     button[disabled] { opacity: .6; cursor: progress; }
     .error { color: #b3261e; margin: 0; font-size: 14px; }
     .ok { color: #1f7a4d; margin: 0; font-size: 14px; }
+    .legal { margin: 0; font-size: 12px; line-height: 1.45; color: var(--color-gray, #6e6b66); } .legal a { color: inherit; }
     .aviso { margin-top: auto; padding: 14px; background: var(--color-paper-2, #f9f7f2); line-height: 1.5; font-size: 14px; }
     .aviso a { color: var(--color-red, #e5341d); }
     @keyframes aparece { from { opacity: 0; } }

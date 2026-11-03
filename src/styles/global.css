@@ -79,3 +79,30 @@
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* Aviso de cookies (vanilla-cookieconsent) con los colores y fuentes del sitio */
+#cc-main {
+  --cc-font-family: var(--font-grotesk), system-ui, sans-serif;
+  --cc-bg: #fdfdfd;
+  --cc-primary-color: #111111;
+  --cc-secondary-color: #40403d;
+  --cc-btn-primary-bg: #dc3019;
+  --cc-btn-primary-border-color: #dc3019;
+  --cc-btn-primary-hover-bg: #c92b16;
+  --cc-btn-primary-hover-border-color: #c92b16;
+  --cc-btn-secondary-bg: #fdfdfd;
+  --cc-btn-secondary-border-color: rgb(17 17 17 / 0.25);
+  --cc-btn-secondary-hover-bg: #f9f7f2;
+  --cc-btn-secondary-hover-border-color: #111111;
+  --cc-separator-border-color: rgb(17 17 17 / 0.12);
+  --cc-toggle-on-bg: #dc3019;
+  --cc-link-color: #dc3019;
+  --cc-modal-border-radius: 0;
+  --cc-btn-border-radius: 0;
+  --cc-cookie-category-block-bg: #f9f7f2;
+  --cc-cookie-category-block-hover-bg: #f3f0e8;
+  --cc-footer-bg: #f9f7f2;
+  --cc-footer-color: #40403d;
+  --cc-footer-border-color: rgb(17 17 17 / 0.12);
+}
+#cc-main .cm__title, #cc-main .pm__title { font-family: var(--font-instrument), Georgia, serif; font-weight: 400; font-size: 1.6em; }

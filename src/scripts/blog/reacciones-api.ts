@@ -1,7 +1,7 @@
 /**
  * Cliente de reacciones (me gusta y comentarios por párrafo).
  *
- * Habla con el servicio `/api` (carpeta `api/` del repo, desplegado aparte en Dokploy). Si el servicio no responde,
+ * Habla con las rutas `/api` del propio Astro (`src/pages/api/*`, con node:sqlite). Si el servicio no responde,
  * los me gusta se guardan solo en este navegador y los comentarios quedan desactivados con un aviso: la lectura
  * nunca se rompe por culpa de la API.
  */

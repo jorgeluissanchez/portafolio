@@ -18,17 +18,19 @@ import { site, whatsappUrl } from '@/data/site';
       <Icon name="menu" size={24} />
     </button>
   </nav>
-  <div id="menu-movil" class="fixed inset-0 z-40 hidden flex-col bg-paper px-5 py-4 lg:hidden" data-menu>
-    <div class="flex items-center justify-between">
-      <span class="firma text-[28px]">{site.name}</span>
-      <button type="button" class="p-2" aria-label="Cerrar menú" data-menu-close><Icon name="close" size={24} /></button>
-    </div>
-    <ul class="mt-12 flex flex-col gap-6">
-      {nav.map((n) => <li><a href={n.href} class="h2" data-menu-link>{n.label}</a></li>)}
-    </ul>
-    <Button href={whatsappUrl()} external class="mt-auto">Cotiza conmigo</Button>
-  </div>
 </header>
+<!-- Fuera del <header>: el desenfoque del menú fijo (backdrop-filter) atraparía este panel «fixed» dentro de la barra y se vería transparente encima del contenido -->
+<div id="menu-movil" class="fixed inset-0 z-40 hidden flex-col bg-paper px-5 py-4 lg:hidden" data-menu>
+  <div class="flex items-center justify-between">
+    <span class="firma text-[28px]">{site.name}</span>
+    <button type="button" class="p-2" aria-label="Cerrar menú" data-menu-close><Icon name="close" size={24} /></button>
+  </div>
+  <ul class="mt-12 flex flex-col gap-6">
+    {nav.map((n) => <li><a href={n.href} class="h2" data-menu-link>{n.label}</a></li>)}
+  </ul>
+  <Button href={whatsappUrl()} external class="mt-auto">Cotiza conmigo</Button>
+</div>
+
 
 <script>
   // Menú fijo: al bajar toma fondo para que se lea sobre cualquier sección
