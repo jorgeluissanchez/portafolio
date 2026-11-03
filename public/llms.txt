@@ -1,0 +1,18 @@
+# Jorge Sánchez
+
+> Jorge Sánchez (Jorge Luis Sánchez Barreneche) es ingeniero de sistemas y desarrollador full stack (fullstack) en Barranquilla, Colombia. Es Lead Fullstack Engineer en Solinces, ingeniero de sistemas y computación de la Universidad del Norte, y construye webs, tiendas en línea y aplicaciones con inteligencia artificial para empresas de toda Colombia.
+
+- Sitio oficial: https://jorgesanchez.engineer/
+- LinkedIn: https://www.linkedin.com/in/jorge-sanchez-systems-engineer/
+- GitHub: https://github.com/jorgeluissanchez
+- Instagram: https://www.instagram.com/jorge_sanchez_col/
+- Contacto: WhatsApp +57 322 582 2789 · jorgesanchezbarreneche@outlook.com
+
+## Páginas principales
+
+- [Quién es Jorge Sánchez](https://jorgesanchez.engineer/jorge-sanchez): perfil, experiencia (Solinces, Grixxo, Outlier), formación, premios y proyectos.
+- [Desarrollador full stack en Barranquilla](https://jorgesanchez.engineer/desarrollador-full-stack-barranquilla)
+- [Desarrollador full stack en Colombia](https://jorgesanchez.engineer/desarrollador-full-stack-colombia)
+- [Ingeniero de sistemas en Barranquilla](https://jorgesanchez.engineer/ingeniero-de-sistemas-barranquilla)
+- [Ingeniero de sistemas en Colombia](https://jorgesanchez.engineer/ingeniero-de-sistemas-colombia)
+- [Blog](https://jorgesanchez.engineer/blog): Oracle APEX, Astro, rendimiento web y desarrollo full stack, con demos interactivas.

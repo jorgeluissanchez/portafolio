@@ -10,7 +10,7 @@ const labels = { instagram: 'Instagram', github: 'GitHub', linkedin: 'LinkedIn' 
 const luces = [170, 230, 294, 354, 294, 230, 170];
 ---
 <footer id="contacto" class="relative overflow-hidden bg-paper-2 lg:flex lg:h-dvh lg:min-h-[560px] lg:flex-col lg:justify-center" aria-labelledby="titulo-contacto">
-  <div class="pointer-events-none absolute inset-x-0 bottom-0 flex h-[101px] items-end opacity-20 lg:h-[calc(354*var(--u))]" aria-hidden="true">
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 flex h-[72vw] items-end opacity-20 lg:h-[calc(354*var(--u))]" aria-hidden="true">
     {luces.map((h) => (
       <span class="flex-1 bg-[linear-gradient(180deg,rgb(255_31_6/0)_0%,rgb(171_6_2/0.22)_24%,rgb(255_33_6/0.88)_60%,rgb(255_102_48)_85%,rgb(255_222_196)_100%)]" style={`height:${(h / 354) * 100}%`}></span>
     ))}

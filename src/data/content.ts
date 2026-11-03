@@ -29,7 +29,7 @@ export const hero = {
   name: ['Jorge', 'Sanchez'],
   h1: { before: 'Ingeniero de ', accent: 'Sistemas', after: ' en Barranquilla' },
   description:
-    'Soy Jorge Sánchez. Te ayudo a convertir tus ideas en productos digitales: desarrollo web, tiendas en línea y aplicaciones a la medida, construidas con IA desde Barranquilla para todo Colombia.',
+    'Soy Jorge Sánchez, ingeniero de sistemas y desarrollador full stack en Barranquilla, Colombia. Construyo webs, tiendas en línea y aplicaciones a la medida con IA para empresas de todo el país.',
   quote: '“Lidero la construcción del software de tu negocio: arquitectura, seguridad y experiencia de usuario, todo en una misma entrega.”',
 };
 
