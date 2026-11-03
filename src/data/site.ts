@@ -6,7 +6,7 @@ const whatsappNumber = '573225822789';
 
 export const site = {
   name: 'Jorge Sánchez',
-  title: 'Jorge Sánchez · Ingeniero de Sistemas y desarrollador web en Barranquilla',
+  title: 'Jorge Sánchez · Ingeniero de Sistemas en Barranquilla',
   description:
     'Soy Jorge Sánchez, ingeniero de sistemas en Barranquilla. Desarrollo sitios web, tiendas en línea y aplicaciones a la medida construidas con IA para empresas de toda Colombia.',
   role: 'Ingeniero de Sistemas · Desarrollo web con IA',
@@ -20,7 +20,7 @@ export const site = {
   social: {
     instagram: 'https://www.instagram.com/jorge_sanchez_col/',
     github: 'https://github.com/jorgeluissanchez',
-    linkedin: 'https://www.linkedin.com/in/jorge-sanchez-fullstack/',
+    linkedin: 'https://www.linkedin.com/in/jorge-sanchez-systems-engineer/',
   },
   /**
    * Medición (igual que Pulxxe). Cada una se activa solo si el valor no está vacío.

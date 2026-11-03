@@ -1,0 +1,29 @@
+# Avisa a Bing (y Yandex, Seznam, Naver…) por IndexNow cada vez que se publica el sitio.
+# Espera a que Dokploy termine de desplegar y luego envía todas las URLs del sitemap.
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Esperar el despliegue de Dokploy
+        run: sleep 240
+
+      - name: Enviar URLs a IndexNow
+        env:
+          HOST: jorgesanchez.engineer
+          KEY: 6e91e5630869132533b083aba4783289
+        run: |
+          urls=$(curl -fsSL "https://$HOST/sitemap-0.xml" | grep -o '<loc>[^<]*</loc>' | sed -e 's/<loc>//' -e 's/<\/loc>//')
+          json=$(printf '%s\n' $urls | jq -R . | jq -s --arg host "$HOST" --arg key "$KEY" \
+            '{host: $host, key: $key, keyLocation: ("https://" + $host + "/" + $key + ".txt"), urlList: .}')
+          echo "$json"
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' -d "$json")
+          echo "IndexNow respondió $code"
+          [ "$code" = "200" ] || [ "$code" = "202" ]
