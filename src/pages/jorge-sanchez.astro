@@ -12,7 +12,7 @@ import FloatingContact from '@/components/organisms/FloatingContact.astro';
 import Button from '@/components/atoms/Button.astro';
 import Icon from '@/components/atoms/Icon.astro';
 import foto from '@/assets/img/jorge-sanchez.png';
-import { perfil, mesAnio } from '@/data/perfil';
+import { perfil, mesAnio, articuloDe } from '@/data/perfil';
 import { site, whatsappUrl } from '@/data/site';
 import '@/styles/lectura.css';
 
@@ -82,7 +82,7 @@ const schema = [
                   ))}
                 </ul>
               )}
-              {e.tecnologias && <p class="mt-4 flex flex-wrap gap-1.5">{e.tecnologias.map((t) => <span class="border border-line px-2 py-0.5 text-[12px]">{t}</span>)}</p>}
+              {e.tecnologias && <p class="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-gray">{e.tecnologias.map((t) => articuloDe[t] ? <a href={articuloDe[t]} class="text-red underline underline-offset-2">{t}</a> : <span>{t}</span>)}</p>}
             </div>
           </li>
         ))}
@@ -110,7 +110,7 @@ const schema = [
         {Object.entries(perfil.habilidades).map(([grupo, items], i) => (
           <div data-revelar style={`--retraso:${i * 0.05}s`}>
             <dt class="eyebrow text-gray">{grupo}</dt>
-            <dd class="mt-3 flex flex-wrap gap-1.5">{items.map((h) => <span class="border border-line px-2.5 py-1 text-[13px]">{h}</span>)}</dd>
+            <dd class="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-[14px]">{items.map((h) => articuloDe[h] ? <a href={articuloDe[h]} class="text-red underline underline-offset-2" title={`Artículo sobre ${h}`}>{h}</a> : <span>{h}</span>)}</dd>
           </div>
         ))}
       </dl>

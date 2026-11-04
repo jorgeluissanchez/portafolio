@@ -56,3 +56,12 @@ export const perfil = {
 /** Mes y año en español: «jun. 2026». */
 export const mesAnio = (ym: string) =>
   new Intl.DateTimeFormat('es-CO', { month: 'short', year: 'numeric' }).format(new Date(`${ym}-15T12:00:00`));
+
+/** Tecnologías con artículo en el blog: el chip se vuelve enlace (antes se tocaba y no pasaba nada). */
+export const articuloDe: Record<string, string> = {
+  'Oracle APEX': '/blog/interactive-grid-o-interactive-report-cual-usar-en-apex',
+  'Oracle Database': '/blog/el-plan-de-ejecucion-no-miente-leer-un-explain-plan',
+  'PL/SQL': '/blog/el-plan-de-ejecucion-no-miente-leer-un-explain-plan',
+  'SQL': '/blog/el-plan-de-ejecucion-no-miente-leer-un-explain-plan',
+  'Astro': '/blog/islas-en-astro-cuando-cargar-javascript-y-cuando-no',
+};
