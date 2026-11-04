@@ -1,4 +1,5 @@
 ---
+import { articuloDe } from '@/data/perfil';
 /**
  * Caso de proyecto contado como historia con scroll: portada, cifras, el reto, cómo se resolvió (con reacciones por
  * párrafo), resultados y equipo. Solo se publican las métricas verificadas; las estimaciones del archivo se quedan fuera.
@@ -70,7 +71,7 @@ const schema = [
       <dl class="mt-10 grid grid-cols-2 gap-6 border-y border-line py-6 text-[14px] md:grid-cols-4" data-revelar style="--retraso:.14s">
         <div><dt class="eyebrow text-gray">Cliente</dt><dd class="mt-1 text-ink">{p.cliente ?? 'Proyecto propio'}</dd></div>
         <div><dt class="eyebrow text-gray">Año</dt><dd class="mt-1 text-ink">{p.anio}</dd></div>
-        <div class="col-span-2"><dt class="eyebrow text-gray">Con qué</dt><dd class="mt-1 flex flex-wrap gap-1.5">{p.tecnologias.map((t) => <span class="border border-line px-2 py-0.5 text-[12px]">{t}</span>)}</dd></div>
+        <div class="col-span-2"><dt class="eyebrow text-gray">Con qué</dt><dd class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[13px]">{p.tecnologias.map((t) => articuloDe[t] ? <a href={articuloDe[t]} class="text-red underline underline-offset-2">{t}</a> : <span>{t}</span>)}</dd></div>
       </dl>
     </section>
     <figure class="mx-auto mt-10 max-w-[1366px] px-5 lg:px-10">
