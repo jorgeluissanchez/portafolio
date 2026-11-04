@@ -31,7 +31,8 @@ const [, , vw, vh] = firma.viewBox.split(' ').map(Number);
 
   function iniciar(el: HTMLElement, onEnd: () => void) {
     const canvas = el.querySelector('canvas')!;
-    const end = parseFloat(el.dataset.end || '3.6');
+    // La firma se traza en 0,9 s (antes ~3,6 s): quien llega desde Google no alcanza a irse
+    const end = 0.9;
     const [vx, vy, vw, vh] = (el.dataset.viewbox || '').split(' ').map(Number);
     // En celular basta 1,5×: el trazo se ve igual de nítido y el shader trabaja la mitad
     const dpr = Math.min(devicePixelRatio || 1, innerWidth < 768 ? 1.5 : 2);
@@ -45,7 +46,7 @@ const [, , vw, vh] = firma.viewBox.split(' ').map(Number);
     const gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true });
     const img = new Image();
     img.onload = () => {
-      if (!gl) { canvas.getContext('2d')?.drawImage(off, 0, 0); setTimeout(onEnd, 1200); return; }
+      if (!gl) { canvas.getContext('2d')?.drawImage(off, 0, 0); setTimeout(onEnd, 600); return; }
       const sh = (type: number, src: string) => { const s = gl.createShader(type)!; gl.shaderSource(s, src); gl.compileShader(s); return s; };
       const pr = gl.createProgram()!;
       gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
@@ -66,7 +67,7 @@ const [, , vw, vh] = firma.viewBox.split(' ').map(Number);
       const frame = (now: number) => {
         const s = (now - t0) / 1000;
         gl.uniform1f(ut, s / end); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-        if (s < end + 0.05) requestAnimationFrame(frame); else setTimeout(onEnd, 850);
+        if (s < end + 0.05) requestAnimationFrame(frame); else setTimeout(onEnd, 250);
       };
       requestAnimationFrame(frame);
     };
@@ -87,7 +88,7 @@ const [, , vw, vh] = firma.viewBox.split(' ').map(Number);
     const skip = () => finish();
     el.addEventListener('click', skip, { once: true });
     addEventListener('keydown', skip, { once: true });
-    setTimeout(finish, 8000); // por si algo falla, nunca se queda tapando la página
+    setTimeout(finish, 2500); // por si algo falla, nunca se queda tapando la página
     iniciar(el, finish);
   } else el?.remove();
 </script>
@@ -107,8 +108,8 @@ const [, , vw, vh] = firma.viewBox.split(' ').map(Number);
   :global(html.splash) { overflow: hidden; }
   .firma-canvas { width: min(78vw, 760px); height: auto; display: block; }
   /* Salida: la pantalla se desvanece y la firma sube un poco (ease-out, 600 ms) */
-  .splash.is-out { opacity: 0; pointer-events: none; transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-  .splash.is-out .firma-canvas { transform: translateY(-12px) scale(0.98); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+  .splash.is-out { opacity: 0; pointer-events: none; transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+  .splash.is-out .firma-canvas { transform: translateY(-12px) scale(0.98); transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
   @media (prefers-reduced-motion: reduce) {
     .splash { display: none !important; }
   }

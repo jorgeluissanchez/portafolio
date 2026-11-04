@@ -123,7 +123,7 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
         if (splash) r.classList.add('splash');
         if (!calm && matchMedia('(min-width: 1024px) and (pointer: fine)').matches) {
           r.classList.add('intro-nombre');
-          setTimeout(function () { r.classList.remove('intro-nombre'); }, splash ? 9000 : 4000);
+          setTimeout(function () { r.classList.remove('intro-nombre'); }, splash ? 5500 : 4000);
         }
       })();
     </script>
@@ -159,6 +159,8 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
         window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: analitica ? 'granted' : 'denied' });
         var add = function (src) { var t = document.createElement('script'); t.async = true; t.src = src; document.head.appendChild(t); };
         var loadTags = function () {
+          // Solo en el dominio real: las pruebas en localhost no ensucian GA4 ni Clarity
+          if (!/(^|\.)jorgesanchez\.engineer$/.test(location.hostname)) return;
           if (gtmId) {
             window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
             add('https://www.googletagmanager.com/gtm.js?id=' + gtmId);
