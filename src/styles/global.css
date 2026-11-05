@@ -106,3 +106,12 @@
   --cc-footer-border-color: rgb(17 17 17 / 0.12);
 }
 #cc-main .cm__title, #cc-main .pm__title { font-family: var(--font-instrument), Georgia, serif; font-weight: 400; font-size: 1.6em; }
+
+/* Transiciones entre páginas (View Transitions nativas entre documentos, sin JS): la captura del proyecto en el
+   inicio se expande hasta la portada del caso, y la foto del inicio viaja a «Sobre mí». */
+@view-transition { navigation: auto; }
+::view-transition-group(*) { animation-duration: 0.45s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.25s; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}

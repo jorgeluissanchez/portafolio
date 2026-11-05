@@ -41,7 +41,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 {[0, 1, 2, 3].map(() => <span class="block">{p.bg}</span>)}
               </p>
               <div class="absolute shadow-[0_14px_22px_-10px_rgb(0_0_0/0.24)] max-lg:left-1/2 max-lg:top-[calc(50%-26px)] max-lg:aspect-[580/362] max-lg:w-[min(calc(100cqw-40px),calc((100cqh-92px)*1.602))] max-lg:-translate-x-1/2 max-lg:-translate-y-1/2 lg:left-[calc(172*var(--u))] lg:top-[calc(var(--oy)+144*var(--u))] lg:w-[calc(580*var(--u))] lg:max-w-none lg:shadow-[0_20px_28px_-12px_rgb(0_0_0/0.26)]">
-                <Image src={p.image} alt={`Captura del proyecto ${p.name}`} widths={[320, 640, 960, 1280]} sizes="(min-width: 1024px) 43vw, 310px" class="aspect-[580/362] w-full object-cover max-lg:size-full" loading={i === 0 ? 'eager' : 'lazy'} />
+                <Image src={p.image} style={casos[p.slug] ? `view-transition-name:caso-${casos[p.slug]}` : undefined} alt={`Captura del proyecto ${p.name}`} widths={[320, 640, 960, 1280]} sizes="(min-width: 1024px) 43vw, 310px" class="aspect-[580/362] w-full object-cover max-lg:size-full" loading={i === 0 ? 'eager' : 'lazy'} />
                 {p.grixxo && <GrixxoBadge class="absolute bottom-0 right-0 origin-bottom-right scale-[0.8] lg:scale-100" />}
               </div>
               <!-- Móvil: contador y flechas dentro de la franja de color (ahorra espacio). Las de los proyectos inactivos quedan «inert». -->

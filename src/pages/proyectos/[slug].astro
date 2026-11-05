@@ -76,7 +76,7 @@ const schema = [
     </section>
     <figure class="mx-auto mt-10 max-w-[1366px] px-5 lg:px-10">
       <div class="imagen-revela overflow-hidden" style="background:color-mix(in srgb, var(--pc) 14%, #f9f7f2)">
-        <Image src={img(portada.archivo)} alt={portada.alt} widths={[640, 1024, 1600, 2048]} sizes="(min-width: 1366px) 1286px, 100vw" class="h-auto w-full" loading="eager" fetchpriority="high" />
+        <Image src={img(portada.archivo)} style={`view-transition-name:caso-${p.slug}`} alt={portada.alt} widths={[640, 1024, 1600, 2048]} sizes="(min-width: 1366px) 1286px, 100vw" class="h-auto w-full" loading="eager" fetchpriority="high" />
       </div>
     </figure>
 

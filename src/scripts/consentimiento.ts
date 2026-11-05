@@ -18,6 +18,13 @@ function aplicar() {
 }
 
 export function iniciarConsentimiento() {
+  // Si la firma de entrada está en pantalla, el aviso espera a que termine para no taparla
+  if (document.documentElement.classList.contains('splash')) {
+    addEventListener('splash:done', () => setTimeout(arrancar, 300), { once: true });
+  } else arrancar();
+}
+
+function arrancar() {
   CC.run({
     revision: 1,
     hideFromBots: true,
