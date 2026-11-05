@@ -1,6 +1,6 @@
 /** Demo · Islas en Astro: HTML estático por defecto y JavaScript solo donde hace falta, según la directiva. */
 import { css, html } from 'lit';
-import { Demo, espera } from './base';
+import { Demo, espera, t as tr } from './base';
 
 type Directiva = 'load' | 'idle' | 'visible';
 type Isla = { id: string; nombre: string; kb: number; directiva: Directiva; y: number };
@@ -16,9 +16,9 @@ class DemoAstroIslas extends Demo {
   constructor() {
     super();
     this.islas = [
-      { id: 'buscador', nombre: 'Buscador con filtros', kb: 42, directiva: 'load', y: 1 },
-      { id: 'galeria', nombre: 'Galería', kb: 18, directiva: 'visible', y: 3 },
-      { id: 'chat', nombre: 'Chat de soporte', kb: 31, directiva: 'idle', y: 4 },
+      { id: 'buscador', nombre: tr('Buscador con filtros', 'Search with filters'), kb: 42, directiva: 'load', y: 1 },
+      { id: 'galeria', nombre: tr('Galería', 'Gallery'), kb: 18, directiva: 'visible', y: 3 },
+      { id: 'chat', nombre: tr('Chat de soporte', 'Support chat'), kb: 31, directiva: 'idle', y: 4 },
     ];
     this.t = 0;
     this.corriendo = false;
@@ -61,38 +61,38 @@ class DemoAstroIslas extends Demo {
     const scroll = Math.max(0, (this.t - 0.6) / 0.4);
     return html`<div class="marco">
       <div class="cab">
-        <p class="eyebrow">Demo · <b>¿cuándo llega el JavaScript?</b></p>
-        <div class="seg" role="group" aria-label="Modelo">
-          <button aria-pressed=${!this.modoSpa} @click=${() => { this.modoSpa = false; this.reproducir(); }}>Astro con islas</button>
-          <button aria-pressed=${this.modoSpa} @click=${() => { this.modoSpa = true; this.reproducir(); this.marcar('spa'); }}>Todo en el cliente</button>
+        <p class="eyebrow">Demo · <b>${tr('¿cuándo llega el JavaScript?', 'when does the JavaScript arrive?')}</b></p>
+        <div class="seg" role="group" aria-label=${tr('Modelo', 'Model')}>
+          <button aria-pressed=${!this.modoSpa} @click=${() => { this.modoSpa = false; this.reproducir(); }}>${tr('Astro con islas', 'Astro with islands')}</button>
+          <button aria-pressed=${this.modoSpa} @click=${() => { this.modoSpa = true; this.reproducir(); this.marcar('spa'); }}>${tr('Todo en el cliente', 'Everything on the client')}</button>
         </div>
       </div>
       <div class="escena">
         <div class="pagina" style="--s:${scroll}">
-          <div class="bloque html titulo">HTML · título</div>
+          <div class="bloque html titulo">${tr('HTML · título', 'HTML · heading')}</div>
           ${[0, 1, 2, 3, 4, 5].map((y) => {
             const isla = this.islas.find((x) => x.y === y);
-            if (!isla) return html`<div class="bloque html">HTML estático · 0 KB de JS</div>`;
+            if (!isla) return html`<div class="bloque html">${tr('HTML estático · 0 KB de JS', 'Static HTML · 0 KB of JS')}</div>`;
             const viva = this.t >= this.cuando(isla.directiva, isla.y);
             const i = this.islas.indexOf(isla);
-            return html`<button class="bloque isla ${viva ? 'viva' : ''}" @click=${() => this.ciclo(i)} aria-label=${`${isla.nombre}: client:${isla.directiva}. Toca para cambiar la directiva`}>
+            return html`<button class="bloque isla ${viva ? 'viva' : ''}" @click=${() => this.ciclo(i)} aria-label=${`${isla.nombre}: client:${isla.directiva}. ${tr('Toca para cambiar la directiva', 'Tap to change the directive')}`}>
               <span>${isla.nombre}</span>
-              <code>${this.modoSpa ? 'todo hidrata' : `client:${isla.directiva}`}</code>
-              <em>${viva ? `+${isla.kb} KB` : 'aún HTML'}</em>
+              <code>${this.modoSpa ? tr('todo hidrata', 'everything hydrates') : `client:${isla.directiva}`}</code>
+              <em>${viva ? `+${isla.kb} KB` : tr('aún HTML', 'still HTML')}</em>
             </button>`;
           })}
         </div>
         <div class="medidor" aria-live="polite">
-          <p class="eyebrow">JS descargado</p>
+          <p class="eyebrow">${tr('JS descargado', 'JS downloaded')}</p>
           <p class="kb">${kbMostrado}<small> KB</small></p>
           <div class="linea"><i style="width:${this.t * 100}%"></i></div>
-          <p class="fase">${this.t < 0.25 ? 'llega el HTML y se pinta' : this.t < 0.55 ? 'carga inicial' : this.t < 0.99 ? 'el lector hace scroll…' : 'listo'}</p>
-          <button class="btn" @click=${() => { this.reproducir(); this.marcar('repetir'); }} ?disabled=${this.corriendo}>↺ Repetir carga</button>
+          <p class="fase">${this.t < 0.25 ? tr('llega el HTML y se pinta', 'HTML arrives and paints') : this.t < 0.55 ? tr('carga inicial', 'initial load') : this.t < 0.99 ? tr('el lector hace scroll…', 'the reader scrolls…') : tr('listo', 'done')}</p>
+          <button class="btn" @click=${() => { this.reproducir(); this.marcar('repetir'); }} ?disabled=${this.corriendo}>↺ ${tr('Repetir carga', 'Replay load')}</button>
         </div>
       </div>
       <p class="pie">${this.modoSpa
-        ? html`Todo se hidrata al cargar: <b>el framework y cada componente viajan aunque nadie los use</b>.`
-        : html`Solo las islas traen JavaScript, y cada una cuando le toca. <b>Toca una isla</b> para cambiar su directiva (<code>load</code> → <code>idle</code> → <code>visible</code>).`}</p>
+        ? tr(html`Todo se hidrata al cargar: <b>el framework y cada componente viajan aunque nadie los use</b>.`, html`Everything hydrates on load: <b>the framework and every component ship even if nobody uses them</b>.`)
+        : tr(html`Solo las islas traen JavaScript, y cada una cuando le toca. <b>Toca una isla</b> para cambiar su directiva (<code>load</code> → <code>idle</code> → <code>visible</code>).`, html`Only islands bring JavaScript, each one when its turn comes. <b>Tap an island</b> to change its directive (<code>load</code> → <code>idle</code> → <code>visible</code>).`)}</p>
     </div>`;
   }
 

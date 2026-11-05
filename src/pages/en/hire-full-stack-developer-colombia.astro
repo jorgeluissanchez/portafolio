@@ -1,0 +1,31 @@
+---
+/** Nationwide (US) nearshore page. Spanish equivalent for hreflang: /desarrollador-full-stack-colombia. */
+import PaginaServicio from '@/components/templates/PaginaServicio.astro';
+---
+<PaginaServicio
+  lang="en"
+  ruta="/en/hire-full-stack-developer-colombia"
+  alternates={{ es: '/desarrollador-full-stack-colombia', en: '/en/hire-full-stack-developer-colombia' }}
+  titulo="Hire a Full Stack Developer in Colombia · Nearshore, US Time Zones · Jorge Sánchez"
+  descripcion="Hire Jorge Sánchez, a nearshore full stack developer in Colombia for US companies: React, Next.js, Node.js, Java, PostgreSQL, Oracle APEX and AI (LLM, RAG). Bilingual, US time zones."
+  eyebrow="Nearshore full stack developer · Colombia"
+  h1={{ antes: 'Hire a ', acento: 'full stack', despues: ' developer in Colombia' }}
+  intro="I'm <strong>Jorge Sánchez</strong>, a systems engineer and full stack developer in Colombia, currently Lead Fullstack Engineer at Solinces, where I lead a team of 6 building an AI-powered education platform. I work with US companies as a nearshore developer: <strong>overlapping time zones</strong>, fluent communication in English and one person accountable from design to deployment."
+  servicio="Nearshore full stack development"
+  mensaje="Hi Jorge, I'm looking to hire a full stack developer in Colombia."
+  areaServed={[{ tipo: 'Country', nombre: 'United States' }, { tipo: 'Country', nombre: 'Colombia' }]}
+  queHago={[
+    { titulo: 'End-to-end products', texto: 'Front end in React or Next.js, back end in Node.js, NestJS or Java, PostgreSQL or Oracle databases, and deployment with Docker and CI/CD.' },
+    { titulo: 'AI applications', texto: 'LLM and RAG assistants that answer with your company data, fill forms and automate tasks while respecting user permissions.' },
+    { titulo: 'Websites and online stores', texto: 'Fast on mobile, SEO-ready from day one, built with Astro, Next.js or WordPress.' },
+    { titulo: 'Enterprise systems on Oracle APEX', texto: 'Management systems for mid-size and large companies: reports, approval workflows and automations on Oracle Database.' },
+  ]}
+  casos={['la-rueda', 'caribbean-green', 'grixxo']}
+  preguntas={[
+    { p: 'What time zones do you work in?', r: 'Colombia is on UTC-5 year-round: the same as US Eastern Time for most of the year and one hour behind it during daylight saving time. That gives a full overlap with East Coast teams and a large overlap with Central and Pacific teams.' },
+    { p: 'What is your experience?', r: 'Since 2023 I have built products end to end. Today I am Lead Fullstack Engineer at Solinces; before that I was a full stack developer at Grixxo (websites, stores and Oracle APEX systems) and at Outlier, working on generative AI projects for international clients.' },
+    { p: 'What technologies do you work with?', r: 'TypeScript, React, Next.js, Astro, Node.js, NestJS and Java; PostgreSQL, Oracle, MySQL, ClickHouse and Redis; Oracle APEX and WordPress; Docker, GitHub Actions, Cloudflare and AWS; LLM and RAG for AI.' },
+    { p: 'Can you join an existing team or do you only take full projects?', r: 'Both. I can take a project from idea to launch, or join your team on a monthly engagement and work with your repository, tools and rituals.' },
+    { p: 'How much does it cost?', r: 'It depends on the scope and the type of engagement. Message me with what you need and I will send you a written proposal with a fixed price or monthly rate in US dollars.' },
+  ]}
+/>

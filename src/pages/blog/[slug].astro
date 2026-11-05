@@ -16,13 +16,15 @@ import '@/styles/lectura.css';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).sort((a, b) => +b.data.fecha - +a.data.fecha);
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }));
+  const ingles = await getCollection('blogEn');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts, en: ingles.find((e) => e.data.es === post.id)?.id } }));
 }
-const { post, posts } = Astro.props;
+const { post, posts, en } = Astro.props;
+const alternates = en ? { es: `/blog/${post.id}`, en: `/en/blog/${en}` } : {};
 const { Content, headings } = await render(post);
 const d = post.data;
 const h2s = headings.filter((h) => h.depth === 2);
-const fecha = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }).format(d.fecha);
+const fecha = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' }).format(d.fecha);
 const relacionados = [...posts.filter((p) => p.id !== post.id && p.data.categoria === d.categoria), ...posts.filter((p) => p.id !== post.id && p.data.categoria !== d.categoria)].slice(0, 3);
 const url = new URL(`/blog/${post.id}`, Astro.site).toString();
 const desc = descripcion(d.extracto, `Explicado con una demo interactiva por Jorge Sánchez, ingeniero de sistemas en Barranquilla.`);
@@ -53,11 +55,11 @@ const schema = [
 ];
 const cierre = d.cierre ?? { titulo: '¿Te sirvió? Hablemos de tu proyecto', texto: 'Si tienes una aplicación o una web con este problema, cuéntamelo y te digo cómo lo resolvería.', accionEtiqueta: 'Escríbeme por WhatsApp' };
 ---
-<BaseLayout title={d.titulo.length > 52 ? d.titulo : `${d.titulo} · Jorge Sánchez`} description={desc} sinSplash ogType="article" schema={schema}>
+<BaseLayout title={d.titulo.length > 52 ? d.titulo : `${d.titulo} · Jorge Sánchez`} description={desc} sinSplash ogType="article" schema={schema} alternates={alternates}>
   <meta slot="head" property="article:published_time" content={d.fecha.toISOString()} />
   <meta slot="head" property="article:section" content={d.categoria} />
   <div class="progreso" aria-hidden="true"></div>
-  <Nav />
+  <Nav alternates={alternates} />
   <main id="contenido" class="mx-auto max-w-[1180px] px-5 pb-24 pt-28 lg:pt-36">
     <nav aria-label="Migas" class="eyebrow mb-8 flex gap-2 text-gray" data-revelar>
       <a href="/" class="hover:text-ink">Inicio</a><span aria-hidden="true">/</span><a href="/blog" class="hover:text-ink">Blog</a><span aria-hidden="true">/</span><span class="text-red">{d.categoria}</span>

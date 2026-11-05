@@ -12,6 +12,9 @@ import { alternarLike, cargar, comentar, type Comentario, type Estado } from './
 const bus = new EventTarget();
 let estado: Estado = { likes: {}, comentarios: {}, misLikes: [], enLinea: false };
 let articulo = '';
+// Textos según el idioma de la página. Las reacciones de cada idioma se guardan aparte (el id del artículo es distinto).
+const en = () => document.documentElement.lang === 'en';
+const tx = <T,>(es: T, ing: T): T => (en() ? ing : es);
 const textos = new Map<string, string>();
 
 const fijar = (e: Estado) => {
@@ -69,12 +72,12 @@ class ReaccionParrafo extends LitElement {
     const c = estado.comentarios[this.pid]?.length ?? 0;
     const mio = estado.misLikes.includes(this.pid);
     return html`
-      <button class="like ${mio ? 'on' : ''}" @click=${this.like} aria-pressed=${mio} aria-label=${mio ? 'Quitar me gusta a este párrafo' : 'Me gusta este párrafo'}>
+      <button class="like ${mio ? 'on' : ''}" @click=${this.like} aria-pressed=${mio} aria-label=${mio ? tx('Quitar me gusta a este párrafo', 'Unlike this paragraph') : tx('Me gusta este párrafo', 'Like this paragraph')}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.4-7.5-10.1A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 7.5 2.8c0 5.7-7.5 10.1-7.5 10.1Z" /></svg>
         ${this._burst ? html`<span class="burst" aria-hidden="true">${[0, 1, 2, 3, 4, 5].map((i) => html`<i style="--a:${i * 60}deg"></i>`)}</span>` : nothing}
         <span class="n">${n || ''}</span>
       </button>
-      <button class="com" @click=${this.abrir} aria-label=${`Comentar este párrafo${c ? ` (${c} comentarios)` : ''}`}>
+      <button class="com" @click=${this.abrir} aria-label=${tx(`Comentar este párrafo${c ? ` (${c} comentarios)` : ''}`, `Comment on this paragraph${c ? ` (${c} comments)` : ''}`)}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v10H9l-4 4V5Z" /></svg>
         <span class="n">${c || '+'}</span>
       </button>
@@ -144,7 +147,7 @@ class PanelComentarios extends LitElement {
     const nombre = String(datos.get('nombre') ?? '').trim();
     const texto = String(datos.get('texto') ?? '').trim();
     if (!nombre || texto.length < 2) {
-      this._error = 'Escribe tu nombre y un comentario.';
+      this._error = tx('Escribe tu nombre y un comentario.', 'Write your name and a comment.');
       return;
     }
     this._enviando = true;
@@ -158,7 +161,7 @@ class PanelComentarios extends LitElement {
       this._ok = true;
       (window as any).dataLayer?.push({ event: 'blog_comentario', articulo, parrafo: this._pid });
     } catch (err: any) {
-      this._error = err?.status === 429 ? 'Vas muy rápido. Espera un minuto y vuelve a intentarlo.' : 'No se pudo publicar. Inténtalo de nuevo en un momento.';
+      this._error = err?.status === 429 ? tx('Vas muy rápido. Espera un minuto y vuelve a intentarlo.', "You're going too fast. Wait a minute and try again.") : tx('No se pudo publicar. Inténtalo de nuevo en un momento.', "Couldn't post it. Please try again in a moment.");
     } finally {
       this._enviando = false;
     }
@@ -169,31 +172,31 @@ class PanelComentarios extends LitElement {
     const lista: Comentario[] = estado.comentarios[this._pid] ?? [];
     let nombreGuardado = '';
     try { nombreGuardado = localStorage.getItem('nombre-comentario') ?? ''; } catch { /* */ }
-    const fecha = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'short' });
+    const fecha = new Intl.DateTimeFormat(tx('es-CO', 'en-US'), { day: 'numeric', month: 'short' });
     return html`
       <div class="velo" @click=${this.cerrar}></div>
       <aside role="dialog" aria-modal="true" aria-labelledby="t">
         <header>
-          <p class="eyebrow" id="t">Comentarios del párrafo</p>
-          <button class="x" @click=${this.cerrar} aria-label="Cerrar comentarios">×</button>
+          <p class="eyebrow" id="t">${tx('Comentarios del párrafo', 'Comments on this paragraph')}</p>
+          <button class="x" @click=${this.cerrar} aria-label=${tx('Cerrar comentarios', 'Close comments')}>×</button>
         </header>
         <blockquote>${textos.get(this._pid)}</blockquote>
         <ol>
           ${lista.length
             ? lista.map((c) => html`<li><p class="quien"><b>${c.nombre}</b> · ${fecha.format(new Date(c.creado))}</p><p>${c.texto}</p></li>`)
-            : html`<li class="vacio">Nadie ha comentado este párrafo. ¿Qué te pareció?</li>`}
+            : html`<li class="vacio">${tx('Nadie ha comentado este párrafo. ¿Qué te pareció?', 'No one has commented on this paragraph yet. What did you think?')}</li>`}
         </ol>
         ${estado.enLinea
           ? html`<form @submit=${this.enviar}>
-              <label>Tu nombre<input name="nombre" maxlength="60" autocomplete="name" .value=${nombreGuardado} required /></label>
-              <label>Tu comentario<textarea name="texto" maxlength="800" rows="3" required></textarea></label>
-              <label class="trampa" aria-hidden="true">No llenar<input name="sitio" tabindex="-1" autocomplete="off" /></label>
+              <label>${tx('Tu nombre', 'Your name')}<input name="nombre" maxlength="60" autocomplete="name" .value=${nombreGuardado} required /></label>
+              <label>${tx('Tu comentario', 'Your comment')}<textarea name="texto" maxlength="800" rows="3" required></textarea></label>
+              <label class="trampa" aria-hidden="true">${tx('No llenar', 'Leave empty')}<input name="sitio" tabindex="-1" autocomplete="off" /></label>
               ${this._error ? html`<p class="error" role="alert">${this._error}</p>` : nothing}
-              ${this._ok ? html`<p class="ok" role="status">¡Publicado! Gracias por comentar.</p>` : nothing}
-              <p class="legal">Tu nombre y tu comentario se publican junto a este párrafo. Más detalles en la <a href="/privacidad" target="_blank">política de privacidad</a>.</p>
-              <button type="submit" ?disabled=${this._enviando}>${this._enviando ? 'Publicando…' : 'Publicar comentario'}</button>
+              ${this._ok ? html`<p class="ok" role="status">${tx('¡Publicado! Gracias por comentar.', 'Posted! Thanks for commenting.')}</p>` : nothing}
+              <p class="legal">${tx(html`Tu nombre y tu comentario se publican junto a este párrafo. Más detalles en la <a href="/privacidad" target="_blank">política de privacidad</a>.`, html`Your name and comment are published next to this paragraph. More details in the <a href="/privacidad" target="_blank">privacy policy</a> (Spanish).`)}</p>
+              <button type="submit" ?disabled=${this._enviando}>${this._enviando ? tx('Publicando…', 'Posting…') : tx('Publicar comentario', 'Post comment')}</button>
             </form>`
-          : html`<p class="aviso">Los comentarios se están activando. Mientras tanto, ¿me lo cuentas por <a href="https://wa.me/573225822789?text=${encodeURIComponent('Hola Jorge, leí tu artículo y quería comentarte algo.')}" target="_blank" rel="noopener">WhatsApp</a>?</p>`}
+          : html`<p class="aviso">${tx(html`Los comentarios se están activando. Mientras tanto, ¿me lo cuentas por <a href="https://wa.me/573225822789?text=${encodeURIComponent('Hola Jorge, leí tu artículo y quería comentarte algo.')}" target="_blank" rel="noopener">WhatsApp</a>?`, html`Comments are being switched on. Meanwhile, tell me on <a href="https://wa.me/573225822789?text=${encodeURIComponent('Hi Jorge, I read your article and wanted to tell you something.')}" target="_blank" rel="noopener">WhatsApp</a>?`)}</p>`}
       </aside>
     `;
   }

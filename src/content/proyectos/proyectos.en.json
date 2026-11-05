@@ -1,0 +1,251 @@
+[
+ {
+  "slug": "hockey-is-melting-down",
+  "titulo": "Hockey is Melting Down",
+  "resumen": "Educational air hockey with an adaptive AI trained with PPO and self-play. Every level gives back a piece of the planet's balance.",
+  "cliente": "Universidad del Norte",
+  "anio": 2025,
+  "enlace": "https://revistasescuelanaval.com/obk/article/view/117/301",
+  "tecnologias": ["Python", "Pygame", "PPO", "Machine learning"],
+  "contenido": [
+   "An air hockey game that blends competition with climate awareness. It is built with Python and Pygame, and the opponent is an adaptive AI trained with Proximal Policy Optimization (PPO) and self-play: it wins 81% of games against strong baselines.",
+   "Each level is an environmental problem with its own villain, and beating it restores that part of the planet: trash in the Arctic (Basuraura), the ozone hole (UVBlade), a smog storm (Smogetron), a vanished forest (Deforestix) and urban heat (HeatCore).",
+   "The technical core: a hybrid PPO and self-play architecture with behavior correction, a 21-dimension observation space (positions, velocities and trajectory prediction), adaptive self-play against earlier versions of the agent itself, and a multi-objective reward system with curriculum learning.",
+   "Melting polar ice works as a metaphor: you watch it melt while you play. Published in OnBoard Knowledge Journal (2025). Built with Flavio Arregocés, Cristian González, Bella Mejía and Yovany Zhu at Universidad del Norte, Barranquilla.",
+   { "imagen": 1 }
+  ],
+  "imagenes": [
+   { "alt": "Level selection screen with the climate villains and locked levels", "archivo": "hockey-seleccion-de-nivel.webp" },
+   { "alt": "Gameplay and planet status: melting ice, factories and progress bars", "archivo": "hockey-partida-y-planeta.webp" }
+  ],
+  "metricas": [
+   { "valor": "81%", "etiqueta": "win rate against strong baselines", "verificada": true },
+   { "valor": "21", "etiqueta": "dimensions in the observation space", "verificada": true },
+   { "valor": "5", "etiqueta": "levels, one per climate problem", "verificada": true },
+   { "valor": "2025", "etiqueta": "published in OnBoard Knowledge Journal", "verificada": true },
+   { "valor": "5", "etiqueta": "people on the team", "verificada": true },
+   { "valor": "1st", "etiqueta": "place at the Uninorte Gamer Fair", "verificada": true }
+  ],
+  "reto": {
+   "titulo": "An opponent that neither bores nor humiliates",
+   "texto": "An educational climate game has a double problem. If the message outweighs the match, nobody plays twice; if the opponent is scripted, players find the trick in ten minutes and the game is over.\n\nDifficulty had to come from the opponent's behavior, not from a faster puck. That rules out rule-based AI and requires training an agent, with everything that implies: an observation space that describes the whole table and a reward system that doesn't reward winning at any cost.",
+   "puntos": [
+    "A rule-based opponent becomes predictable in a few games",
+    "A faster puck isn't difficulty, it's frustration",
+    "The climate message can't interrupt the game",
+    "The agent must run in real time, without a GPU",
+    "Training without a human opponent available",
+    "Measuring improvement against something other than itself"
+   ]
+  },
+  "resultados": [
+   "The agent wins 81% of games against strong baselines.",
+   "Difficulty emerges from learned behavior, not from hand-tuned parameters.",
+   "The melting ice works as the scoreboard: the planet's state IS the progress.",
+   "Published in OnBoard Knowledge Journal (2025), peer reviewed.",
+   "First place at the Universidad del Norte Gamer Fair.",
+   "Self-play removes the need for a human opponent during training."
+  ],
+  "equipo": [
+   { "nombre": "Flavio Arregocés", "rol": "Development" },
+   { "nombre": "Cristian González", "rol": "Development" },
+   { "nombre": "Bella Mejía", "rol": "Development" },
+   { "nombre": "Jorge Sánchez", "rol": "Development and AI" },
+   { "nombre": "Yovany Zhu", "rol": "Development" }
+  ]
+ },
+ {
+  "slug": "grixxo",
+  "titulo": "Grixxo",
+  "resumen": "Website for a tech consultancy: high-performance web development, mobile apps, integrations and e-commerce.",
+  "cliente": "Grixxo",
+  "anio": 2025,
+  "enlace": "https://grixxo.com/en",
+  "tecnologias": ["Web development", "SEO"],
+  "contenido": [
+   "Grixxo is a consultancy that combines engineering, strategy and innovation to build digital solutions with impact. Its services range from high-performance web development and SEO-optimized sites to native and cross-platform mobile apps, systems integration, process optimization and scalable e-commerce.",
+   "The difference is the framing: instead of positioning itself as a vendor, Grixxo presents itself as a strategic partner that walks with the client through the whole digital transformation.",
+   { "imagen": 1 }
+  ],
+  "imagenes": [
+   { "alt": "Laptop mockup of the Grixxo landing page", "archivo": "grixxo-mockup.webp" },
+   { "alt": "Two screens of the Grixxo landing page", "archivo": "grixxo-pantallas.webp" }
+  ],
+  "metricas": [
+   { "valor": "2", "etiqueta": "languages: Spanish and English", "verificada": true },
+   { "valor": "6", "etiqueta": "service lines in the catalog", "verificada": true }
+  ],
+  "reto": {
+   "titulo": "A consultancy that didn't look like one",
+   "texto": "Grixxo sells digital transformation, so its own website is the first proof that it can deliver it. A slow or generic site contradicts the pitch before anyone reads it.\n\nThere was also a deeper challenge: the company didn't want to be seen as a vendor but as a strategic partner, and that difference had to show in the page structure, not just in the copy.",
+   "puntos": [
+    "The website is the company's technical business card",
+    "Six very different service lines in a single story",
+    "Bilingual audience: local and international clients",
+    "SEO had to be built in, not patched on",
+    "The team had to edit content without relying on developers"
+   ]
+  },
+  "resultados": [
+   "Bilingual site with the full service catalog in a single narrative.",
+   "SEO-optimized structure from the markup up, not later patches.",
+   "The team updates content without going through development.",
+   "The site supports the strategic-partner pitch instead of listing loose services."
+  ]
+ },
+ {
+  "slug": "la-rueda",
+  "titulo": "LaRueda",
+  "resumen": "E-commerce for a network of automotive service centers, designed around the buying rhythm: find, decide and pay.",
+  "cliente": "LaRueda · Grixxo",
+  "anio": 2025,
+  "enlace": "https://larueda.co/",
+  "tecnologias": ["E-commerce", "Web development"],
+  "contenido": [
+   "LaRueda is an online store built to scale without losing clarity: efficient product browsing, an information architecture that explains itself and a short checkout flow.",
+   "The platform relies on clean design, responsive layout and optimized performance, so the experience is the same on any device. The result balances visual clarity and functional efficiency, which is what builds buyer trust.",
+   { "imagen": 1 }
+  ],
+  "imagenes": [
+   { "alt": "Laptop mockup of the LaRueda e-commerce", "archivo": "la-rueda-mockup.webp" },
+   { "alt": "Two screens of the LaRueda e-commerce", "archivo": "la-rueda-pantallas.webp" }
+  ],
+  "metricas": [
+   { "valor": "13", "etiqueta": "service centers in the network", "verificada": true },
+   { "valor": "40", "etiqueta": "checkpoints in the AutoCheck 360° inspection", "verificada": true }
+  ],
+  "reto": {
+   "titulo": "Buying a tire is not like buying a T-shirt",
+   "texto": "An auto parts store has a friction that clothing doesn't: buyers need to know the part fits before they can want it. Size, brand, model. If that decision isn't solved early, no cart will save the sale.\n\nOn top of that, a network of thirteen centers offering in-person services had to be represented too: the store couldn't be a catalog disconnected from the physical business.",
+   "puntos": [
+    "Part compatibility is decided before price",
+    "Thirteen physical centers the store must reflect",
+    "A large, highly parameterized catalog (sizes, brands)",
+    "In-person services living alongside online sales",
+    "Mobile performance, because that's where people check from the shop"
+   ]
+  },
+  "resultados": [
+   "Search by size that solves compatibility before showing a price.",
+   "The thirteen service centers and online sales live on the same site.",
+   "Information architecture that supports the catalog without losing clarity.",
+   "Responsive layout: the same experience in the shop and at the desk."
+  ]
+ },
+ {
+  "slug": "caribbean-green",
+  "titulo": "Caribbean Green",
+  "resumen": "Website for a solar energy company: design, construction, installation and supply for homes, businesses and industry.",
+  "cliente": "Caribbean Green · Grixxo",
+  "anio": 2025,
+  "enlace": "https://caribbeangreen.net/",
+  "tecnologias": ["Web development"],
+  "contenido": [
+   "Caribbean Green offers renewable energy solutions, clean and sustainable solar systems, for homes, businesses and off-grid communities. It works with quality components and custom installations, so clients cut their energy bill without giving up reliability.",
+   "The company builds on more than two decades of leadership experience and partnerships with global solar brands. It covers the whole cycle: system design, construction, installation and component supply, for residential, commercial, rural and industrial use. Its stated goal is to accelerate solar adoption in Colombia.",
+   { "imagen": 1 }
+  ],
+  "imagenes": [
+   { "alt": "Laptop mockup of the Caribbean Green landing page", "archivo": "caribbean-green-mockup.webp" },
+   { "alt": "Set of sections from the Caribbean Green landing page", "archivo": "caribbean-green-pantallas.webp" }
+  ],
+  "metricas": [
+   { "valor": "20+", "etiqueta": "years of leadership experience", "verificada": true },
+   { "valor": "4", "etiqueta": "segments: homes, business, rural and industry", "verificada": true },
+   { "valor": "4", "etiqueta": "phases covered, from design to supply", "verificada": true }
+  ],
+  "reto": {
+   "titulo": "Selling something buyers can't evaluate",
+   "texto": "Solar energy is bought with suspicion: the upfront investment is high, the return is measured in years and most buyers lack the technical criteria to compare two offers. The website had to do the job of a good salesperson.\n\nThe structural obstacle was that Caribbean Green serves four very different audiences (homes, businesses, rural communities and industry) and each arrives with a different question. A single message speaks to none of them.",
+   "puntos": [
+    "High investment and long payback: trust is the product",
+    "Four segments with incompatible questions",
+    "Buyers lack technical criteria to compare",
+    "Partnerships with global brands had to be visible",
+    "Success stories are the strongest argument and must stay current"
+   ]
+  },
+  "resultados": [
+   "Each of the four segments has its own entry point without diluting the message.",
+   "Global brand partnerships and years of experience are front and center.",
+   "Success stories are updated from the CMS, without touching code.",
+   "The full cycle (design, construction, installation, supply) is explained as one."
+  ]
+ },
+ {
+  "slug": "linkintec",
+  "titulo": "Linkintec",
+  "resumen": "Website for an IT consultancy: web applications, infrastructure, cybersecurity and digital transformation.",
+  "cliente": "Linkintec",
+  "anio": 2023,
+  "enlace": "https://linkintec.net/",
+  "tecnologias": ["Web development"],
+  "contenido": [
+   "Linkintec solves business problems with technology and supports its clients' growth. Its catalog covers functional, high-impact web applications, business-oriented IT infrastructure, stronger cybersecurity defenses and digital transformation consulting.",
+   "The method starts with process analysis: every solution is implemented to fit the client's real goals and operations.",
+   { "imagen": 1 }
+  ],
+  "imagenes": [
+   { "alt": "Laptop mockup of the Linkintec landing page", "archivo": "linkintec-mockup.webp" },
+   { "alt": "Two-screen presentation of the Linkintec landing page", "archivo": "linkintec-pantallas.webp" }
+  ],
+  "metricas": [
+   { "valor": "4", "etiqueta": "areas: development, infrastructure, security and consulting", "verificada": true },
+   { "valor": "2023", "etiqueta": "year delivered", "verificada": true }
+  ],
+  "reto": {
+   "titulo": "Four businesses under one name",
+   "texto": "Linkintec builds websites, sets up infrastructure, strengthens cybersecurity and consults on digital transformation. Those are four different purchases, with four different buyers inside the same client company.\n\nThe risk with a site like this is ending up with a generic list of services that says nothing to anyone. The method (process analysis first, custom implementation after) had to be clear, because that's what sets the company apart from an hourly vendor.",
+   "puntos": [
+    "Four business lines with different buyers",
+    "The method matters more than the catalog, and it's the hardest part to tell",
+    "Cybersecurity demands credibility at first glance",
+    "Avoiding the generic service list that doesn't differentiate"
+   ]
+  },
+  "resultados": [
+   "The four service lines are clear without competing with each other.",
+   "The working method is explicit, not buried in a list.",
+   "The client maintains the content without developer help.",
+   "Delivered in 2023 and still live."
+  ]
+ },
+ {
+  "slug": "innovinc",
+  "titulo": "Innovinc",
+  "resumen": "Website for a process and technology consultancy, with training and support so improvements last.",
+  "cliente": "Innovinc",
+  "anio": 2023,
+  "enlace": "https://innovinc.com.co/",
+  "tecnologias": ["Web design"],
+  "contenido": [
+   "Innovinc provides consulting and custom technology services so companies can optimize their internal processes and adopt the systems that truly fit them. The approach is collaborative: strategic planning first, hands-on implementation after, and measurable results.",
+   "The company adds training and support, so teams can sustain the improvements once the consultancy is gone.",
+   { "imagen": 1 }
+  ],
+  "imagenes": [
+   { "alt": "Laptop mockup of the Innovinc landing page", "archivo": "innovinc-mockup.webp" },
+   { "alt": "Three screens of the Innovinc design", "archivo": "innovinc-pantallas.webp" }
+  ],
+  "metricas": [
+   { "valor": "3", "etiqueta": "fronts: consulting, implementation and training", "verificada": true },
+   { "valor": "2023", "etiqueta": "year delivered", "verificada": true }
+  ],
+  "reto": {
+   "titulo": "Consulting you notice when it's gone",
+   "texto": "Innovinc doesn't sell a tool: it sells better internal processes for another company. That's hard to show on a website, because the result is invisible and happens inside the client.\n\nIts real difference is in the last phase (the training and support that leave the team able to sustain the improvements once the consultancy is gone) and that's exactly the part that usually ends up buried at the bottom of the page.",
+   "puntos": [
+    "The product is invisible: someone else's internal processes",
+    "Training and support are the difference, and usually end up last",
+    "Measurable results that can't be shown due to confidentiality",
+    "A method-based pitch with no tangible catalog to show"
+   ]
+  },
+  "resultados": [
+   "The method (planning, implementation, training) reads as a sequence.",
+   "Training and support are no longer a footnote.",
+   "The client maintains the content without relying on developers.",
+   "Delivered in 2023 and still live."
+  ]
+ }
+]

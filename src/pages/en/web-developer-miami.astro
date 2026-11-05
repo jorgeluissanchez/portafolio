@@ -1,0 +1,33 @@
+---
+/**
+ * Miami service page. Honest local targeting: Jorge is based in Colombia and works remotely with Miami businesses
+ * (same time zone, bilingual). It never claims a Miami address; areaServed is Miami, not his location.
+ */
+import PaginaServicio from '@/components/templates/PaginaServicio.astro';
+---
+<PaginaServicio
+  lang="en"
+  ruta="/en/web-developer-miami"
+  titulo="Web Developer for Miami Businesses · Bilingual, Same Time Zone · Jorge Sánchez"
+  descripcion="Full stack web and app developer for Miami businesses. Custom websites, online stores and AI apps, bilingual English/Spanish, Eastern Time, based in Colombia. Get a quote."
+  eyebrow="Web & app developer · Miami"
+  h1={{ antes: 'Web developer for ', acento: 'Miami', despues: ' businesses' }}
+  intro="I'm <strong>Jorge Sánchez</strong>, a systems engineer and full stack developer. I design and build custom websites, online stores and web apps for businesses in Miami and South Florida. I'm based in Barranquilla, Colombia, so I work <strong>on Eastern Time</strong>, in <strong>English or Spanish</strong>, at nearshore rates, with the same quality you'd expect from a local studio."
+  servicio="Web and app development for Miami businesses"
+  mensaje="Hi Jorge, I have a business in Miami and I'm looking for a web developer."
+  areaServed={[{ tipo: 'City', nombre: 'Miami' }, { tipo: 'State', nombre: 'Florida' }, { tipo: 'Country', nombre: 'United States' }]}
+  queHago={[
+    { titulo: 'Websites that bring in clients', texto: 'Custom design, fast on mobile, SEO from day one and a direct line to WhatsApp, calls or your booking tool. Built with Astro or Next.js.' },
+    { titulo: 'Bilingual sites for a bilingual city', texto: 'English and Spanish versions done right, with proper hreflang, so you rank in both languages and serve every customer in Miami.' },
+    { titulo: 'Online stores', texto: 'Catalog, payments and orders, on Shopify, WooCommerce or fully custom, depending on what you sell.' },
+    { titulo: 'Custom web apps and AI', texto: 'Dashboards, client portals and internal tools with React, Node.js and PostgreSQL, plus AI assistants that answer with your business data.' },
+  ]}
+  casos={['la-rueda', 'caribbean-green', 'grixxo']}
+  preguntas={[
+    { p: 'Are you located in Miami?', r: "No. I'm based in Barranquilla, Colombia, and I work remotely with Miami businesses. Colombia shares Eastern Time with Miami for most of the year (one hour behind during daylight saving time), so we meet during your business hours. Barranquilla is also a direct flight from Miami if we ever need to meet in person." },
+    { p: 'Do you work in English and Spanish?', r: 'Yes. I hold an IELTS B2 English certification and Spanish is my native language. Many Miami businesses serve both audiences, so I can build and write your site in both.' },
+    { p: 'Why hire a nearshore developer instead of a local agency?', r: 'You get senior full stack work (design, code, SEO and deployment by one accountable person) at nearshore rates, without the time-zone gaps of offshore teams. You get a fixed price in writing before we start.' },
+    { p: 'How much does a website cost?', r: 'It depends on the scope. Message me with what you need and I will send you a written proposal with scope, timeline and a fixed price in US dollars within one business day.' },
+    { p: 'How do payments and contracts work?', r: 'We sign a simple written agreement with scope, timeline and price. Payments are usually 50% to start and 50% on delivery, by international transfer or the platform you prefer. Your domain and accounts stay in your name.' },
+  ]}
+/>

@@ -1,15 +1,24 @@
 /** Demo · Interactive Report (consultar) frente a Interactive Grid (editar), y el «quien guarda último pisa». */
 import { css, html, nothing } from 'lit';
-import { Demo, espera } from './base';
+import { Demo, espera, t } from './base';
 
 type Fila = { id: number; cliente: string; ciudad: string; total: number };
-const DATOS: Fila[] = [
+const DATOS_ES: Fila[] = [
   { id: 101, cliente: 'Ferretería El Puerto', ciudad: 'Barranquilla', total: 1840 },
   { id: 102, cliente: 'Llantas Costa', ciudad: 'Cartagena', total: 920 },
   { id: 103, cliente: 'Solar Caribe', ciudad: 'Barranquilla', total: 2310 },
   { id: 104, cliente: 'Café Rodadero', ciudad: 'Santa Marta', total: 640 },
   { id: 105, cliente: 'Obras del Norte', ciudad: 'Cartagena', total: 1500 },
 ];
+// En inglés, pedidos de negocios del sur de Florida en dólares
+const DATOS_EN: Fila[] = [
+  { id: 101, cliente: 'Bayfront Hardware', ciudad: 'Miami', total: 1840 },
+  { id: 102, cliente: 'Coastal Tires', ciudad: 'Fort Lauderdale', total: 920 },
+  { id: 103, cliente: 'Sunshine Solar', ciudad: 'Miami', total: 2310 },
+  { id: 104, cliente: 'Key Coffee Co.', ciudad: 'Key West', total: 640 },
+  { id: 105, cliente: 'Northside Builders', ciudad: 'Fort Lauderdale', total: 1500 },
+];
+const num = (n: number) => n.toLocaleString(t('es-CO', 'en-US'));
 
 class DemoApexGridReport extends Demo {
   static properties = { modo: { state: true }, filas: { state: true }, agrupar: { state: true }, bloqueo: { state: true }, conflicto: { state: true }, editando: { state: true } };
@@ -23,7 +32,7 @@ class DemoApexGridReport extends Demo {
   constructor() {
     super();
     this.modo = 'report';
-    this.filas = DATOS.map((f) => ({ ...f }));
+    this.filas = t(DATOS_ES, DATOS_EN).map((f) => ({ ...f }));
     this.agrupar = false;
     this.bloqueo = false;
     this.conflicto = '';
@@ -58,19 +67,19 @@ class DemoApexGridReport extends Demo {
     const total = (c: string) => filas.filter((f) => f.ciudad === c).reduce((s, f) => s + f.total, 0);
     return html`
       <table class=${this.modo}>
-        <thead><tr><th>Pedido</th><th>Cliente</th><th>Ciudad</th><th class="n">Total (miles)</th></tr></thead>
+        <thead><tr><th>${t('Pedido', 'Order')}</th><th>${t('Cliente', 'Customer')}</th><th>${t('Ciudad', 'City')}</th><th class="n">${t('Total (miles)', 'Total ($)')}</th></tr></thead>
         <tbody>
           ${filas.map((f) => {
             const corte = this.modo === 'report' && this.agrupar && f.ciudad !== ciudadPrevia;
             ciudadPrevia = f.ciudad;
             return html`
-              ${corte ? html`<tr class="corte"><td colspan="4">${f.ciudad} <span>· subtotal ${total(f.ciudad).toLocaleString('es-CO')}</span></td></tr>` : nothing}
+              ${corte ? html`<tr class="corte"><td colspan="4">${f.ciudad} <span>· subtotal ${num(total(f.ciudad))}</span></td></tr>` : nothing}
               <tr class=${this.editando === f.id ? 'editando' : ''}>
                 <td>${f.id}</td><td>${f.cliente}</td><td>${f.ciudad}</td>
                 <td class="n">
                   ${this.modo === 'grid'
-                    ? html`<input inputmode="numeric" .value=${String(f.total)} @focus=${() => (this.editando = f.id)} @input=${(e: InputEvent) => this.cambiar('total', f.id, (e.target as HTMLInputElement).value)} aria-label=${`Total del pedido ${f.id}`} />`
-                    : f.total.toLocaleString('es-CO')}
+                    ? html`<input inputmode="numeric" .value=${String(f.total)} @focus=${() => (this.editando = f.id)} @input=${(e: InputEvent) => this.cambiar('total', f.id, (e.target as HTMLInputElement).value)} aria-label=${t(`Total del pedido ${f.id}`, `Order ${f.id} total`)} />`
+                    : num(f.total)}
                 </td>
               </tr>`;
           })}
@@ -81,25 +90,25 @@ class DemoApexGridReport extends Demo {
   render() {
     return html`<div class="marco">
       <div class="cab">
-        <p class="eyebrow">Demo · <b>la misma tabla, dos trabajos</b></p>
-        <div class="seg" role="group" aria-label="Tipo de región">
+        <p class="eyebrow">Demo · <b>${t('la misma tabla, dos trabajos', 'same table, two jobs')}</b></p>
+        <div class="seg" role="group" aria-label=${t('Tipo de región', 'Region type')}>
           <button aria-pressed=${this.modo === 'report'} @click=${() => { this.modo = 'report'; this.conflicto = ''; this.marcar('report'); }}>Interactive Report</button>
           <button aria-pressed=${this.modo === 'grid'} @click=${() => { this.modo = 'grid'; this.agrupar = false; this.marcar('grid'); }}>Interactive Grid</button>
         </div>
       </div>
       <div class="barra">
         ${this.modo === 'report'
-          ? html`<span class="chip">🔍 Ciudad</span><button class="chip ${this.agrupar ? 'on' : ''}" @click=${() => (this.agrupar = !this.agrupar)}>Control Break por ciudad</button><span class="chip">⬇ Descargar</span>`
-          : html`<span class="chip">✎ Edición en línea</span>
-              <button class="chip ${this.bloqueo ? 'on' : ''}" @click=${() => { this.bloqueo = !this.bloqueo; this.conflicto = ''; }}>Bloqueo optimista: ${this.bloqueo ? 'sí' : 'no'}</button>
-              <button class="chip accion" @click=${this.simular}>Simular que otra persona guarda primero</button>`}
+          ? html`<span class="chip">🔍 ${t('Ciudad', 'City')}</span><button class="chip ${this.agrupar ? 'on' : ''}" @click=${() => (this.agrupar = !this.agrupar)}>${t('Control Break por ciudad', 'Control Break by city')}</button><span class="chip">⬇ ${t('Descargar', 'Download')}</span>`
+          : html`<span class="chip">✎ ${t('Edición en línea', 'Inline editing')}</span>
+              <button class="chip ${this.bloqueo ? 'on' : ''}" @click=${() => { this.bloqueo = !this.bloqueo; this.conflicto = ''; }}>${t('Bloqueo optimista', 'Optimistic locking')}: ${this.bloqueo ? t('sí', 'on') : t('no', 'off')}</button>
+              <button class="chip accion" @click=${this.simular}>${t('Simular que otra persona guarda primero', 'Simulate someone else saving first')}</button>`}
       </div>
       <div class="tabla">${this.tabla()}</div>
-      ${this.conflicto === 'pisado' ? html`<p class="alerta mal">Ana guardó el pedido 102 hace un segundo. Tú guardaste después y <b>su cambio desapareció sin aviso</b>.</p>` : nothing}
-      ${this.conflicto === 'detenido' ? html`<p class="alerta bien">«Otra persona cambió esta fila». El bloqueo optimista detiene tu guardado y <b>nadie pierde datos</b>.</p>` : nothing}
+      ${this.conflicto === 'pisado' ? html`<p class="alerta mal">${t(html`Ana guardó el pedido 102 hace un segundo. Tú guardaste después y <b>su cambio desapareció sin aviso</b>.`, html`Anna saved order 102 a second ago. You saved after her and <b>her change vanished without warning</b>.`)}</p>` : nothing}
+      ${this.conflicto === 'detenido' ? html`<p class="alerta bien">${t(html`«Otra persona cambió esta fila». El bloqueo optimista detiene tu guardado y <b>nadie pierde datos</b>.`, html`"Someone else changed this row." Optimistic locking stops your save and <b>nobody loses data</b>.`)}</p>` : nothing}
       <p class="pie">${this.modo === 'report'
-        ? html`<b>Report:</b> el usuario <b>mira</b>. Agrupa, filtra y descarga sin tocar la aplicación. Nadie escribe, así que no hay conflictos.`
-        : html`<b>Grid:</b> el usuario <b>escribe</b>. Toca un total y cámbialo. Es rápido para capturar, pero exige clave primaria real y bloqueo optimista.`}</p>
+        ? t(html`<b>Report:</b> el usuario <b>mira</b>. Agrupa, filtra y descarga sin tocar la aplicación. Nadie escribe, así que no hay conflictos.`, html`<b>Report:</b> the user <b>reads</b>. They group, filter and download without touching the app. Nobody writes, so there are no conflicts.`)
+        : t(html`<b>Grid:</b> el usuario <b>escribe</b>. Toca un total y cámbialo. Es rápido para capturar, pero exige clave primaria real y bloqueo optimista.`, html`<b>Grid:</b> the user <b>writes</b>. Tap a total and change it. Fast for data entry, but it needs a real primary key and optimistic locking.`)}</p>
     </div>`;
   }
 

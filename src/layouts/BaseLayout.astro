@@ -6,7 +6,8 @@
 import { Font } from 'astro:assets';
 import Splash from '@/components/organisms/Splash.astro';
 import '@/styles/global.css';
-import { site } from '@/data/site';
+import { site, siteEn } from '@/data/site';
+import { hreflang, ogLocale, type Lang, type Alternates } from '@/i18n';
 import foto from '@/assets/img/jorge-sanchez.png';
 import ogInicio from '@/assets/og-inicio.jpg';
 import ogInicioCuadrada from '@/assets/og-inicio-cuadrada.jpg';
@@ -30,8 +31,22 @@ interface Props {
   ogType?: 'profile' | 'article';
   /** Datos estructurados extra de la página (BlogPosting, CreativeWork, BreadcrumbList…). */
   schema?: object[];
+  /** Idioma de la página (español por defecto). */
+  lang?: Lang;
+  /** Rutas equivalentes en cada idioma, para hreflang y el selector ES / EN. */
+  alternates?: Alternates;
 }
-const { title = site.title, description = site.description, noindex = false, ogImages = ogDefault, sinSplash = false, ogType = 'profile', schema = [] } = Astro.props;
+const { lang = 'es', alternates = {}, noindex = false, ogImages: ogProp, sinSplash = false, ogType = 'profile', schema = [] } = Astro.props;
+const en = lang === 'en';
+const ogImages = ogProp ?? (en ? ogDefault.map((o) => ({ ...o, alt: 'Jorge Sánchez, systems engineer and full stack developer based in Colombia.' })) : ogDefault);
+const title = Astro.props.title ?? (en ? siteEn.title : site.title);
+const description = Astro.props.description ?? (en ? siteEn.description : site.description);
+// hreflang: cada idioma con su URL y x-default al español. Solo se publica si existe la otra versión.
+const alt: Alternates = { ...alternates, [lang]: alternates[lang] ?? Astro.url.pathname };
+const hreflangs = Object.keys(alt).length > 1
+  ? [...(Object.entries(alt) as [Lang, string][]).map(([l, path]) => ({ l: hreflang[l], href: new URL(path, Astro.site).toString() })),
+     ...(alt.es ? [{ l: 'x-default', href: new URL(alt.es, Astro.site).toString() }] : [])]
+  : [];
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogs = ogImages.map((o) => ({ ...o, url: new URL(o.src.src, Astro.site).toString() }));
 const home = Astro.site!.toString();
@@ -44,8 +59,9 @@ const person = {
   url: home,
   image: new URL(foto.src, Astro.site).toString(),
   alternateName: ['Jorge Sanchez', 'Jorge Luis Sánchez Barreneche', 'Jorge Luis Sanchez Barreneche'],
-  jobTitle: 'Ingeniero de Sistemas y desarrollador full stack',
-  description: site.description,
+  jobTitle: en ? 'Systems Engineer and Full Stack Developer' : 'Ingeniero de Sistemas y desarrollador full stack',
+  description: en ? siteEn.description : site.description,
+  knowsLanguage: ['es', 'en'],
   email: `mailto:${site.email}`,
   address: { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.region, addressCountry: site.country },
   givenName: 'Jorge Luis',
@@ -64,19 +80,20 @@ const website = {
   '@id': `${home}#sitio`,
   name: site.name,
   url: home,
-  inLanguage: 'es-CO',
+  inLanguage: ['es-CO', 'en'],
   publisher: { '@id': `${home}#jorge` },
 };
 const { gtmId, searchConsole, bing, clarity } = site.analytics;
 ---
 <!doctype html>
-<html lang={site.lang} data-no-splash={sinSplash ? '' : undefined}>
+<html lang={lang} data-no-splash={sinSplash ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {hreflangs.map((h) => <link rel="alternate" hreflang={h.l} href={h.href} />)}
     {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="author" content={site.name} />
     <meta name="theme-color" content="#FDFDFD" />
@@ -86,7 +103,8 @@ const { gtmId, searchConsole, bing, clarity } = site.analytics;
     <meta property="og:type" content={ogType} />
     {ogType === 'profile' && <meta property="profile:first_name" content="Jorge" />}
     {ogType === 'profile' && <meta property="profile:last_name" content="Sánchez" />}
-    <meta property="og:locale" content={site.locale} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {hreflangs.length > 0 && <meta property="og:locale:alternate" content={ogLocale[en ? 'es' : 'en']} />}
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

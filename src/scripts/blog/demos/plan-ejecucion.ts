@@ -1,21 +1,25 @@
 /** Demo · Leer un EXPLAIN PLAN de dentro hacia fuera, y lo que pasa cuando una función en el WHERE apaga el índice. */
 import { css, html } from 'lit';
-import { Demo, espera } from './base';
+import { Demo, espera, t } from './base';
 
 type Op = { op: string; obj?: string; nivel: number; est: number; real: number; malo?: boolean };
 
-const BUENO: Op[] = [
+// En inglés el esquema de ejemplo usa nombres en inglés, igual que en el artículo (UPPER(name))
+const tabla = () => t('CLIENTES', 'CUSTOMERS');
+const idxNombre = () => t('IDX_CLIENTES_NOMBRE', 'IDX_CUSTOMERS_NAME');
+const idxPedidos = () => t('IDX_PEDIDOS_CLIENTE', 'IDX_ORDERS_CUSTOMER');
+const BUENO = (): Op[] => [
   { op: 'SELECT STATEMENT', nivel: 0, est: 12, real: 12 },
   { op: 'NESTED LOOPS', nivel: 1, est: 12, real: 12 },
-  { op: 'TABLE ACCESS BY INDEX ROWID', obj: 'CLIENTES', nivel: 2, est: 3, real: 3 },
-  { op: 'INDEX RANGE SCAN', obj: 'IDX_CLIENTES_NOMBRE', nivel: 3, est: 3, real: 3 },
-  { op: 'INDEX RANGE SCAN', obj: 'IDX_PEDIDOS_CLIENTE', nivel: 2, est: 4, real: 4 },
+  { op: 'TABLE ACCESS BY INDEX ROWID', obj: tabla(), nivel: 2, est: 3, real: 3 },
+  { op: 'INDEX RANGE SCAN', obj: idxNombre(), nivel: 3, est: 3, real: 3 },
+  { op: 'INDEX RANGE SCAN', obj: idxPedidos(), nivel: 2, est: 4, real: 4 },
 ];
-const MALO: Op[] = [
+const MALO = (): Op[] => [
   { op: 'SELECT STATEMENT', nivel: 0, est: 12, real: 12 },
   { op: 'NESTED LOOPS', nivel: 1, est: 10, real: 412000, malo: true },
-  { op: 'TABLE ACCESS FULL', obj: 'CLIENTES', nivel: 2, est: 10, real: 103000, malo: true },
-  { op: 'INDEX RANGE SCAN', obj: 'IDX_PEDIDOS_CLIENTE', nivel: 2, est: 4, real: 4 },
+  { op: 'TABLE ACCESS FULL', obj: tabla(), nivel: 2, est: 10, real: 103000, malo: true },
+  { op: 'INDEX RANGE SCAN', obj: idxPedidos(), nivel: 2, est: 4, real: 4 },
 ];
 
 /** Orden de ejecución: primero lo más indentado (hojas), luego quien las consume. */
@@ -42,7 +46,7 @@ class DemoPlanEjecucion extends Demo {
   }
   protected alVer() { this.recorrer(); }
 
-  private get ops() { return this.conFuncion ? MALO : BUENO; }
+  private get ops() { return this.conFuncion ? MALO() : BUENO(); }
 
   private async recorrer() {
     const yo = ++this.corrida;
@@ -61,10 +65,10 @@ class DemoPlanEjecucion extends Demo {
     const ancho = (n: number) => `${Math.max(2, (Math.log10(n + 1) / Math.log10(max + 1)) * 100)}%`;
     return html`<div class="marco">
       <div class="cab">
-        <p class="eyebrow">Demo · <b>el plan se lee de dentro hacia fuera</b></p>
-        <div class="seg" role="group" aria-label="Filtro de la consulta">
-          <button aria-pressed=${!this.conFuncion} @click=${() => { this.conFuncion = false; this.recorrer(); }}><code>nombre = :n</code></button>
-          <button aria-pressed=${this.conFuncion} @click=${() => { this.conFuncion = true; this.recorrer(); this.marcar('upper'); }}><code>UPPER(nombre) = :n</code></button>
+        <p class="eyebrow">Demo · <b>${t('el plan se lee de dentro hacia fuera', 'read the plan from the inside out')}</b></p>
+        <div class="seg" role="group" aria-label=${t('Filtro de la consulta', 'Query filter')}>
+          <button aria-pressed=${!this.conFuncion} @click=${() => { this.conFuncion = false; this.recorrer(); }}><code>${t('nombre', 'name')} = :n</code></button>
+          <button aria-pressed=${this.conFuncion} @click=${() => { this.conFuncion = true; this.recorrer(); this.marcar('upper'); }}><code>UPPER(${t('nombre', 'name')}) = :n</code></button>
         </div>
       </div>
       <ol class="plan">
@@ -74,18 +78,18 @@ class DemoPlanEjecucion extends Demo {
           return html`<li class="${i === activo ? 'activo' : ''} ${hecho ? 'hecho' : ''} ${o.malo && hecho ? 'malo' : ''}" style="--nivel:${o.nivel}">
             <span class="num">${n + 1}</span>
             <span class="op">${o.op}${o.obj ? html` <small>${o.obj}</small>` : ''}</span>
-            <span class="barras" aria-label=${`Estimadas ${o.est}, reales ${o.real}`}>
+            <span class="barras" aria-label=${t(`Estimadas ${o.est}, reales ${o.real}`, `Estimated ${o.est}, actual ${o.real}`)}>
               <i class="est" style="width:${ancho(o.est)}"></i>
               <i class="real" style="width:${hecho ? ancho(o.real) : '0%'}"></i>
             </span>
-            <span class="cifras">${o.est.toLocaleString('es-CO')} → <b>${hecho ? o.real.toLocaleString('es-CO') : '…'}</b></span>
+            <span class="cifras">${o.est.toLocaleString(t('es-CO', 'en-US'))} → <b>${hecho ? o.real.toLocaleString(t('es-CO', 'en-US')) : '…'}</b></span>
           </li>`;
         })}
       </ol>
-      <div class="leyenda"><span><i class="est"></i> filas estimadas</span><span><i class="real"></i> filas reales</span><button class="btn" @click=${() => this.recorrer()}>▶ Recorrer el plan</button></div>
+      <div class="leyenda"><span><i class="est"></i> ${t('filas estimadas', 'estimated rows')}</span><span><i class="real"></i> ${t('filas reales', 'actual rows')}</span><button class="btn" @click=${() => this.recorrer()}>▶ ${t('Recorrer el plan', 'Walk the plan')}</button></div>
       <p class="pie">${this.conFuncion
-        ? html`<b>UPPER()</b> sobre la columna apaga el índice: el optimizador esperaba 10 filas y salieron 103.000. Todo lo de arriba se decidió sobre una suposición falsa.`
-        : html`El número indica el orden real: <b>primero lo más indentado</b>. Estimadas y reales coinciden, así que el plan es confiable.`}</p>
+        ? t(html`<b>UPPER()</b> sobre la columna apaga el índice: el optimizador esperaba 10 filas y salieron 103.000. Todo lo de arriba se decidió sobre una suposición falsa.`, html`<b>UPPER()</b> on the column switches off the index: the optimizer expected 10 rows and got 103,000. Everything above was decided on a false assumption.`)
+        : t(html`El número indica el orden real: <b>primero lo más indentado</b>. Estimadas y reales coinciden, así que el plan es confiable.`, html`The number shows the real order: <b>the most indented step runs first</b>. Estimated and actual match, so the plan can be trusted.`)}</p>
     </div>`;
   }
 

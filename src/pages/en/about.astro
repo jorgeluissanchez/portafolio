@@ -1,0 +1,142 @@
+---
+/**
+ * /en/about (English «Sobre mí»): la página que identifica a Jorge Sánchez como persona para Google y las IA (ProfilePage + Person).
+ * Nombre completo, profesión, ciudad, experiencia, formación, reconocimientos, habilidades y proyectos.
+ */
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/organisms/Nav.astro';
+import Footer from '@/components/organisms/Footer.astro';
+import FloatingContact from '@/components/organisms/FloatingContact.astro';
+import Button from '@/components/atoms/Button.astro';
+import Icon from '@/components/atoms/Icon.astro';
+import foto from '@/assets/img/jorge-sanchez.png';
+import { perfilEn as perfil, monthYear as mesAnio } from '@/data/perfil.en';
+const articuloDe: Record<string, string> = {};
+import { site, whatsappUrl } from '@/data/site';
+import '@/styles/lectura.css';
+
+const casos = (await getCollection('proyectosEn')).sort((a, b) => b.data.anio - a.data.anio);
+const home = Astro.site!.toString();
+const url = new URL('/en/about', Astro.site).toString();
+const alternates = { es: '/jorge-sanchez', en: '/en/about' };
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': `${url}#pagina`,
+    url,
+    name: `${perfil.nombre} · About`,
+    inLanguage: 'en',
+    dateModified: new Date().toISOString(),
+    mainEntity: { '@id': `${home}#jorge` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/en', Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: perfil.nombre, item: url },
+    ],
+  },
+];
+---
+<BaseLayout title="About Jorge Sánchez · Systems Engineer and Full Stack Developer" description="Jorge Sánchez (Jorge Luis Sánchez Barreneche), systems engineer and full stack developer based in Colombia, working with US businesses: experience, projects and contact." sinSplash schema={schema} lang="en" alternates={alternates}>
+  <Nav lang="en" alternates={alternates} />
+  <main id="contenido">
+    <section class="mx-auto grid max-w-[1180px] gap-10 px-5 pt-28 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:pt-36">
+      <div>
+        <p class="eyebrow text-gray" data-revelar>About me</p>
+        <h1 class="mt-3 font-display text-[64px] uppercase leading-[1.05] sm:text-[96px] lg:text-[128px]" data-revelar style="--retraso:.05s">Jorge<br />Sánchez</h1>
+        <p class="mt-5 font-serif text-[26px] leading-[1.15] sm:text-[32px]" data-revelar style="--retraso:.1s"><em class="accent">Systems Engineer</em> and full stack developer, based in {site.city}, Colombia</p>
+        <p class="mt-6 max-w-[620px] text-[17px] leading-[1.65] text-body" data-revelar style="--retraso:.15s">{perfil.resumen}</p>
+        <p class="mt-3 text-[14px] text-gray" data-revelar style="--retraso:.18s">Full name: {perfil.nombreCompleto}.</p>
+        <div class="mt-8 flex flex-wrap gap-3" data-revelar style="--retraso:.22s">
+          <Button href={whatsappUrl("Hi Jorge, I saw your profile and I'd like to talk about a project.")} external>Message me on WhatsApp</Button>
+          <Button href={site.social.linkedin} variant="secondary" external>LinkedIn</Button>
+          <Button href={site.social.github} variant="secondary" external>GitHub</Button>
+        </div>
+      </div>
+      <div class="imagen-revela relative mx-auto w-full max-w-[460px] overflow-hidden bg-[radial-gradient(closest-side,rgb(255_158_107/0.45),rgb(255_191_153/0.15)_55%,transparent)]">
+        <Image src={foto} style="view-transition-name:foto-jorge" alt="Jorge Sánchez, systems engineer and full stack developer based in Colombia" widths={[360, 540, 720]} sizes="(min-width: 1024px) 460px, 90vw" class="h-auto w-full" loading="eager" fetchpriority="high" />
+      </div>
+    </section>
+
+    <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="experiencia">
+      <h2 id="experiencia" class="h2" data-revelar>Experience</h2>
+      <ol class="mt-8">
+        {perfil.experiencia.map((e, i) => (
+          <li class="grid gap-2 border-t border-line py-7 md:grid-cols-[220px_1fr]" data-revelar style={`--retraso:${i * 0.05}s`}>
+            <p class="text-[14px] text-gray">{mesAnio(e.desde)} – {e.hasta ? mesAnio(e.hasta) : 'present'}<br />{e.modalidad}</p>
+            <div>
+              <h3 class="font-serif text-[28px] leading-[1.1]">{e.cargo} <span class="text-gray">· {e.empresa}</span></h3>
+              {e.proyecto && <p class="eyebrow mt-2 text-red">Project: {e.proyecto}</p>}
+              <p class="mt-2 max-w-[680px] text-[16px] leading-[1.6] text-body">{e.texto}</p>
+              {e.logros && (
+                <ul class="mt-5 grid max-w-[880px] gap-3 sm:grid-cols-2">
+                  {e.logros.map((l) => (
+                    <li class="border border-line bg-paper-2 p-4">
+                      <p class="text-[15px] font-medium text-ink">{l.t}</p>
+                      <p class="mt-1 text-[14px] leading-[1.5] text-body">{l.d}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {e.tecnologias && <p class="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-gray">{e.tecnologias.map((t) => articuloDe[t] ? <a href={articuloDe[t]} class="text-red underline underline-offset-2">{t}</a> : <span>{t}</span>)}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="mx-auto mt-16 grid max-w-[1180px] gap-12 px-5 md:grid-cols-3" aria-label="Education and awards">
+      <div data-revelar>
+        <h2 class="eyebrow text-gray">Education</h2>
+        {perfil.formacion.map((f) => <p class="mt-4 font-serif text-[24px] leading-[1.15]">{f.titulo}<span class="mt-1 block font-sans text-[14px] text-gray">{f.institucion} · {f.anio}</span></p>)}
+      </div>
+      <div data-revelar style="--retraso:.06s">
+        <h2 class="eyebrow text-gray">Awards</h2>
+        <ul class="mt-4 grid gap-3">{perfil.reconocimientos.map((r) => <li class="text-[15px] leading-[1.45]">{r.titulo}<span class="block text-[13px] text-gray">{r.por} · {r.anio}</span></li>)}</ul>
+      </div>
+      <div data-revelar style="--retraso:.12s">
+        <h2 class="eyebrow text-gray">Certifications</h2>
+        <ul class="mt-4 grid gap-3">{perfil.certificaciones.map((c) => <li class="text-[15px] leading-[1.45]">{c.nombre}<span class="block text-[13px] text-gray">{c.emisor} · {c.anio}</span></li>)}</ul>
+      </div>
+    </section>
+
+    <section class="mx-auto mt-20 max-w-[1180px] px-5" aria-labelledby="stack">
+      <h2 id="stack" class="h2" data-revelar>What I <em class="accent">work with</em></h2>
+      <dl class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {Object.entries(perfil.habilidades).map(([grupo, items], i) => (
+          <div data-revelar style={`--retraso:${i * 0.05}s`}>
+            <dt class="eyebrow text-gray">{grupo}</dt>
+            <dd class="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-[14px]">{items.map((h) => articuloDe[h] ? <a href={articuloDe[h]} class="text-red underline underline-offset-2" title={h}>{h}</a> : <span>{h}</span>)}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="mx-auto mt-20 max-w-[1180px] px-5" aria-labelledby="proyectos">
+      <h2 id="proyectos" class="h2" data-revelar>Projects by <em class="accent">Jorge Sánchez</em></h2>
+      <ul class="mt-8 grid gap-x-10 md:grid-cols-2">
+        {casos.map((c, i) => (
+          <li><a href={`/en/projects/${c.id}`} class="tarjeta-blog" data-revelar style={`--retraso:${(i % 2) * 0.06}s`}>
+            <span class="eyebrow text-gray">{c.data.cliente ?? 'Own project'} · {c.data.anio}</span>
+            <h3 class="font-serif text-[28px] leading-[1.05]">{c.data.titulo}</h3>
+            <p class="body-text line-clamp-2">{c.data.resumen}</p>
+            <span class="flecha text-red"><Icon name="arrow-right" /></span>
+          </a></li>
+        ))}
+      </ul>
+      <p class="mt-10 text-[15px] text-body" data-revelar>Services: <a class="text-red underline underline-offset-4" href="/en/web-developer-miami">web developer for Miami businesses</a> · <a class="text-red underline underline-offset-4" href="/en/hire-full-stack-developer-colombia">hire a full stack developer in Colombia</a>.</p>
+    </section>
+  </main>
+  <Footer lang="en" />
+  <FloatingContact lang="en" />
+</BaseLayout>
+
+<script>
+  import { revelar } from '@/scripts/blog/revelar';
+  revelar();
+</script>

@@ -9,6 +9,10 @@
 import { LitElement, css } from 'lit';
 
 export const reducido = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+/** Idioma de la página: las demos se adaptan (textos y datos de ejemplo) al artículo en inglés. */
+export const enIngles = () => document.documentElement.lang === 'en';
+/** Elige el texto según el idioma: t('Hola', 'Hi'). */
+export const t = <T,>(es: T, en: T): T => (enIngles() ? en : es);
 export const espera = (ms: number) => new Promise((r) => setTimeout(r, reducido() ? 0 : ms));
 
 export class Demo extends LitElement {

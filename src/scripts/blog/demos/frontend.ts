@@ -1,6 +1,6 @@
 /** Demos de frontend: capas de color, movimiento reducido, screaming architecture y bloques de CMS. */
 import { css, html, nothing } from 'lit';
-import { Demo, espera } from './base';
+import { Demo, espera, t as tr } from './base';
 
 /* ---------------------------------------------------------------- Capas de color */
 const MARCAS = {
@@ -13,6 +13,7 @@ class DemoCapasColor extends Demo {
   declare marca: keyof typeof MARCAS;
   declare capa: number;
   constructor() { super(); this.marca = 'Coral'; this.capa = -1; }
+  private nombre(k: string) { return tr(k, ({ Coral: 'Coral', Océano: 'Ocean', Selva: 'Jungle' } as Record<string, string>)[k]); }
   protected async alVer() {
     for (let i = 0; i < 5; i++) { this.capa = i; await espera(650); }
     this.capa = -1;
@@ -20,24 +21,24 @@ class DemoCapasColor extends Demo {
   render() {
     const m = MARCAS[this.marca];
     const capas = [
-      { n: 'Primitivo', t: `--coral-500: ${m[500]}`, d: 'El valor crudo. Nadie lo usa directamente.' },
-      { n: 'Marca', t: '--marca: var(--coral-500)', d: 'Qué color es «nosotros».' },
-      { n: 'Rol', t: '--primary: var(--marca)', d: 'Para qué se usa: acción principal.' },
-      { n: 'Componente', t: '--boton-fondo: var(--primary)', d: 'Dónde se aplica.' },
-      { n: 'Estado', t: '--boton-hover: var(--marca-600)', d: 'Cómo reacciona.' },
+      { n: tr('Primitivo', 'Primitive'), t: `--coral-500: ${m[500]}`, d: tr('El valor crudo. Nadie lo usa directamente.', 'The raw value. Nobody uses it directly.') },
+      { n: tr('Marca', 'Brand'), t: tr('--marca: var(--coral-500)', '--brand: var(--coral-500)'), d: tr('Qué color es «nosotros».', 'Which color is "us".') },
+      { n: tr('Rol', 'Role'), t: tr('--primary: var(--marca)', '--primary: var(--brand)'), d: tr('Para qué se usa: acción principal.', 'What it is for: the main action.') },
+      { n: tr('Componente', 'Component'), t: tr('--boton-fondo: var(--primary)', '--button-bg: var(--primary)'), d: tr('Dónde se aplica.', 'Where it is applied.') },
+      { n: tr('Estado', 'State'), t: tr('--boton-hover: var(--marca-600)', '--button-hover: var(--brand-600)'), d: tr('Cómo reacciona.', 'How it reacts.') },
     ];
     return html`<div class="marco" style="--m:${m[500]};--m6:${m[600]};--m0:${m[50]}">
       <div class="cab">
-        <p class="eyebrow">Demo · <b>cambia la marca, cambia una línea</b></p>
-        <div class="seg" role="group" aria-label="Marca">${Object.keys(MARCAS).map((k) => html`<button aria-pressed=${this.marca === k} @click=${() => { this.marca = k as keyof typeof MARCAS; this.marcar(k); }}>${k}</button>`)}</div>
+        <p class="eyebrow">Demo · <b>${tr('cambia la marca, cambia una línea', 'change the brand, change one line')}</b></p>
+        <div class="seg" role="group" aria-label=${tr('Marca', 'Brand')}>${Object.keys(MARCAS).map((k) => html`<button aria-pressed=${this.marca === k} @click=${() => { this.marca = k as keyof typeof MARCAS; this.marcar(k); }}>${this.nombre(k)}</button>`)}</div>
       </div>
       <div class="grid">
         <ol class="capas">${capas.map((c, i) => html`<li class=${this.capa === i ? 'on' : ''} @mouseenter=${() => (this.capa = i)} @mouseleave=${() => (this.capa = -1)} tabindex="0" @focus=${() => (this.capa = i)}><span class="i">${i + 1}</span><span><b>${c.n}</b><code>${c.t}</code><small>${c.d}</small></span></li>`)}</ol>
         <div class="ui">
-          <div class="tarjeta"><span class="etq">Nuevo</span><p>Plan Pyme</p><small>Sitio web + tienda</small><button class="cta">Cotizar</button><a>Ver detalles</a></div>
+          <div class="tarjeta"><span class="etq">${tr('Nuevo', 'New')}</span><p>${tr('Plan Pyme', 'Small Business')}</p><small>${tr('Sitio web + tienda', 'Website + store')}</small><button class="cta">${tr('Cotizar', 'Get a quote')}</button><a>${tr('Ver detalles', 'See details')}</a></div>
         </div>
       </div>
-      <p class="pie">Los componentes nunca escriben un color: piden un <b>rol</b>. Por eso cambiar de marca toca <b>una sola capa</b> y el resto se reacomoda solo.</p>
+      <p class="pie">${tr(html`Los componentes nunca escriben un color: piden un <b>rol</b>. Por eso cambiar de marca toca <b>una sola capa</b> y el resto se reacomoda solo.`, html`Components never write a color: they ask for a <b>role</b>. That's why changing the brand touches <b>a single layer</b> and everything else follows.`)}</p>
     </div>`;
   }
   static styles = [Demo.base, css`
@@ -69,19 +70,19 @@ class DemoMovimientoReducido extends Demo {
     const clase = this.reducir ? (this.mal ? 'oculto' : 'quieto') : 'anima';
     return html`<div class="marco">
       <div class="cab">
-        <p class="eyebrow">Demo · <b>la misma entrada, tres lectores</b></p>
-        <div class="seg" role="group" aria-label="Preferencia del sistema">
-          <button aria-pressed=${!this.reducir} @click=${() => { this.reducir = false; this.repetir(); }}>Movimiento normal</button>
-          <button aria-pressed=${this.reducir} @click=${() => { this.reducir = true; this.repetir(); this.marcar('reducir'); }}>Reducir movimiento</button>
+        <p class="eyebrow">Demo · <b>${tr('la misma entrada, tres lectores', 'same entrance, three readers')}</b></p>
+        <div class="seg" role="group" aria-label=${tr('Preferencia del sistema', 'System preference')}>
+          <button aria-pressed=${!this.reducir} @click=${() => { this.reducir = false; this.repetir(); }}>${tr('Movimiento normal', 'Normal motion')}</button>
+          <button aria-pressed=${this.reducir} @click=${() => { this.reducir = true; this.repetir(); this.marcar('reducir'); }}>${tr('Reducir movimiento', 'Reduce motion')}</button>
         </div>
       </div>
-      ${this.reducir ? html`<label class="trampa"><input type="checkbox" .checked=${this.mal} @change=${(e: Event) => { this.mal = (e.target as HTMLInputElement).checked; this.repetir(); }} /> Implementación ingenua: <code>animation: none</code> sobre un elemento que empieza en <code>opacity: 0</code></label>` : nothing}
+      ${this.reducir ? html`<label class="trampa"><input type="checkbox" .checked=${this.mal} @change=${(e: Event) => { this.mal = (e.target as HTMLInputElement).checked; this.repetir(); }} /> ${tr(html`Implementación ingenua: <code>animation: none</code> sobre un elemento que empieza en <code>opacity: 0</code>`, html`Naive implementation: <code>animation: none</code> on an element that starts at <code>opacity: 0</code>`)}</label>` : nothing}
       <div class="pantalla">
-        ${[0, 1, 2].map((i) => html`<div class="tarj ${clase}" style="--d:${i * 120}ms" data-k=${this.k}>${`Bloque ${i + 1}`}<span></span><span></span></div>`)}
-        ${this.reducir && this.mal ? html`<p class="vacio">Página en blanco: el contenido existe, pero nunca se hace visible.</p>` : nothing}
+        ${[0, 1, 2].map((i) => html`<div class="tarj ${clase}" style="--d:${i * 120}ms" data-k=${this.k}>${`${tr('Bloque', 'Block')} ${i + 1}`}<span></span><span></span></div>`)}
+        ${this.reducir && this.mal ? html`<p class="vacio">${tr('Página en blanco: el contenido existe, pero nunca se hace visible.', 'Blank page: the content exists, but it never becomes visible.')}</p>` : nothing}
       </div>
-      <button class="btn" @click=${() => this.repetir()}>↺ Repetir entrada</button>
-      <p class="pie">${!this.reducir ? html`Con movimiento normal, los bloques <b>suben y aparecen</b>.` : this.mal ? html`El error grave: quitar la animación <b>sin quitar el estado inicial</b>. Quien pidió menos movimiento se queda sin contenido.` : html`Lo correcto: <b>sin desplazamiento</b> y el contenido visible desde el primer momento.`}</p>
+      <button class="btn" @click=${() => this.repetir()}>↺ ${tr('Repetir entrada', 'Replay entrance')}</button>
+      <p class="pie">${!this.reducir ? tr(html`Con movimiento normal, los bloques <b>suben y aparecen</b>.`, html`With normal motion, the blocks <b>rise and fade in</b>.`) : this.mal ? tr(html`El error grave: quitar la animación <b>sin quitar el estado inicial</b>. Quien pidió menos movimiento se queda sin contenido.`, html`The serious bug: removing the animation <b>without removing the initial state</b>. Whoever asked for less motion gets no content.`) : tr(html`Lo correcto: <b>sin desplazamiento</b> y el contenido visible desde el primer momento.`, html`The right way: <b>no movement</b> and the content visible from the start.`)}</p>
     </div>`;
   }
   updated() {
@@ -102,25 +103,27 @@ class DemoMovimientoReducido extends Demo {
 }
 
 /* ---------------------------------------------------------------- Screaming architecture */
-const POR_TIPO = ['components/', '  Boton.astro', '  Tarjeta.astro', '  FormularioContacto.astro', 'hooks/', '  useCarrusel.ts', 'utils/', '  formatoFecha.ts', '  enviarLead.ts', 'pages/'];
-const POR_FUNCION = ['features/', '  blog/', '    ui/  api/  motion/', '  proyectos/', '    ui/  api/  motion/', '  contacto/', '    ui/  api/', 'shared/', '  ui/  lib/', 'pages/'];
+const POR_TIPO = () => tr(['components/', '  Boton.astro', '  Tarjeta.astro', '  FormularioContacto.astro', 'hooks/', '  useCarrusel.ts', 'utils/', '  formatoFecha.ts', '  enviarLead.ts', 'pages/'],
+  ['components/', '  Button.astro', '  Card.astro', '  ContactForm.astro', 'hooks/', '  useCarousel.ts', 'utils/', '  formatDate.ts', '  sendLead.ts', 'pages/']);
+const POR_FUNCION = () => tr(['features/', '  blog/', '    ui/  api/  motion/', '  proyectos/', '    ui/  api/  motion/', '  contacto/', '    ui/  api/', 'shared/', '  ui/  lib/', 'pages/'],
+  ['features/', '  blog/', '    ui/  api/  motion/', '  projects/', '    ui/  api/  motion/', '  contact/', '    ui/  api/', 'shared/', '  ui/  lib/', 'pages/']);
 class DemoCarpetasGritan extends Demo {
   static properties = { funcion: { state: true } };
   declare funcion: boolean;
   constructor() { super(); this.funcion = false; }
   protected async alVer() { await espera(1400); this.funcion = true; }
   render() {
-    const lineas = this.funcion ? POR_FUNCION : POR_TIPO;
+    const lineas = this.funcion ? POR_FUNCION() : POR_TIPO();
     return html`<div class="marco">
       <div class="cab">
-        <p class="eyebrow">Demo · <b>abre la carpeta: ¿qué hace la app?</b></p>
-        <div class="seg" role="group" aria-label="Organización"><button aria-pressed=${!this.funcion} @click=${() => (this.funcion = false)}>Por tipo de archivo</button><button aria-pressed=${this.funcion} @click=${() => { this.funcion = true; this.marcar('funcion'); }}>Por función</button></div>
+        <p class="eyebrow">Demo · <b>${tr('abre la carpeta: ¿qué hace la app?', 'open the folder: what does the app do?')}</b></p>
+        <div class="seg" role="group" aria-label=${tr('Organización', 'Organization')}><button aria-pressed=${!this.funcion} @click=${() => (this.funcion = false)}>${tr('Por tipo de archivo', 'By file type')}</button><button aria-pressed=${this.funcion} @click=${() => { this.funcion = true; this.marcar('funcion'); }}>${tr('Por función', 'By feature')}</button></div>
       </div>
       <div class="arbol" role="list">
         <p class="raiz">src/</p>
-        ${lineas.map((l, i) => html`<p role="listitem" style="--i:${i};padding-left:${(l.length - l.trimStart().length) * 7 + 14}px" class=${l.includes('features') || /^ {2}(blog|proyectos|contacto)/.test(l) ? 'grita' : ''}>${l.trim().endsWith('/') ? '📁' : l.includes('/') ? '' : '📄'} ${l.trim()}</p>`)}
+        ${lineas.map((l, i) => html`<p role="listitem" style="--i:${i};padding-left:${(l.length - l.trimStart().length) * 7 + 14}px" class=${l.includes('features') || /^ {2}(blog|proyectos|contacto|projects|contact)/.test(l) ? 'grita' : ''}>${l.trim().endsWith('/') ? '📁' : l.includes('/') ? '' : '📄'} ${l.trim()}</p>`)}
       </div>
-      <p class="pie">${this.funcion ? html`La carpeta <b>grita el negocio</b>: blog, proyectos, contacto. Lo que cambia junto vive junto.` : html`Por tipo, la carpeta solo dice «esto es React/Astro». Para tocar el contacto hay que <b>abrir cuatro carpetas</b>.`}</p>
+      <p class="pie">${this.funcion ? tr(html`La carpeta <b>grita el negocio</b>: blog, proyectos, contacto. Lo que cambia junto vive junto.`, html`The folder <b>screams the business</b>: blog, projects, contact. What changes together lives together.`) : tr(html`Por tipo, la carpeta solo dice «esto es React/Astro». Para tocar el contacto hay que <b>abrir cuatro carpetas</b>.`, html`By type, the folder only says "this is React/Astro". To touch the contact form you have to <b>open four folders</b>.`)}</p>
     </div>`;
   }
   static styles = [Demo.base, css`
@@ -143,16 +146,20 @@ class DemoBloquesCms extends Demo {
   private agregar(tipo: Bloque['tipo']) { this.bloques = [...this.bloques, { tipo, id: this.n++ }]; this.sel = this.n - 1; this.marcar(tipo); }
   render() {
     const b = this.bloques.find((x) => x.id === this.sel);
-    const campos: Record<Bloque['tipo'], string[]> = { Texto: ['Contenido'], Imagen: ['Archivo', 'Texto alternativo', '¿Ocupa todo el ancho?'], Llamada: ['Título', 'Botón', '¿Lleva fondo de color?'] };
+    const campos: Record<Bloque['tipo'], string[]> = tr(
+      { Texto: ['Contenido'], Imagen: ['Archivo', 'Texto alternativo', '¿Ocupa todo el ancho?'], Llamada: ['Título', 'Botón', '¿Lleva fondo de color?'] },
+      { Texto: ['Content'], Imagen: ['File', 'Alt text', '¿Full width?'], Llamada: ['Heading', 'Button', '¿Colored background?'] },
+    );
+    const nombre = (x: Bloque['tipo']) => tr(x, ({ Texto: 'Text', Imagen: 'Image', Llamada: 'Call to action' } as const)[x]);
     return html`<div class="marco">
-      <div class="cab"><p class="eyebrow">Demo · <b>el bloque compone, la página decide</b></p>
-        <div class="seg" role="group" aria-label="Añadir bloque">${(['Texto', 'Imagen', 'Llamada'] as const).map((t) => html`<button aria-pressed="false" @click=${() => this.agregar(t)}>+ ${t}</button>`)}</div></div>
+      <div class="cab"><p class="eyebrow">Demo · <b>${tr('el bloque compone, la página decide', 'the block composes, the page decides')}</b></p>
+        <div class="seg" role="group" aria-label=${tr('Añadir bloque', 'Add block')}>${(['Texto', 'Imagen', 'Llamada'] as const).map((k) => html`<button aria-pressed="false" @click=${() => this.agregar(k)}>+ ${nombre(k)}</button>`)}</div></div>
       <div class="grid">
-        <ol class="lista">${this.bloques.map((x) => html`<li class=${x.id === this.sel ? 'on' : ''}><button @click=${() => (this.sel = x.id)}>${x.tipo}</button><button class="q" aria-label="Quitar bloque" @click=${() => (this.bloques = this.bloques.filter((y) => y.id !== x.id))}>×</button></li>`)}</ol>
-        <div class="panel">${b ? html`<p class="eyebrow">Campos de «${b.tipo}»</p>${campos[b.tipo].map((c) => c.startsWith('¿') ? html`<label class="sw"><input type="checkbox" @change=${(e: Event) => (this.fondo = (e.target as HTMLInputElement).checked)} /> ${c}</label>` : html`<label>${c}<span></span></label>`)}${b.tipo === 'Llamada' && this.fondo ? html`<label class="nuevo">Color de fondo<span></span></label>` : nothing}` : html`<p class="eyebrow">Elige un bloque</p>`}</div>
-        <div class="vista">${this.bloques.map((x) => html`<div class="pv ${x.tipo} ${x.tipo === 'Llamada' && this.fondo ? 'fondo' : ''} ${x.id === this.sel ? 'on' : ''}">${x.tipo === 'Texto' ? html`<i></i><i></i><i class="c"></i>` : x.tipo === 'Imagen' ? html`<div class="img"></div>` : html`<b>¿Hablamos?</b><span>Escríbeme</span>`}</div>`)}</div>
+        <ol class="lista">${this.bloques.map((x) => html`<li class=${x.id === this.sel ? 'on' : ''}><button @click=${() => (this.sel = x.id)}>${nombre(x.tipo)}</button><button class="q" aria-label=${tr('Quitar bloque', 'Remove block')} @click=${() => (this.bloques = this.bloques.filter((y) => y.id !== x.id))}>×</button></li>`)}</ol>
+        <div class="panel">${b ? html`<p class="eyebrow">${tr('Campos de', 'Fields for')} «${nombre(b.tipo)}»</p>${campos[b.tipo].map((c) => c.startsWith('¿') ? html`<label class="sw"><input type="checkbox" @change=${(e: Event) => (this.fondo = (e.target as HTMLInputElement).checked)} /> ${tr(c, c.slice(1))}</label>` : html`<label>${c}<span></span></label>`)}${b.tipo === 'Llamada' && this.fondo ? html`<label class="nuevo">${tr('Color de fondo', 'Background color')}<span></span></label>` : nothing}` : html`<p class="eyebrow">${tr('Elige un bloque', 'Pick a block')}</p>`}</div>
+        <div class="vista">${this.bloques.map((x) => html`<div class="pv ${x.tipo} ${x.tipo === 'Llamada' && this.fondo ? 'fondo' : ''} ${x.id === this.sel ? 'on' : ''}">${x.tipo === 'Texto' ? html`<i></i><i></i><i class="c"></i>` : x.tipo === 'Imagen' ? html`<div class="img"></div>` : html`<b>${tr('¿Hablamos?', "Let's talk?")}</b><span>${tr('Escríbeme', 'Message me')}</span>`}</div>`)}</div>
       </div>
-      <p class="pie">Cada bloque guarda <b>solo lo suyo</b> y muestra un campo cuando tiene sentido (activa el fondo de la llamada). El orden y el espaciado los pone la página, no quien edita.</p>
+      <p class="pie">${tr(html`Cada bloque guarda <b>solo lo suyo</b> y muestra un campo cuando tiene sentido (activa el fondo de la llamada). El orden y el espaciado los pone la página, no quien edita.`, html`Each block stores <b>only its own content</b> and shows a field only when it applies (turn on the call to action's background). Order and spacing come from the page, not from the editor.`)}</p>
     </div>`;
   }
   static styles = [Demo.base, css`

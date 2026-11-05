@@ -7,8 +7,15 @@
 import { Image } from 'astro:assets';
 import Button from '@/components/atoms/Button.astro';
 import foto from '@/assets/img/jorge-sanchez.png';
-import { hero } from '@/data/content';
+import * as es from '@/data/content';
+import * as en from '@/data/content.en';
 import { whatsappUrl } from '@/data/site';
+import { ui, type Lang } from '@/i18n';
+interface Props { lang?: Lang }
+const { lang = 'es' } = Astro.props;
+const { hero } = lang === 'en' ? en : es;
+const t = ui[lang];
+const alt = lang === 'en' ? 'Jorge Sánchez, systems engineer and full stack developer based in Colombia' : 'Jorge Sánchez, ingeniero de sistemas y desarrollador full stack en Barranquilla';
 ---
 <!-- Móvil: todo el inicio cabe en una pantalla (100dvh); la foto toma el alto que sobra -->
 <section class="relative h-dvh min-h-[560px] overflow-hidden" aria-labelledby="titulo" data-hero-parallax>
@@ -27,7 +34,7 @@ import { whatsappUrl } from '@/data/site';
       <Image
         src={foto}
         style="view-transition-name:foto-jorge"
-        alt="Jorge Sánchez, ingeniero de sistemas y desarrollador full stack en Barranquilla"
+        alt={alt}
         widths={[320, 480, 640, 909]}
         sizes="(min-width: 1024px) 50vw, 300px"
         loading="eager"
@@ -44,8 +51,8 @@ import { whatsappUrl } from '@/data/site';
       </h1>
       <p class="body-text max-w-[418px] max-lg:text-[clamp(13.5px,1.95dvh,16px)] lg:max-w-[calc(418*var(--u))]">{hero.description}</p>
       <div class="grid grid-cols-2 gap-2 lg:flex lg:gap-[calc(12*var(--u))]">
-        <Button href={whatsappUrl()} external class="justify-center whitespace-nowrap px-3 max-lg:text-[14px] lg:justify-between lg:px-[calc(22*var(--u))]">Cotiza conmigo</Button>
-        <Button href="#proyectos" variant="secondary" class="justify-center whitespace-nowrap px-3 max-lg:text-[14px] lg:justify-between lg:px-[calc(22*var(--u))]">Ver proyectos</Button>
+        <Button href={whatsappUrl(t.waDefecto)} external class="justify-center whitespace-nowrap px-3 max-lg:text-[14px] lg:justify-between lg:px-[calc(22*var(--u))]">{t.cotiza}</Button>
+        <Button href="#proyectos" variant="secondary" class="justify-center whitespace-nowrap px-3 max-lg:text-[14px] lg:justify-between lg:px-[calc(22*var(--u))]">{t.verProyectos}</Button>
       </div>
     </div>
 

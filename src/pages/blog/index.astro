@@ -11,7 +11,7 @@ import '@/styles/lectura.css';
 const posts = (await getCollection('blog')).sort((a, b) => +b.data.fecha - +a.data.fecha);
 const categorias = [...new Set(posts.map((p) => p.data.categoria))];
 const [destacado, ...resto] = posts;
-const fmt = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'short', year: 'numeric' });
+const fmt = new Intl.DateTimeFormat('es-CO', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
 const desc =
   'Blog de Jorge Sánchez: Oracle APEX, Astro, rendimiento web y design systems explicados con demos interactivas que puedes tocar, comentar y compartir.';
 const schema = [{
@@ -24,8 +24,8 @@ const schema = [{
   blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.titulo, url: new URL(`/blog/${p.id}`, Astro.site).toString(), datePublished: p.data.fecha.toISOString() })),
 }];
 ---
-<BaseLayout title="Blog · Jorge Sánchez · Oracle APEX, Astro y rendimiento web" description={desc} sinSplash schema={schema}>
-  <Nav />
+<BaseLayout title="Blog · Jorge Sánchez · Oracle APEX, Astro y rendimiento web" description={desc} sinSplash schema={schema} alternates={{ es: '/blog', en: '/en/blog' }}>
+  <Nav alternates={{ es: '/blog', en: '/en/blog' }} />
   <main id="contenido" class="mx-auto max-w-[1180px] px-5 pb-24 pt-28 lg:pt-40">
     <header class="grid gap-6 lg:grid-cols-[1.3fr_1fr] lg:items-end">
       <div>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/organisms/Nav.astro';
+import Hero from '@/components/organisms/Hero.astro';
+import Projects from '@/components/organisms/Projects.astro';
+import Footer from '@/components/organisms/Footer.astro';
+import FloatingContact from '@/components/organisms/FloatingContact.astro';
+const alternates = { es: '/', en: '/en' };
+---
+<BaseLayout lang="en" alternates={alternates}>
+  <Nav lang="en" alternates={alternates} />
+  <main id="contenido">
+    <Hero lang="en" />
+    <Projects lang="en" />
+  </main>
+  <Footer lang="en" />
+  <FloatingContact lang="en" />
+</BaseLayout>
+
+<script>
+  import '@/scripts/parallax';
+  import { initParticulas } from '@/scripts/particulas';
+  initParticulas();
+</script>

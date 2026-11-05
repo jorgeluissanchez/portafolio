@@ -39,5 +39,13 @@ export const site = {
   },
 } as const;
 
+/** Lo que cambia en inglés (/en). El resto de datos es el mismo. */
+export const siteEn = {
+  title: 'Jorge Sánchez · Full Stack Developer for US Businesses, based in Colombia',
+  description:
+    'Full stack developer and systems engineer based in Colombia, working with businesses in Miami and across the US: websites, online stores and custom AI apps. Same time zone, bilingual.',
+  role: 'Systems Engineer · Full Stack Developer with AI',
+} as const;
+
 export const whatsappUrl = (text = 'Hola Jorge, vengo de tu portafolio.') =>
   `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text=${encodeURIComponent(text)}`;

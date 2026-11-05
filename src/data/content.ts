@@ -75,6 +75,14 @@ export const contact = {
   description: 'Ya viste lo que he hecho y cómo trabajo. Cuéntame tu idea y te digo cómo la haría realidad.',
 };
 
+/** Páginas de servicio enlazadas desde el pie (español). */
+export const servicios = [
+  { label: 'Full stack en Barranquilla', href: '/desarrollador-full-stack-barranquilla' },
+  { label: 'Full stack en Colombia', href: '/desarrollador-full-stack-colombia' },
+  { label: 'Ingeniero de sistemas en Barranquilla', href: '/ingeniero-de-sistemas-barranquilla' },
+  { label: 'Ingeniero de sistemas en Colombia', href: '/ingeniero-de-sistemas-colombia' },
+];
+
 export const footerColumns = [
   { title: 'Explora', items: nav.map((n) => n.label) },
   { title: 'Lo que construyo', items: ['Sitios web', 'Tiendas en línea', 'Aplicaciones a medida', 'Automatización con IA'] },

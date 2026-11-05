@@ -46,7 +46,44 @@ function arrancar() {
     onChange: aplicar,
     language: {
       default: 'es',
+      // Toma el idioma del <html lang> de la página: /en muestra el aviso en inglés
+      autoDetect: 'document',
       translations: {
+        en: {
+          consentModal: {
+            title: 'Cookies, only if you want',
+            description:
+              'I use necessary cookies so the site works and, if you agree, analytics cookies (Google Analytics and Microsoft Clarity) to see which pages help and improve them. I never sell or share your data. You can change your choice anytime from «Cookies» at the bottom of the page.',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Necessary only',
+            showPreferencesBtn: 'Choose',
+            footer: '<a href="/privacidad">Privacy and cookie policy (Spanish)</a>',
+          },
+          preferencesModal: {
+            title: 'Cookie preferences',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Necessary only',
+            savePreferencesBtn: 'Save my choice',
+            closeIconLabel: 'Close',
+            sections: [
+              { title: 'Your privacy', description: 'Choose which cookies are stored in your browser. Necessary cookies cannot be turned off because the site would not work without them.' },
+              { title: 'Necessary', description: 'They store your cookie choice and your blog likes in this browser. They do not identify anyone and are never used for ads.', linkedCategory: 'necessary' },
+              {
+                title: 'Analytics',
+                description: 'Google Analytics 4 (through Google Tag Manager) and Microsoft Clarity measure visits, page views, scrolling and clicks with aggregated data. Used only to improve the site, never for advertising.',
+                linkedCategory: 'analytics',
+                cookieTable: {
+                  headers: { name: 'Cookie', domain: 'Service', desc: 'Purpose', exp: 'Duration' },
+                  body: [
+                    { name: '_ga, _ga_*', domain: 'Google Analytics', desc: 'Tells visits and sessions apart', exp: '13 months' },
+                    { name: '_clck, _clsk', domain: 'Microsoft Clarity', desc: 'Groups the pages of one visit', exp: '1 year / 1 day' },
+                  ],
+                },
+              },
+              { title: 'Your rights', description: 'You can access, update, correct or delete your data, or withdraw consent, by writing to <a href="mailto:jorgesanchezbarreneche@outlook.com">jorgesanchezbarreneche@outlook.com</a>.' },
+            ],
+          },
+        },
         es: {
           consentModal: {
             title: 'Cookies, solo si tú quieres',

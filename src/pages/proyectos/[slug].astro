@@ -55,9 +55,9 @@ const schema = [
   },
 ];
 ---
-<BaseLayout title={`${p.titulo} · Caso de estudio · Jorge Sánchez`} description={desc} sinSplash ogType="article" schema={schema}>
+<BaseLayout title={`${p.titulo} · Caso de estudio · Jorge Sánchez`} description={desc} sinSplash ogType="article" schema={schema} alternates={{ es: `/proyectos/${p.slug}`, en: `/en/projects/${p.slug}` }}>
   <div class="progreso" aria-hidden="true" style={`background:${color}`}></div>
-  <Nav />
+  <Nav alternates={{ es: `/proyectos/${p.slug}`, en: `/en/projects/${p.slug}` }} />
   <main id="contenido" style={`--pc:${color}`}>
     <!-- Portada -->
     <section class="mx-auto max-w-[1180px] px-5 pt-28 lg:pt-36">

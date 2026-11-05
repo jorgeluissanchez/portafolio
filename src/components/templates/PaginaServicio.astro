@@ -12,6 +12,7 @@ import FloatingContact from '@/components/organisms/FloatingContact.astro';
 import Button from '@/components/atoms/Button.astro';
 import Icon from '@/components/atoms/Icon.astro';
 import { whatsappUrl } from '@/data/site';
+import type { Lang, Alternates } from '@/i18n';
 import '@/styles/lectura.css';
 
 interface Props {
@@ -26,13 +27,29 @@ interface Props {
   casos: string[];
   preguntas: { p: string; r: string }[];
   mensaje: string;
+  lang?: Lang;
+  alternates?: Alternates;
+  /** Zonas que atiende (schema areaServed). Por defecto Barranquilla y Colombia. */
+  areaServed?: { tipo: 'City' | 'State' | 'Country'; nombre: string }[];
 }
 const p = Astro.props;
-const todos = await getCollection('proyectos');
+const lang = p.lang ?? 'es';
+const en = lang === 'en';
+const x = en
+  ? { cotiza: 'Get a quote on WhatsApp', quien: 'About Jorge Sánchez', quienHref: '/en/about', que: ['What I ', 'build'], como: ['How we ', 'work'], casos: ['Real ', 'projects'], faq: ['Frequently asked ', 'questions'], propio: 'Own project', inicio: 'Home', caso: '/en/projects/' }
+  : { cotiza: 'Cotiza por WhatsApp', quien: 'Quién es Jorge Sánchez', quienHref: '/jorge-sanchez', que: ['Qué ', 'construyo'], como: ['Cómo ', 'trabajamos'], casos: ['Casos ', 'reales'], faq: ['Preguntas ', 'frecuentes'], propio: 'Proyecto propio', inicio: 'Inicio', caso: '/proyectos/' };
+const todos = await getCollection(en ? 'proyectosEn' : 'proyectos');
+const area = p.areaServed ?? [{ tipo: 'City', nombre: 'Barranquilla' }, { tipo: 'Country', nombre: 'Colombia' }];
+
 const casos = p.casos.map((id) => todos.find((c) => c.id === id)).filter(Boolean) as typeof todos;
 const home = Astro.site!.toString();
 const url = new URL(p.ruta, Astro.site).toString();
-const pasos = [
+const pasos = en ? [
+  { t: 'We talk', d: 'Tell me what you need on WhatsApp, email or a video call. I reply the same business day with concrete questions, not a form.' },
+  { t: 'Proposal', d: 'You get scope, timeline and a fixed price in writing, in US dollars. You know what you get before we start.' },
+  { t: 'Build', d: 'Weekly progress you can open on your phone, during your working hours. If something is off, we adjust on the go.' },
+  { t: 'Launch and support', d: 'Live, measured with Analytics and with support after launch.' },
+] : [
   { t: 'Conversamos', d: 'Me cuentas qué necesitas por WhatsApp. Te respondo el mismo día con preguntas concretas, no con un formulario.' },
   { t: 'Propuesta', d: 'Te envío alcance, tiempos y precio por escrito. Sabes qué recibes antes de empezar.' },
   { t: 'Construcción', d: 'Avances que puedes abrir en tu celular cada semana. Si algo no te convence, se ajusta sobre la marcha.' },
@@ -46,7 +63,8 @@ const schema = [
     name: `${p.servicio} · Jorge Sánchez`,
     url,
     description: p.descripcion,
-    areaServed: [{ '@type': 'City', name: 'Barranquilla' }, { '@type': 'Country', name: 'Colombia' }],
+    areaServed: area.map((a) => ({ '@type': a.tipo, name: a.nombre })),
+    availableLanguage: ['es', 'en'],
     address: { '@type': 'PostalAddress', addressLocality: 'Barranquilla', addressRegion: 'Atlántico', addressCountry: 'CO' },
     provider: { '@id': `${home}#jorge` },
     serviceType: p.servicio,
@@ -60,27 +78,27 @@ const schema = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Inicio', item: home },
+      { '@type': 'ListItem', position: 1, name: x.inicio, item: en ? new URL('/en', Astro.site).toString() : home },
       { '@type': 'ListItem', position: 2, name: p.servicio, item: url },
     ],
   },
 ];
 ---
-<BaseLayout title={p.titulo} description={p.descripcion} sinSplash schema={schema}>
-  <Nav />
+<BaseLayout title={p.titulo} description={p.descripcion} sinSplash schema={schema} lang={lang} alternates={p.alternates}>
+  <Nav lang={lang} alternates={p.alternates} />
   <main id="contenido">
     <section class="mx-auto max-w-[1180px] px-5 pt-28 lg:pt-40">
       <p class="eyebrow text-gray" data-revelar>{p.eyebrow}</p>
       <h1 class="mt-3 max-w-[980px] font-serif text-[44px] leading-[1] sm:text-[64px] lg:text-[84px]" data-revelar style="--retraso:.05s">{p.h1.antes}<em class="accent">{p.h1.acento}</em>{p.h1.despues}</h1>
       <p class="mt-6 max-w-[680px] text-[18px] leading-[1.6] text-body" data-revelar style="--retraso:.1s"><Fragment set:html={p.intro} /></p>
       <div class="mt-8 flex flex-wrap gap-3" data-revelar style="--retraso:.15s">
-        <Button href={whatsappUrl(p.mensaje)} external>Cotiza por WhatsApp</Button>
-        <Button href="/jorge-sanchez" variant="secondary">Quién es Jorge Sánchez</Button>
+        <Button href={whatsappUrl(p.mensaje)} external>{x.cotiza}</Button>
+        <Button href={x.quienHref} variant="secondary">{x.quien}</Button>
       </div>
     </section>
 
     <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="que">
-      <h2 id="que" class="h2" data-revelar>Qué <em class="accent">construyo</em></h2>
+      <h2 id="que" class="h2" data-revelar>{x.que[0]}<em class="accent">{x.que[1]}</em></h2>
       <ul class="mt-8 grid gap-x-10 gap-y-2 md:grid-cols-2">
         {p.queHago.map((x, i) => (
           <li class="border-t border-line py-6" data-revelar style={`--retraso:${(i % 2) * 0.06}s`}>
@@ -93,7 +111,7 @@ const schema = [
 
     <section class="mt-24 bg-paper-2 py-20" aria-labelledby="como">
       <div class="mx-auto max-w-[1180px] px-5">
-        <h2 id="como" class="h2" data-revelar>Cómo <em class="accent">trabajamos</em></h2>
+        <h2 id="como" class="h2" data-revelar>{x.como[0]}<em class="accent">{x.como[1]}</em></h2>
         <ol class="mt-10 grid gap-8 md:grid-cols-4">
           {pasos.map((s, i) => (
             <li data-revelar style={`--retraso:${i * 0.07}s`}>
@@ -107,11 +125,11 @@ const schema = [
     </section>
 
     <section class="mx-auto mt-24 max-w-[1180px] px-5" aria-labelledby="casos">
-      <h2 id="casos" class="h2" data-revelar>Casos <em class="accent">reales</em></h2>
+      <h2 id="casos" class="h2" data-revelar>{x.casos[0]}<em class="accent">{x.casos[1]}</em></h2>
       <ul class="mt-8 grid gap-x-10 md:grid-cols-3">
         {casos.map((c, i) => (
-          <li><a href={`/proyectos/${c.id}`} class="tarjeta-blog" data-revelar style={`--retraso:${i * 0.06}s`}>
-            <span class="eyebrow text-gray">{c.data.cliente ?? 'Proyecto propio'} · {c.data.anio}</span>
+          <li><a href={`${x.caso}${c.id}`} class="tarjeta-blog" data-revelar style={`--retraso:${i * 0.06}s`}>
+            <span class="eyebrow text-gray">{c.data.cliente ?? x.propio} · {c.data.anio}</span>
             <h3 class="font-serif text-[28px] leading-[1.05]">{c.data.titulo}</h3>
             <p class="body-text line-clamp-3">{c.data.resumen}</p>
             <span class="flecha text-red"><Icon name="arrow-right" /></span>
@@ -121,7 +139,7 @@ const schema = [
     </section>
 
     <section class="mx-auto mt-24 max-w-[860px] px-5" aria-labelledby="faq">
-      <h2 id="faq" class="h2" data-revelar>Preguntas <em class="accent">frecuentes</em></h2>
+      <h2 id="faq" class="h2" data-revelar>{x.faq[0]}<em class="accent">{x.faq[1]}</em></h2>
       <div class="mt-8">
         {p.preguntas.map((q, i) => (
           <details class="group border-t border-line py-5" data-revelar style={`--retraso:${i * 0.04}s`}>
@@ -132,8 +150,8 @@ const schema = [
       </div>
     </section>
   </main>
-  <Footer />
-  <FloatingContact />
+  <Footer lang={lang} />
+  <FloatingContact lang={lang} />
 </BaseLayout>
 
 <script>

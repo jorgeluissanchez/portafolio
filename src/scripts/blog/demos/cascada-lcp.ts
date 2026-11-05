@@ -1,26 +1,26 @@
 /** Demo · La cascada de red que decide el LCP: el problema casi nunca es el peso de la imagen sino cuándo se descubre. */
 import { css, html } from 'lit';
-import { Demo } from './base';
+import { Demo, t } from './base';
 
 type Ajustes = { js: boolean; lazy: boolean; fuenteExterna: boolean; comprimir: boolean };
 type Barra = { nombre: string; ini: number; dur: number; tipo: 'html' | 'css' | 'font' | 'js' | 'img'; bloquea?: boolean };
 
 function cascada(a: Ajustes): { barras: Barra[]; lcp: number } {
   const b: Barra[] = [{ nombre: 'index.html', ini: 0, dur: 320, tipo: 'html' }];
-  b.push({ nombre: 'estilos.css', ini: 260, dur: 240, tipo: 'css', bloquea: true });
+  b.push({ nombre: t('estilos.css', 'styles.css'), ini: 260, dur: 240, tipo: 'css', bloquea: true });
   let fin = 500;
   if (a.fuenteExterna) {
-    b.push({ nombre: 'fuente (otro dominio: DNS + TLS)', ini: 500, dur: 420, tipo: 'font', bloquea: true });
+    b.push({ nombre: t('fuente (otro dominio: DNS + TLS)', 'font (other domain: DNS + TLS)'), ini: 500, dur: 420, tipo: 'font', bloquea: true });
     fin = 920;
   }
   let descubre = 300; // el preload scanner ve la <img> en el HTML
   if (a.js) {
-    b.push({ nombre: 'app.js (pinta la imagen)', ini: 300, dur: 520, tipo: 'js' });
+    b.push({ nombre: t('app.js (pinta la imagen)', 'app.js (renders the image)'), ini: 300, dur: 520, tipo: 'js' });
     descubre = 820;
   }
   if (a.lazy) descubre = Math.max(descubre, fin) + 380; // espera al layout para saber si está en pantalla
   const pesoImg = a.comprimir ? 230 : 300;
-  b.push({ nombre: `foto-portada.webp (${a.comprimir ? '120' : '180'} KB)`, ini: descubre, dur: pesoImg, tipo: 'img' });
+  b.push({ nombre: `${t('foto-portada', 'hero-photo')}.webp (${a.comprimir ? '120' : '180'} KB)`, ini: descubre, dur: pesoImg, tipo: 'img' });
   const lcp = Math.max(fin, descubre + pesoImg) + 40;
   return { barras: b, lcp };
 }
@@ -50,22 +50,22 @@ class DemoCascadaLcp extends Demo {
     const nivel = lcp <= 1200 ? 'bien' : lcp <= 2000 ? 'medio' : 'mal';
     const op = (k: keyof Ajustes, si: string, no: string) => html`<button role="switch" aria-checked=${this.a[k]} class="op ${this.a[k] ? 'on' : ''}" @click=${() => this.alternar(k)}><i></i>${this.a[k] ? si : no}</button>`;
     return html`<div class="marco">
-      <div class="cab"><p class="eyebrow">Demo · <b>apaga los problemas y mira moverse el LCP</b></p></div>
+      <div class="cab"><p class="eyebrow">Demo · <b>${t('apaga los problemas y mira moverse el LCP', 'switch off the problems and watch LCP move')}</b></p></div>
       <div class="ops">
-        ${op('js', 'La imagen la pinta JavaScript', 'La imagen está en el HTML')}
-        ${op('lazy', 'loading="lazy" en la portada', 'Portada sin lazy')}
-        ${op('fuenteExterna', 'Fuente desde otro dominio', 'Fuente auto-alojada')}
-        ${op('comprimir', 'Imagen comprimida a 120 KB', 'Imagen de 180 KB')}
+        ${op('js', t('La imagen la pinta JavaScript', 'JavaScript renders the image'), t('La imagen está en el HTML', 'The image is in the HTML'))}
+        ${op('lazy', t('loading="lazy" en la portada', 'loading="lazy" on the hero'), t('Portada sin lazy', 'Hero without lazy'))}
+        ${op('fuenteExterna', t('Fuente desde otro dominio', 'Font from another domain'), t('Fuente auto-alojada', 'Self-hosted font'))}
+        ${op('comprimir', t('Imagen comprimida a 120 KB', 'Image compressed to 120 KB'), t('Imagen de 180 KB', '180 KB image'))}
       </div>
       <div class="red" data-v=${this.animar}>
         ${barras.map((x, i) => html`<div class="fila"><span class="nom">${x.nombre}</span><span class="pista"><i class="b ${x.tipo} ${x.bloquea ? 'bloq' : ''}" style="left:${pct(x.ini)};width:${pct(x.dur)};animation-delay:${i * 90}ms"></i></span></div>`)}
-        <div class="lcp ${nivel}" style="left:calc(var(--col) + (100% - var(--col)) * ${lcp / escala})"><span>LCP ${(lcp / 1000).toFixed(2).replace('.', ',')} s</span></div>
+        <div class="lcp ${nivel}" style="left:calc(var(--col) + (100% - var(--col)) * ${lcp / escala})"><span>LCP ${t((lcp / 1000).toFixed(2).replace('.', ','), (lcp / 1000).toFixed(2))} s</span></div>
       </div>
       <p class="pie">${this.a.comprimir && (this.a.js || this.a.lazy)
-        ? html`Comprimir ahorró <b>unos 70 ms</b>. El hueco antes de que arranque la imagen sigue ahí: eso es lo que hay que atacar primero.`
+        ? t(html`Comprimir ahorró <b>unos 70 ms</b>. El hueco antes de que arranque la imagen sigue ahí: eso es lo que hay que atacar primero.`, html`Compressing saved <b>about 70 ms</b>. The gap before the image starts is still there: that's what to fix first.`)
         : !this.a.js && !this.a.lazy
-          ? html`La imagen se descubre en el <b>primer barrido del HTML</b> y arranca casi junto al CSS. Así se gana de verdad.`
-          : html`Mira el hueco antes de la barra roja: ahí <b>no hay ni un byte de imagen</b>, y es lo que más suma al LCP.`}</p>
+          ? t(html`La imagen se descubre en el <b>primer barrido del HTML</b> y arranca casi junto al CSS. Así se gana de verdad.`, html`The image is discovered in the <b>first pass over the HTML</b> and starts almost with the CSS. That's the real win.`)
+          : t(html`Mira el hueco antes de la barra roja: ahí <b>no hay ni un byte de imagen</b>, y es lo que más suma al LCP.`, html`Look at the gap before the red bar: <b>not a single byte of image</b> loads there, and it's what adds the most to LCP.`)}</p>
     </div>`;
   }
 

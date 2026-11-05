@@ -5,6 +5,10 @@
  */
 import Icon from '@/components/atoms/Icon.astro';
 import { site, whatsappUrl } from '@/data/site';
+import { ui, type Lang } from '@/i18n';
+interface Props { lang?: Lang }
+const { lang = 'es' } = Astro.props;
+const t = ui[lang];
 const socials = (['instagram', 'github', 'linkedin'] as const).filter((k) => site.social[k]);
 const labels = { instagram: 'Instagram', github: 'GitHub', linkedin: 'LinkedIn' };
 ---
@@ -15,7 +19,7 @@ const labels = { instagram: 'Instagram', github: 'GitHub', linkedin: 'LinkedIn' 
       <Icon name={k} size={24} />
     </a>
   ))}
-  <a href={whatsappUrl()} target="_blank" rel="noopener" class="wa-cta group relative isolate grid size-14 origin-right place-items-center bg-red text-paper lg:size-auto lg:h-[max(56px,calc(56*var(--u)))] lg:w-[max(56px,calc(56*var(--u)))]" aria-label="Escríbeme por WhatsApp">
+  <a href={whatsappUrl(t.waDefecto)} target="_blank" rel="noopener" class="wa-cta group relative isolate grid size-14 origin-right place-items-center bg-red text-paper lg:size-auto lg:h-[max(56px,calc(56*var(--u)))] lg:w-[max(56px,calc(56*var(--u)))]" aria-label={t.escribeWa}>
     <span class="wa-ring pointer-events-none absolute inset-0 -z-10 origin-center" aria-hidden="true"></span>
     <span class="wa-ring wa-ring-2 pointer-events-none absolute inset-0 -z-10 origin-center" aria-hidden="true"></span>
     <span class="transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-105"><Icon name="whatsapp" size={26} /></span>

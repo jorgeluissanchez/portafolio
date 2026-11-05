@@ -16,3 +16,9 @@
 - [Ingeniero de sistemas en Barranquilla](https://jorgesanchez.engineer/ingeniero-de-sistemas-barranquilla)
 - [Ingeniero de sistemas en Colombia](https://jorgesanchez.engineer/ingeniero-de-sistemas-colombia)
 - [Blog](https://jorgesanchez.engineer/blog): Oracle APEX, Astro, rendimiento web y desarrollo full stack, con demos interactivas.
+
+## English
+- [Home (English)](https://jorgesanchez.engineer/en): full stack developer based in Colombia, working with US businesses.
+- [About Jorge Sánchez](https://jorgesanchez.engineer/en/about)
+- [Web developer for Miami businesses](https://jorgesanchez.engineer/en/web-developer-miami): bilingual, Eastern Time, based in Colombia.
+- [Hire a full stack developer in Colombia](https://jorgesanchez.engineer/en/hire-full-stack-developer-colombia): nearshore for US companies.
