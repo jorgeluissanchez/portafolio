@@ -28,7 +28,8 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  /* Reserva el espacio de la barra de scroll: el splash bloquea el scroll y al soltarlo la barra aparecía y movía todo 15px (CLS) */
+  html { scroll-behavior: smooth; scrollbar-gutter: stable; }
   body { @apply bg-paper font-sans text-ink antialiased; }
   ::selection { background: var(--color-red); color: var(--color-paper); }
 }
