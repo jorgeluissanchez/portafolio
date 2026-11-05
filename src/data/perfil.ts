@@ -34,7 +34,7 @@ export const perfil = {
       texto: 'Nueva versión de la API de transcripción y corrección de errores con React, Express y FFmpeg.' },
   ],
   formacion: [
-    { titulo: 'Ingeniería de Sistemas y Computación', institucion: 'Universidad del Norte', anio: 2026, url: 'https://www.uninorte.edu.co' },
+    { titulo: 'Ingeniería de Sistemas y Computación', institucion: 'Universidad del Norte', anio: 'grado el 20 de marzo de 2027', url: 'https://www.uninorte.edu.co' },
   ],
   certificaciones: [
     { nombre: 'IELTS · Inglés B2 (MCER)', emisor: 'IELTS', anio: 2026 },
